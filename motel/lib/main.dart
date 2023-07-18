@@ -20,9 +20,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'package:flutter/material.dart';
-import 'package:motel/home.dart';
-import 'package:motel/login.dart';
+import 'package:motel/ui/home/home.dart';
+import 'package:motel/ui/login/login_screen.dart';
 
 void main() {
-  runApp(Home());
+  runApp(const LoginScreen());
 }

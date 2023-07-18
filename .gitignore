@@ -1,3 +1,4 @@
 genjson
 *.drawio.bkp
 *.drawio.dtmp
+.vscode
