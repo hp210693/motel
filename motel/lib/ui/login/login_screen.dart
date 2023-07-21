@@ -40,6 +40,11 @@ class LoginScreen extends StatelessWidget {
 }
 
 class _LoginPageState extends StatelessWidget {
+  String userName = "";
+  String passWord = "";
+  void updatePass(val) {
+    //setState()
+  }
 /*   Widget _showDialog() {
     return AlertDialog(
       title: const Text('AlertDialog Title'),

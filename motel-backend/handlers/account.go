@@ -22,7 +22,7 @@ func GetAllAccount(c echo.Context) error {
 }
 
 func GetLogin(c echo.Context) error {
-	var accounts []models.Accounts
+	var accounts models.Accounts
 	user_name := c.QueryParam("user")
 	password := c.QueryParam("pass")
 	db := config.DB()
