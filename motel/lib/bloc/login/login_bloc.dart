@@ -3,8 +3,9 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motel/bloc/login/login_event.dart';
 import 'package:motel/bloc/login/login_state.dart';
-import 'package:motel/data/login/login.dart';
 import 'package:motel/repository/login/login_repo_imp.dart';
+
+import '../../error_base/error_base.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final _loginRepo = LoginRepoImp();
@@ -17,20 +18,35 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event is LoginInEvent) {
       log("LoginBloc LoginInEvent");
       emit(LoginLoadingState());
-      await _loginRepo
-          .getLoginInData(event.userName, event.passWord)
-          .then((value) {
-        Login respon = value as Login; //Login.fromJson(value);
-        log("Then LoginBloc respon = $respon");
-        /* if (respon.status == "ok") {
-          emit(LoginSuccessedState(respon.message));
-        } else {
-          emit(LoginErrorState(respon.message));
-        } */
-      }).onError((error, stackTrace) {
+      try {
+        final respon =
+            await _loginRepo.getLoginInData(event.userName, event.passWord);
+        log("LoginBloc respon data\n = $respon");
+        await Future.delayed(const Duration(seconds: 2));
+        emit(LoginSuccessedState(respon.message));
+        await Future.delayed(const Duration(seconds: 1));
+        emit(LoginInitialState());
+      } catch (error) {
+        var error = ErrorBase();
+        /*  if (e.osError?.errorCode == 101) {
+          error.statusCode = 101;
+          error.message = e.osError!.message;
+          throw Exception(error);
+        }
+        error.statusCode = e.osError!.errorCode;
+        error.message = e.osError!.message;
+        if (e.osError?.errorCode == 101) {
+          //  error.statusCode = 101;
+          //error.message = e.osError!.message;
+          error.convertedData = false;
+          throw Exception(error);
+        }
+        error.statusCode = e.osError!.errorCode;
+        error.message = e.osError!.message; */
         log("LoginBloc call error");
+        //  await Future.delayed(const Duration(seconds: 1));
         emit(LoginErrorState(error.toString()));
-      });
+      }
     }
   }
 }

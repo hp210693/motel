@@ -28,10 +28,10 @@ func GetLogin(c echo.Context) error {
 	db := config.DB()
 
 	fmt.Printf("2 server reciver user = %v , pass = %v \n", user_name, password)
-	if result := db.Find(&accounts, "User_Name = ? AND Password = ?", user_name, "admin"); result.Error != nil {
+	if result := db.First(&accounts, "User_Name = ? AND Password = ?", user_name, password); result.Error != nil {
 		fmt.Println("something error = ", result.Error)
 		return result.Error
 	}
-
+	fmt.Printf("something respon\n %v", accounts)
 	return c.JSON(http.StatusOK, accounts)
 }
