@@ -42,6 +42,6 @@ void main() {
     ..textColor = Colors.yellow
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = true
-    ..dismissOnTap = false
-    //..customAnimation = CustomAnimation();
+    ..dismissOnTap = false;
+  //..customAnimation = CustomAnimation();
 } */

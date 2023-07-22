@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class NetworkApiService extends BaseApiService {
   late Response _resp;
   late String _url;
-  static const int _timeOut = 35;
+  static const int _timeOut = 30;
   @override
   Future<dynamic> getLoginResponse(String userName, String passWord) async {
     try {
