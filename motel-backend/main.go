@@ -30,5 +30,6 @@ func main() {
 	})
 	e.GET("/account", handlers.GetAllAccount)
 	e.GET("/login", handlers.GetLogin)
+	e.GET("/room", handlers.GetAllRoom)
 	e.Logger.Fatal(e.Start(":8080"))
 }

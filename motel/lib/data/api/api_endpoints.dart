@@ -24,7 +24,11 @@ extension V1 on ApiEndPoints {
     return '${_urlBase}login?user=' '$userName' '&pass=' '$passWord';
   }
 
-  String getAllAccounts() {
-    return '$_urlBase/account';
+  String accountsUrl() {
+    return '${_urlBase}account';
+  }
+
+  String roomsUrl() {
+    return '${_urlBase}room';
   }
 }

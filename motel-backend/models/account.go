@@ -1,10 +1,12 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
-type Rooms struct {
-	Room_Id    int        `json:"room_id" gorm:"primaryKey"`
-	R2oom_Id    int        `json:"room_id"`
+type Account struct {
+	Account_Id int        `json:"account_id" gorm:"primaryKey"`
+	Room_Id    int        `json:"room_id"`
 	User_Name  string     `json:"user_name"`
 	Password   string     `json:"password"`
 	Email      string     `json:"email"`

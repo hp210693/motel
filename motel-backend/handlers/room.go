@@ -9,19 +9,21 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func GetAllAccount(c echo.Context) error {
-	var accounts []models.Account
+func GetAllRoom(c echo.Context) error {
+	var rooms []models.Room
 	db := config.DB()
 
-	if result := db.Find(&accounts); result.Error != nil {
-		fmt.Println("something error = ", result.Error)
+	fmt.Printf("call api get all room \n")
+	if result := db.Find(&rooms); result.Error != nil {
+		fmt.Println(result.Error)
 		return result.Error
 	}
-	fmt.Println("server reciver = ", accounts)
-	return c.JSON(http.StatusOK, accounts)
+
+	fmt.Printf("something respon\n %v", rooms)
+	return c.JSON(http.StatusOK, rooms)
 }
 
-func GetLogin(c echo.Context) error {
+/* func GetLogin(c echo.Context) error {
 	var accounts models.Account
 	user_name := c.QueryParam("user")
 	password := c.QueryParam("pass")
@@ -34,4 +36,4 @@ func GetLogin(c echo.Context) error {
 	}
 	fmt.Printf("something respon\n %v", accounts)
 	return c.JSON(http.StatusOK, accounts)
-}
+} */

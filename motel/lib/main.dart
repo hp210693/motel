@@ -21,11 +21,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:motel/ui/home/home.dart';
+import 'package:motel/ui/home/home_screen.dart';
 import 'package:motel/ui/login/login_screen.dart';
 
 void main() {
-  runApp(const LoginScreen());
+  runApp(HomeScreen());
   // configLoading();
 }
 

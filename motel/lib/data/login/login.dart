@@ -9,8 +9,8 @@ class Login {
   @JsonKey(defaultValue: '')
   final String message;
 
-  @JsonKey(name: 'user_id')
-  final int userId;
+  @JsonKey(name: 'account_id')
+  final int accountId;
 
   @JsonKey(name: 'room_id')
   final int roomId;
@@ -35,7 +35,7 @@ class Login {
   Login(
       {required this.statusCode,
       required this.message,
-      required this.userId,
+      required this.accountId,
       required this.roomId,
       required this.userName,
       required this.passWord,
@@ -44,6 +44,6 @@ class Login {
       required this.lastLogin});
   factory Login.fromJson(Map<String, dynamic> json) => _$LoginFromJson(json);
 
-  /// Connect the generated [_$PersonToJson] function to the `toJson` method.
+  /// Connect the generated [_$LoginToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => _$LoginToJson(this);
 }

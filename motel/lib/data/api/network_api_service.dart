@@ -22,4 +22,19 @@ class NetworkApiService extends BaseApiService {
       rethrow;
     }
   }
+
+  @override
+  Future<dynamic> getHomeResponse(String _) async {
+    try {
+      _url = ApiEndPoints().roomsUrl();
+      log("NetworkApiService - getLoginResponse - url = $_url");
+      _resp = await http
+          .get(Uri.parse(_url))
+          .timeout(const Duration(seconds: _timeOut));
+
+      if (_resp.statusCode == 200) return _resp.body;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

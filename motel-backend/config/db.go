@@ -2,6 +2,7 @@ package config
 
 import (
 	"log"
+	"motel-backend/models"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -16,6 +17,7 @@ func DatabaseInit() {
 	if e != nil {
 		log.Fatalln("Cannot connect to Possgress:", e)
 	}
+	database.AutoMigrate(&models.Room{})
 
 	log.Println("Connected:", database)
 }
