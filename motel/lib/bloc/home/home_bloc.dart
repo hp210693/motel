@@ -10,10 +10,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final _homeRepo = HomeRepoImp();
   HomeBloc() : super(HomeInitialState()) {
     log("HomeBloc constructor");
-    on<HomeEvent>(_fetchRoom);
+    on<HomeEvent>(_fetchRooms);
   }
 
-  FutureOr<void> _fetchRoom(HomeEvent event, Emitter<HomeState> emit) async {
+  FutureOr<void> _fetchRooms(HomeEvent event, Emitter<HomeState> emit) async {
     if (event is HomeFetchDataEvent) {
       log("HomeBloc HomeEvent");
       emit(HomeLoadingState());

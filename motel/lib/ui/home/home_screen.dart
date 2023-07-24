@@ -36,7 +36,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomeScreen> {
-  late Map rooms;
+  Map<dynamic, List<dynamic>>? rooms;
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +58,12 @@ class _HomePageState extends State<HomeScreen> {
           navigateBlocState(state);
           return SafeArea(
             child: ListView.builder(
-              //itemCount: rooms.length,
+              itemCount: rooms == null ? 0 : rooms?.length,
               itemBuilder: (BuildContext context1, int index1) {
-                String title1 = ""; //rooms[index1].flowId.toString();
+                String title1 = "";
+                if (rooms != null) {
+                  title1 = rooms!.keys.toList()[index1].toString();
+                }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -68,17 +71,22 @@ class _HomePageState extends State<HomeScreen> {
                       'Day $title1',
                       style: const TextStyle(backgroundColor: Colors.yellow),
                     ),
-                    /* GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2),
-                        itemCount: rooms[index1].flowId,
-                        itemBuilder: (_, int index2) {
-                          String name = rooms[index2].roomName;
-                          return subView();
-                        }), */
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 3,
+                        childAspectRatio: 1 / .8,
+                      ),
+                      itemCount: rooms!.values.toList()[index1].length,
+                      itemBuilder: (_, int index2) {
+                        // String name = rooms[index2].roomName;
+                        return subView();
+                      },
+                    ),
                   ],
                 );
               },
@@ -138,7 +146,7 @@ class _HomePageState extends State<HomeScreen> {
         );
         break;
       case HomeSuccessedState:
-        // rooms = state.rooms;
+        rooms = state.rooms;
         EasyLoading.showSuccess(
           "Thành công",
           maskType: EasyLoadingMaskType.clear,
@@ -156,6 +164,7 @@ class _HomePageState extends State<HomeScreen> {
 
   Widget subView() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
           decoration: BoxDecoration(
