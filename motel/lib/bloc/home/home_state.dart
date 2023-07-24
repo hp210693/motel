@@ -1,3 +1,5 @@
+import 'package:motel/data/home/room.dart';
+
 abstract class HomeState {}
 
 class HomeInitialState extends HomeState {}
@@ -5,11 +7,11 @@ class HomeInitialState extends HomeState {}
 class HomeLoadingState extends HomeState {}
 
 class HomeSuccessedState extends HomeState {
-  final String _message;
-  HomeSuccessedState(this._message);
+  final Map rooms;
+  HomeSuccessedState(this.rooms);
 
   /// return a message when user login in successed
-  String get message => _message;
+//  String get message => _message;
 }
 
 class HomeErrorState extends HomeState {

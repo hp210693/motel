@@ -21,7 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final respon = await _homeRepo.getHomeFetchData(event.userName);
         log("HomeBloc respon data\n = $respon");
         await Future.delayed(const Duration(seconds: 2));
-        emit(HomeSuccessedState(respon.toString()));
+        emit(HomeSuccessedState(respon));
         await Future.delayed(const Duration(seconds: 1));
         emit(HomeInitialState());
       } catch (error) {

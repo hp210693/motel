@@ -36,8 +36,99 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomeScreen> {
-  List<List<Room>> flows = []; //<List<Room>>[flowA];
-  void _navigateBlocState(state) {
+  late Map rooms;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(primaryColor: Colors.blue),
+      color: Colors.yellow,
+      home: BlocProvider(
+          create: (_) => HomeBloc()..add(HomeFetchDataEvent("", "")),
+          child: viewChild()),
+      builder: EasyLoading.init(),
+    );
+  }
+
+  Widget viewChild() {
+    return Scaffold(
+      backgroundColor: Colors.grey[300],
+      body: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          navigateBlocState(state);
+          return SafeArea(
+            child: ListView.builder(
+              //itemCount: rooms.length,
+              itemBuilder: (BuildContext context1, int index1) {
+                String title1 = ""; //rooms[index1].flowId.toString();
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Day $title1',
+                      style: const TextStyle(backgroundColor: Colors.yellow),
+                    ),
+                    /* GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
+                        itemCount: rooms[index1].flowId,
+                        itemBuilder: (_, int index2) {
+                          String name = rooms[index2].roomName;
+                          return subView();
+                        }), */
+                  ],
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  /*  Widget viewChild() {
+    return Scaffold(
+      backgroundColor: Colors.grey[300],
+      body: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          navigateBlocState(state);
+          return SafeArea(
+            child: ListView.builder(
+              itemCount: rooms.length,
+              itemBuilder: (BuildContext context1, int index1) {
+                String title1 = rooms[index1].flowId.toString();
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Day $title1',
+                      style: const TextStyle(backgroundColor: Colors.yellow),
+                    ),
+                    /*     GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
+                        itemCount: rooms[index1].flowId,
+                        itemBuilder: (_, int index2) {
+                          String name = rooms[index2].roomName;
+                          return subView();
+                        }), */
+                  ],
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  } */
+
+  void navigateBlocState(state) {
     log("BlocBuilder state = $state");
     switch (state.runtimeType) {
       case HomeLoadingState:
@@ -47,6 +138,7 @@ class _HomePageState extends State<HomeScreen> {
         );
         break;
       case HomeSuccessedState:
+        // rooms = state.rooms;
         EasyLoading.showSuccess(
           "Thành công",
           maskType: EasyLoadingMaskType.clear,
@@ -62,112 +154,73 @@ class _HomePageState extends State<HomeScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.blue),
-      color: Colors.yellow,
-      home: BlocProvider(
-          create: (_) => HomeBloc()..add(HomeFetchDataEvent("", "")),
-          child: _viewChild()),
-      builder: EasyLoading.init(),
+  Widget subView() {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white),
+            color: Colors.red,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              nameRoomView("hhh"),
+              widthHeightView(),
+              moneyView(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _viewChild() {
-    return Scaffold(
-      backgroundColor: Colors.grey[300],
-      body: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          _navigateBlocState(state);
+  Widget widthHeightView() {
+    return const Text(
+      "Dài x Rộng: 10m x 20m",
+      maxLines: 2,
+      style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+          color: Colors.yellow,
+          backgroundColor: Colors.purpleAccent),
+    );
+  }
 
-          return SafeArea(
-            child: ListView.builder(
-              itemCount: flows.length,
-              itemBuilder: (BuildContext context1, int index1) {
-                String title1 = ""; //flows[index1][0].title.toString();
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Day $title1',
-                      style: const TextStyle(backgroundColor: Colors.yellow),
-                    ),
-                    GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 4),
-                        itemCount: flows[index1].length,
-                        itemBuilder: (_, int index2) {
-                          String name =
-                              ""; //flows[index1][index2].name.toString();
-                          return Column(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white),
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Column(
-                                  // crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Phòng\n$name',
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.yellow,
-                                          backgroundColor: Colors.purple),
-                                    ),
-                                    const Text(
-                                      "Dài x Rộng: 10m x 20m",
-                                      maxLines: 2,
-                                      style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.yellow,
-                                          backgroundColor: Colors.purpleAccent),
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          color: Colors.yellow,
-                                          child: const Icon(
-                                            Icons.attach_money,
-                                            color: Colors.white,
-                                            size: 16,
-                                          ),
-                                        ),
-                                        const Text(
-                                          "600.00",
-                                          style: TextStyle(
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.yellow,
-                                              backgroundColor:
-                                                  Colors.purpleAccent),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        }),
-                  ],
-                );
-              },
-            ),
-          );
-        },
-      ),
+  Widget moneyView() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          color: Colors.yellow,
+          child: const Icon(
+            Icons.attach_money,
+            color: Colors.white,
+            size: 16,
+          ),
+        ),
+        const Text(
+          "600.00",
+          style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: Colors.yellow,
+              backgroundColor: Colors.purpleAccent),
+        ),
+      ],
+    );
+  }
+
+  Widget nameRoomView(String nameRoom) {
+    return Text(
+      'Phòng\n$nameRoom',
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: Colors.yellow,
+          backgroundColor: Colors.purple),
     );
   }
 }
