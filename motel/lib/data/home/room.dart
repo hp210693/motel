@@ -1,3 +1,7 @@
+import 'dart:core';
+import 'dart:core';
+
+import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'room.g.dart';
 

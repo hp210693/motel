@@ -36,7 +36,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomeScreen> {
-  Map<dynamic, List<dynamic>>? rooms;
+  Map? rooms;
 
   @override
   Widget build(BuildContext context) {
@@ -59,34 +59,43 @@ class _HomePageState extends State<HomeScreen> {
           return SafeArea(
             child: ListView.builder(
               itemCount: rooms == null ? 0 : rooms?.length,
-              itemBuilder: (BuildContext context1, int index1) {
-                String title1 = "";
+              itemBuilder: (_, index1) {
+                String nameFlow = "";
+                int numberRooms = 0;
                 if (rooms != null) {
-                  title1 = rooms!.keys.toList()[index1].toString();
+                  nameFlow = rooms!.keys.toList()[index1].toString();
+                  numberRooms = rooms!.values.toList()[index1].length;
                 }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Day $title1',
-                      style: const TextStyle(backgroundColor: Colors.yellow),
+                      'Dãy $nameFlow',
+                      style: const TextStyle(
+                        backgroundColor: Colors.blueGrey,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
+                        crossAxisCount: 3,
                         crossAxisSpacing: 4,
                         mainAxisSpacing: 3,
-                        childAspectRatio: 1 / .8,
+                        childAspectRatio: 1 / .6,
                       ),
-                      itemCount: rooms!.values.toList()[index1].length,
-                      itemBuilder: (_, int index2) {
-                        // String name = rooms[index2].roomName;
-                        return subView();
+                      itemCount: numberRooms,
+                      itemBuilder: (_, index2) {
+                        dynamic name1 = rooms!.values.toList()[index1];
+                        Room room =
+                            rooms!.values.toList()[index1].elementAt(index2);
+                        return subView(room);
                       },
                     ),
+                    const SizedBox(height: 5),
                   ],
                 );
               },
@@ -96,45 +105,6 @@ class _HomePageState extends State<HomeScreen> {
       ),
     );
   }
-
-  /*  Widget viewChild() {
-    return Scaffold(
-      backgroundColor: Colors.grey[300],
-      body: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          navigateBlocState(state);
-          return SafeArea(
-            child: ListView.builder(
-              itemCount: rooms.length,
-              itemBuilder: (BuildContext context1, int index1) {
-                String title1 = rooms[index1].flowId.toString();
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Day $title1',
-                      style: const TextStyle(backgroundColor: Colors.yellow),
-                    ),
-                    /*     GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2),
-                        itemCount: rooms[index1].flowId,
-                        itemBuilder: (_, int index2) {
-                          String name = rooms[index2].roomName;
-                          return subView();
-                        }), */
-                  ],
-                );
-              },
-            ),
-          );
-        },
-      ),
-    );
-  } */
 
   void navigateBlocState(state) {
     log("BlocBuilder state = $state");
@@ -162,22 +132,21 @@ class _HomePageState extends State<HomeScreen> {
     }
   }
 
-  Widget subView() {
+  Widget subView(Room room) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white),
-            color: Colors.red,
+            //color: Colors.yellowAccent,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              nameRoomView("hhh"),
+              nameRoomView(room.roomName),
               widthHeightView(),
-              moneyView(),
+              moneyView(room.roomRates),
             ],
           ),
         ),
@@ -187,35 +156,37 @@ class _HomePageState extends State<HomeScreen> {
 
   Widget widthHeightView() {
     return const Text(
-      "Dài x Rộng: 10m x 20m",
+      "Diện tích: 10m x 20m",
       maxLines: 2,
       style: TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.bold,
-          color: Colors.yellow,
-          backgroundColor: Colors.purpleAccent),
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+        //color: Colors.yellow,
+        // backgroundColor: Colors.purpleAccent,
+      ),
     );
   }
 
-  Widget moneyView() {
+  Widget moneyView(double money) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          color: Colors.yellow,
+          color: Colors.green,
           child: const Icon(
             Icons.attach_money,
             color: Colors.white,
-            size: 16,
+            size: 14,
           ),
         ),
-        const Text(
-          "600.00",
-          style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.bold,
-              color: Colors.yellow,
-              backgroundColor: Colors.purpleAccent),
+        Text(
+          ' $money',
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            //color: Colors.yellow,
+            //backgroundColor: Colors.purpleAccent,
+          ),
         ),
       ],
     );
@@ -223,13 +194,14 @@ class _HomePageState extends State<HomeScreen> {
 
   Widget nameRoomView(String nameRoom) {
     return Text(
-      'Phòng\n$nameRoom',
+      nameRoom,
       textAlign: TextAlign.center,
       style: const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
-          color: Colors.yellow,
-          backgroundColor: Colors.purple),
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.redAccent,
+        //backgroundColor: Colors.purple,
+      ),
     );
   }
 }

@@ -25,7 +25,7 @@ import 'package:motel/ui/home/home_screen.dart';
 import 'package:motel/ui/login/login_screen.dart';
 
 void main() {
-  runApp(HomeScreen());
+  runApp(const HomeScreen());
   // configLoading();
 }
 

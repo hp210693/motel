@@ -1,5 +1,3 @@
-import 'package:motel/data/home/room.dart';
-
 abstract class HomeState {}
 
 class HomeInitialState extends HomeState {}
