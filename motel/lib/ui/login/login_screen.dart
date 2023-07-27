@@ -28,46 +28,38 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:motel/bloc/login/login_bloc.dart';
 import 'package:motel/bloc/login/login_event.dart';
 import 'package:motel/bloc/login/login_state.dart';
+import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
+import 'package:motel/bloc/nav-router/nav_router_event.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  static Route<void> route() {
+    return MaterialPageRoute<void>(builder: (_) => const LoginScreen());
+  }
 
   @override
   State<LoginScreen> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginScreen> {
-  var _userName = "";
-  var _passWord = "";
+  var userName = "";
+  var passWord = "";
+  final navigatorKey = GlobalKey<NavigatorState>();
 
-/*   Widget _showDialog() {
-    return AlertDialog(
-      title: const Text('AlertDialog Title'),
-      content: const Text('AlertDialog description'),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context, 'Cancel'),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, 'OK'),
-          child: const Text('OK'),
-        ),
-      ],
-    );
-  } */
-
+  NavigatorState get navigator => navigatorKey.currentState!;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       theme: ThemeData(primaryColor: Colors.blue),
       color: Colors.yellow,
-      home: BlocProvider(create: (_) => LoginBloc(), child: _viewChild()),
+      home: BlocProvider(create: (_) => LoginBloc(), child: viewChild()),
       builder: EasyLoading.init(),
     );
   }
 
-  void _navigateBlocState(state) {
+  void navigateBlocState(state) {
     log("BlocBuilder state = $state");
     switch (state.runtimeType) {
       case LoginLoadingState:
@@ -81,6 +73,7 @@ class _LoginPageState extends State<LoginScreen> {
           "Thành công",
           maskType: EasyLoadingMaskType.clear,
         );
+        BlocProvider.of<NavRouterBloc>(context)..add(MoveToHomeEvent());
         break;
       case LoginErrorState:
         EasyLoading.showError("Đã có lỗi xảy ra!",
@@ -92,7 +85,7 @@ class _LoginPageState extends State<LoginScreen> {
     }
   }
 
-  Widget _introView() {
+  Widget introView() {
     return Column(
       children: [
         const Icon(
@@ -122,7 +115,7 @@ class _LoginPageState extends State<LoginScreen> {
     );
   }
 
-  Widget _userNameView() {
+  Widget userNameView() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Container(
@@ -133,7 +126,7 @@ class _LoginPageState extends State<LoginScreen> {
         child: Padding(
           padding: const EdgeInsets.only(left: 10.0),
           child: TextField(
-            onChanged: (value) => _userName = value,
+            onChanged: (value) => userName = value,
             decoration: const InputDecoration(
                 hintText: "Nhập số điện thoại hoặc email",
                 border: InputBorder.none),
@@ -143,7 +136,7 @@ class _LoginPageState extends State<LoginScreen> {
     );
   }
 
-  Widget _passWordView() {
+  Widget passWordView() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Container(
@@ -155,7 +148,7 @@ class _LoginPageState extends State<LoginScreen> {
           padding: const EdgeInsets.only(left: 10.0),
           child: TextField(
             obscureText: true,
-            onChanged: (value) => _passWord = value,
+            onChanged: (value) => passWord = value,
             decoration: const InputDecoration(
                 hintText: "Nhập mật khẩu", border: InputBorder.none),
           ),
@@ -164,13 +157,13 @@ class _LoginPageState extends State<LoginScreen> {
     );
   }
 
-  Widget _loginView(BuildContext context) {
+  Widget loginView(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: InkWell(
         onTap: () {
           log("user click button login");
-          context.read<LoginBloc>().add(LoginInEvent(_userName, _passWord));
+          context.read<LoginBloc>().add(LoginInEvent(userName, passWord));
         },
         child: Container(
           padding: const EdgeInsets.all(12.0),
@@ -193,7 +186,7 @@ class _LoginPageState extends State<LoginScreen> {
     );
   }
 
-  Widget _bottomView() {
+  Widget bottomView() {
     return const Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -221,12 +214,12 @@ class _LoginPageState extends State<LoginScreen> {
     );
   }
 
-  Widget _viewChild() {
+  Widget viewChild() {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
-          _navigateBlocState(state);
+          navigateBlocState(state);
           return SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -234,14 +227,14 @@ class _LoginPageState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    _introView(),
-                    _userNameView(),
+                    introView(),
+                    userNameView(),
                     const SizedBox(height: 10),
-                    _passWordView(),
+                    passWordView(),
                     const SizedBox(height: 10),
-                    _loginView(context),
+                    loginView(context),
                     const SizedBox(height: 10),
-                    _bottomView(),
+                    bottomView(),
                   ],
                 ),
               ),
