@@ -93,7 +93,6 @@ class _HomePageState extends State<HomeScreen> {
                       ),
                       itemCount: numberRooms,
                       itemBuilder: (_, index2) {
-                        dynamic name1 = rooms!.values.toList()[index1];
                         Room room =
                             rooms!.values.toList()[index1].elementAt(index2);
                         return subView(room);

@@ -68,12 +68,12 @@ class _AppState extends State<App> {
                     (route) => false,
                   );
                   break;
-                /*   case NavRouterHomeState:
+                case NavRouterHomeState:
                   navigator.pushAndRemoveUntil<void>(
                     HomeScreen.route(),
                     (route) => false,
                   );
-                  break; */
+                  break;
               }
             },
             child: child,

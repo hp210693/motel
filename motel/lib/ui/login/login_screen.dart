@@ -45,13 +45,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginPageState extends State<LoginScreen> {
   var userName = "";
   var passWord = "";
-  final navigatorKey = GlobalKey<NavigatorState>();
 
-  NavigatorState get navigator => navigatorKey.currentState!;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: navigatorKey,
       theme: ThemeData(primaryColor: Colors.blue),
       color: Colors.yellow,
       home: BlocProvider(create: (_) => LoginBloc(), child: viewChild()),
@@ -73,7 +70,7 @@ class _LoginPageState extends State<LoginScreen> {
           "Thành công",
           maskType: EasyLoadingMaskType.clear,
         );
-        BlocProvider.of<NavRouterBloc>(context)..add(MoveToHomeEvent());
+        BlocProvider.of<NavRouterBloc>(context).add(MoveToHomeEvent());
         break;
       case LoginErrorState:
         EasyLoading.showError("Đã có lỗi xảy ra!",
