@@ -21,7 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'package:flutter/material.dart';
 import 'package:motel/ui/app/app_screen.dart';
+import 'package:motel/ui/bottom/bottom_screen.dart';
 
 void main() {
-  runApp(const AppScreen());
+  runApp(const BottomScreen());
 }

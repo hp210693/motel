@@ -48,11 +48,11 @@ class _BottomPageState extends State<BottomScreen> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
-      'Index 0: Home',
+      'Index 0: Phòng',
       style: optionStyle,
     ),
     Text(
-      'Index 1: Business',
+      'Index 1: Nhắn tin',
       style: optionStyle,
     ),
     Text(
@@ -70,8 +70,8 @@ class _BottomPageState extends State<BottomScreen> {
   Widget viewChild() {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
-      ),
+          //title: const Text('BottomNavigationBar Sample'),
+          ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -79,15 +79,15 @@ class _BottomPageState extends State<BottomScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Phòng',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: Icon(Icons.message_rounded),
+            label: 'Tin nhắn',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.settings),
+            label: 'Hồ sơ',
           ),
         ],
         currentIndex: _selectedIndex,
