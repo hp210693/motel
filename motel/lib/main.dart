@@ -1,6 +1,6 @@
 /*MIT License
 
-Copyright (c) 2020 Hung Phan
+Copyright (c) 2020 Hung Phan (@hp210693)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,68 +20,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
-import 'package:motel/bloc/nav-router/nav_router_event.dart';
-import 'package:motel/bloc/nav-router/nav_router_state.dart';
-import 'package:motel/ui/home/home_screen.dart';
-import 'package:motel/ui/login/login_screen.dart';
-import 'package:motel/ui/splash/splash_screen.dart';
+import 'package:motel/ui/app/app_screen.dart';
 
 void main() {
-  runApp(const App());
-}
-
-class App extends StatefulWidget {
-  const App({super.key});
-
-  @override
-  State<App> createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  final navigatorKey = GlobalKey<NavigatorState>();
-
-  NavigatorState get navigator => navigatorKey.currentState!;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => NavRouterBloc()..add(NavRouterInitEvent()),
-      child: MaterialApp(
-        navigatorKey: navigatorKey,
-        builder: (context, child) {
-          return BlocListener<NavRouterBloc, NavRouterState>(
-            listener: (context, state) {
-              switch (state.runtimeType) {
-                case NavRouterSplashState:
-                  navigator.pushAndRemoveUntil<void>(
-                    SplashScreen.route(),
-                    (route) => false,
-                  );
-
-                  context.read<NavRouterBloc>().add(MoveToLoginEvent());
-                  break;
-                case NavRouterLoginState:
-                  navigator.pushAndRemoveUntil<void>(
-                    LoginScreen.route(),
-                    (route) => false,
-                  );
-                  break;
-                case NavRouterHomeState:
-                  navigator.pushAndRemoveUntil<void>(
-                    HomeScreen.route(),
-                    (route) => false,
-                  );
-                  break;
-              }
-            },
-            child: child,
-          );
-        },
-        home: const SizedBox(height: 0),
-        //onGenerateRoute: (_) => SplashScreen.route(),
-      ),
-    );
-  }
+  runApp(const AppScreen());
 }
