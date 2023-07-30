@@ -2,8 +2,9 @@ package main
 
 import (
 	"motel-backend/config"
-	"motel-backend/handlers"
-	"net/http"
+	delivery "motel-backend/delivery/account"
+	infrast "motel-backend/infrast/postgress"
+	service "motel-backend/service/account"
 
 	"github.com/labstack/echo/v4"
 )
@@ -22,14 +23,14 @@ func main() {
 
 	db.Ping()
 
-	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, map[string]interface{}{
-			"hello": "world",
-		})
-	})
-	e.GET("/account", handlers.GetAllAccount)
+	echoContext := echo.New()
+
+	accoutInfrast := infrast.NewTableAccount(gorm)
+	accountService := service.NewAccountService(accoutInfrast)
+	delivery.NewAccountDelivery(echoContext, accountService)
+
+	/* e.GET("/account", handlers.GetAllAccount)
 	e.GET("/login", handlers.GetLogin)
-	e.GET("/room", handlers.GetAllRoom)
-	e.Logger.Fatal(e.Start(":8080"))
+	e.GET("/room", handlers.GetAllRoom) */
+	echoContext.Logger.Fatal(echoContext.Start(":8080"))
 }

@@ -1,15 +1,6 @@
 package handlers
 
-import (
-	"fmt"
-	"motel-backend/config"
-	"motel-backend/models"
-	"net/http"
-
-	"github.com/labstack/echo/v4"
-)
-
-func GetAllRoom(c echo.Context) error {
+/* func GetAllRoom(c echo.Context) error {
 	var rooms []models.Room
 	db := config.DB()
 
@@ -21,7 +12,7 @@ func GetAllRoom(c echo.Context) error {
 
 	fmt.Printf("something respon\n %v", rooms)
 	return c.JSON(http.StatusOK, rooms)
-}
+} */
 
 /* func GetLogin(c echo.Context) error {
 	var accounts models.Account

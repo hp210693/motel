@@ -24,5 +24,5 @@ import 'package:motel/ui/app/app_screen.dart';
 import 'package:motel/ui/bottom/bottom_screen.dart';
 
 void main() {
-  runApp(const BottomScreen());
+  runApp(const AppScreen());
 }

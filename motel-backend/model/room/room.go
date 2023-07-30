@@ -1,4 +1,4 @@
-package models
+package model
 
 import (
 	"time"
@@ -7,6 +7,7 @@ import (
 type Room struct {
 	Room_Id        int        `json:"room_id" gorm:"primaryKey"`
 	FlowId         int        `json:"flow_id"`
+	Area           string     `json:"area"`
 	StatusRoom     int        `json:"status_room"`
 	RoomName       string     `json:"room_name"`
 	BookingDate    *time.Time `json:"booking_date"`
