@@ -13,3 +13,12 @@ type Account struct {
 	Created_On *time.Time `json:"created_on"`
 	Last_Login *time.Time `json:"last_login"`
 }
+
+/* type Tabler interface {
+	TableName() string
+} */
+
+// TableName overrides the table name used by Account to `account`
+func (Account) TableName() string {
+	return "account"
+}

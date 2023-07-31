@@ -14,7 +14,7 @@ func NewAccountService(repo repository.AccountInfrastRepo) repository.AccountSer
 }
 
 // Login implements repository.AccountServiceRepo.
-func (acc *accountService) Login(userName string, password string) error {
+func (acc *accountService) FetchLogin(userName string, password string) error {
 	var accounts, error = acc.accountRepo.GetAllAccount()
 	if error != nil {
 		return error

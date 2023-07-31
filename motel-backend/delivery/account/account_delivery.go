@@ -25,7 +25,7 @@ func (acc *accountDelivery) apiLogin(echo echo.Context) error {
 	password := echo.QueryParam("pass")
 
 	fmt.Printf("2 server reciver user = %v , pass = %v \n", user_name, password)
-	var result = acc.serviceRepo.Login(user_name, password)
+	var result = acc.serviceRepo.FetchLogin(user_name, password)
 	fmt.Print("\n\nhhhhhhhhhhhhhhhhhh\n\n", result)
 	if result != nil {
 		return echo.JSON(http.StatusOK, "error")

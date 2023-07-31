@@ -26,3 +26,8 @@ type Room struct {
 	WaterNumber    float64    `json:"water_number"`
 	WaterPrice     float64    `json:"water_price"`
 }
+
+// TableName overrides the table name used by Account to `account`
+func (Room) TableName() string {
+	return "room"
+}

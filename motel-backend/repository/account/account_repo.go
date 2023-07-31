@@ -28,5 +28,5 @@ type AccountInfrastRepo interface {
 
 // This interface is the connection between [delivery] layer and [service] layer
 type AccountServiceRepo interface {
-	Login(userName, password string) error
+	FetchLogin(userName, password string) error
 }

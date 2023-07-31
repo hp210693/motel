@@ -2,9 +2,13 @@ package main
 
 import (
 	"motel-backend/config"
-	delivery "motel-backend/delivery/account"
+	accdeli "motel-backend/delivery/account"
 	infrast "motel-backend/infrast/postgress"
-	service "motel-backend/service/account"
+	accserv "motel-backend/service/account"
+
+	roomdeli "motel-backend/delivery/room"
+
+	roomserv "motel-backend/service/room"
 
 	"github.com/labstack/echo/v4"
 )
@@ -25,12 +29,15 @@ func main() {
 
 	echoContext := echo.New()
 
+	// Call api Login
 	accoutInfrast := infrast.NewTableAccount(gorm)
-	accountService := service.NewAccountService(accoutInfrast)
-	delivery.NewAccountDelivery(echoContext, accountService)
+	accountService := accserv.NewAccountService(accoutInfrast)
+	accdeli.NewAccountDelivery(echoContext, accountService)
 
-	/* e.GET("/account", handlers.GetAllAccount)
-	e.GET("/login", handlers.GetLogin)
-	e.GET("/room", handlers.GetAllRoom) */
+	// Call api Rooms
+	roomInfrast := infrast.NewTableRoom(gorm)
+	roomService := roomserv.NewRoomService(roomInfrast)
+	roomdeli.NewRoomDelivery(echoContext, roomService)
+
 	echoContext.Logger.Fatal(echoContext.Start(":8080"))
 }
