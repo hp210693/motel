@@ -35,6 +35,8 @@ class NetworkApiService extends BaseApiService {
           .get(Uri.parse(url))
           .timeout(const Duration(seconds: _timeOut));
 
+      log("NetworkApiService - getLoginResponse - url = $resp");
+
       if (resp.statusCode == 200) {
         return resp.body;
       } else {
