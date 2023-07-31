@@ -1,6 +1,6 @@
 /*MIT License
 
-Copyright (c) 2020 Hung Phan (@hp210693)
+Copyright (c) 2023 Hung Phan (@hp210693)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,6 @@ import 'package:motel/bloc/login/login_event.dart';
 import 'package:motel/bloc/login/login_state.dart';
 import 'package:motel/repository/login/login_repo_imp.dart';
 
-import '../../error_base/error_base.dart';
-
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final _loginRepo = LoginRepoImp();
   LoginBloc() : super(LoginInitialState()) {
@@ -43,28 +41,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             await _loginRepo.getLoginInData(event.userName, event.passWord);
         log("LoginBloc respon data\n = $respon");
         await Future.delayed(const Duration(seconds: 2));
-        emit(LoginSuccessedState(respon.message));
+        emit(LoginSuccessedState(respon));
         await Future.delayed(const Duration(seconds: 1));
         emit(LoginInitialState());
       } catch (error) {
-        var error = ErrorBase();
-        /*  if (e.osError?.errorCode == 101) {
-          error.statusCode = 101;
-          error.message = e.osError!.message;
-          throw Exception(error);
-        }
-        error.statusCode = e.osError!.errorCode;
-        error.message = e.osError!.message;
-        if (e.osError?.errorCode == 101) {
-          //  error.statusCode = 101;
-          //error.message = e.osError!.message;
-          error.convertedData = false;
-          throw Exception(error);
-        }
-        error.statusCode = e.osError!.errorCode;
-        error.message = e.osError!.message; */
         log("LoginBloc call error");
-        //  await Future.delayed(const Duration(seconds: 1));
         emit(LoginErrorState(error.toString()));
       }
     }

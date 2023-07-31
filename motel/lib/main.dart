@@ -1,6 +1,6 @@
 /*MIT License
 
-Copyright (c) 2020 Hung Phan (@hp210693)
+Copyright (c) 2023 Hung Phan (@hp210693)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'package:flutter/material.dart';
 import 'package:motel/ui/app/app_screen.dart';
-import 'package:motel/ui/bottom/bottom_screen.dart';
 
 void main() {
   runApp(const AppScreen());
