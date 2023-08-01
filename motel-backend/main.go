@@ -62,5 +62,5 @@ func main() {
 	roomService := roomserv.NewRoomService(roomInfrast)
 	roomdeli.NewRoomDelivery(echoContext, roomService)
 
-	echoContext.Logger.Fatal(echoContext.Start("192.168.4.12:8080"))
+	echoContext.Logger.Fatal(echoContext.Start(":8080"))
 }
