@@ -75,33 +75,6 @@ class _BottomPageState extends State<BottomScreen> {
     const SettingScreen()
   ];
 
-/*   Widget viewChild() {
-    return Scaffold(
-      body: Center(
-        child: widgetOptions.elementAt(selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Phòng',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message_rounded),
-            label: 'Tin nhắn',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Hồ sơ',
-          ),
-        ],
-        currentIndex: selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: onItemTapped,
-      ),
-    );
-  } */
-
   Widget viewChild() {
     return Scaffold(
       body: BlocBuilder<BottomBloc, BottomState>(

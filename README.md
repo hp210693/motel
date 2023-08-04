@@ -19,3 +19,4 @@
     cd /your_path/motel-project/motel
     flutter pub upgrade --major-versions
     dart run build_runner build
+    click F5 on visual studio code
