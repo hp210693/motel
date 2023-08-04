@@ -19,7 +19,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-abstract class NavRouterEvent {}
+/* abstract class NavRouterEvent {}
 
 class NavRouterInitEvent extends NavRouterEvent {}
 
@@ -27,4 +27,12 @@ class MoveToSplashEvent extends NavRouterEvent {}
 
 class MoveToLoginEvent extends NavRouterEvent {}
 
-class MoveToHomeEvent extends NavRouterEvent {}
+class MoveToHomeEvent extends NavRouterEvent {} */
+
+enum NavRouterEvent {
+  appInit,
+  splash,
+  login,
+  home,
+  bottomBar,
+}

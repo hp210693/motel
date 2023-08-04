@@ -20,12 +20,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:motel/bloc/bottom/bottom_bloc.dart';
+import 'package:motel/bloc/bottom/bottom_event.dart';
+import 'package:motel/bloc/bottom/bottom_state.dart';
+import 'package:motel/ui/chat/chat_screen.dart';
+import 'package:motel/ui/home/home_screen.dart';
+import 'package:motel/ui/setting/setting_screen.dart';
 
 class BottomScreen extends StatefulWidget {
   const BottomScreen({super.key});
   static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const BottomScreen());
+    //return MaterialPageRoute<void>(builder: (_) => const BottomScreen());
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const BottomScreen(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
   }
 
   @override
@@ -38,42 +62,23 @@ class _BottomPageState extends State<BottomScreen> {
     return MaterialApp(
       theme: ThemeData(primaryColor: Colors.blue),
       color: Colors.yellow,
-      home: viewChild(),
+      home: BlocProvider(create: (_) => BottomBloc(), child: viewChild()),
       builder: EasyLoading.init(),
     );
   }
 
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Phòng',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Nhắn tin',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+  int selectedIndex = 0;
+
+  List<Widget> widgetOptions = <Widget>[
+    const HomeScreen(),
+    const ChatScreen(),
+    const SettingScreen()
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  Widget viewChild() {
+/*   Widget viewChild() {
     return Scaffold(
-      appBar: AppBar(
-          //title: const Text('BottomNavigationBar Sample'),
-          ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: widgetOptions.elementAt(selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -90,9 +95,47 @@ class _BottomPageState extends State<BottomScreen> {
             label: 'Hồ sơ',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: selectedIndex,
         selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+        onTap: onItemTapped,
+      ),
+    );
+  } */
+
+  Widget viewChild() {
+    return Scaffold(
+      body: BlocBuilder<BottomBloc, BottomState>(
+        builder: (context, state) {
+          return Center(
+            child: widgetOptions.elementAt(selectedIndex),
+          );
+        },
+      ),
+      bottomNavigationBar: BlocBuilder<BottomBloc, BottomState>(
+        builder: (context, state) {
+          return BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Phòng',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.message_rounded),
+                label: 'Tin nhắn',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: 'Hồ sơ',
+              ),
+            ],
+            currentIndex: selectedIndex,
+            selectedItemColor: Colors.amber[800],
+            onTap: (value) {
+              selectedIndex = value;
+              context.read<BottomBloc>().add(BotttonSelectedEvent());
+            },
+          );
+        },
       ),
     );
   }

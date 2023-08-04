@@ -1,3 +1,6 @@
+-- To the change password
+-- sudo -u postgres psql
+-- \password postgres
 
 SELECT *
 FROM pg_stat_activity

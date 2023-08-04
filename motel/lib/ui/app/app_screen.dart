@@ -24,6 +24,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/bloc/nav-router/nav_router_state.dart';
+import 'package:motel/ui/bottom/bottom_screen.dart';
 import 'package:motel/ui/home/home_screen.dart';
 import 'package:motel/ui/login/login_screen.dart';
 import 'package:motel/ui/splash/splash_screen.dart';
@@ -43,32 +44,40 @@ class _AppState extends State<AppScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NavRouterBloc()..add(NavRouterInitEvent()),
+      create: (_) => NavRouterBloc()..add(NavRouterEvent.appInit),
       child: MaterialApp(
         navigatorKey: navigatorKey,
         builder: (context, child) {
           return BlocListener<NavRouterBloc, NavRouterState>(
             listener: (context, state) {
-              switch (state.runtimeType) {
-                case NavRouterSplashState:
+              switch (state) {
+                case NavRouterState.splash:
                   navigator.pushAndRemoveUntil<void>(
                     SplashScreen.route(),
                     (route) => false,
                   );
 
-                  context.read<NavRouterBloc>().add(MoveToLoginEvent());
+                  context.read<NavRouterBloc>().add(NavRouterEvent.login);
                   break;
-                case NavRouterLoginState:
+                case NavRouterState.login:
                   navigator.pushAndRemoveUntil<void>(
                     LoginScreen.route(),
                     (route) => false,
                   );
                   break;
-                case NavRouterHomeState:
+                case NavRouterState.home:
                   navigator.pushAndRemoveUntil<void>(
                     HomeScreen.route(),
                     (route) => false,
                   );
+                  break;
+                case NavRouterState.bottomBar:
+                  navigator.pushAndRemoveUntil<void>(
+                    BottomScreen.route(),
+                    (route) => false,
+                  );
+                  break;
+                default:
                   break;
               }
             },

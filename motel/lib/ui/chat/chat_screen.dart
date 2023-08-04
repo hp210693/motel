@@ -19,37 +19,19 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-enum Environment { developing, testting, production }
+import 'package:flutter/material.dart';
 
-class ApiEndPoints {
-  final Environment _evm = Environment.developing;
-  late String _urlBase = '';
-  ApiEndPoints() {
-    switch (_evm) {
-      case Environment.developing:
-        //_urlBase = 'http://localhost:8080/';
-        _urlBase = 'http://10.0.2.2:8080/';
-        break;
-      case Environment.production:
-        _urlBase = 'http://192.168.5.36:8080/';
-        break;
-      case Environment.testting:
-      default:
-        _urlBase = 'localhost:1234/';
-    }
-  }
-}
+class ChatScreen extends StatelessWidget {
+  const ChatScreen({super.key});
 
-extension V1 on ApiEndPoints {
-  String loginUrl(String userName, String passWord) {
-    return '${_urlBase}login?user=' '$userName' '&pass=' '$passWord';
+  static Route<void> route() {
+    return MaterialPageRoute<void>(builder: (_) => const ChatScreen());
   }
 
-  String accountsUrl() {
-    return '${_urlBase}account';
-  }
-
-  String roomsUrl() {
-    return '${_urlBase}room';
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      backgroundColor: Colors.red,
+    );
   }
 }

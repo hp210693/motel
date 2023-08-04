@@ -10,7 +10,12 @@
 # III. Setup environment
     1. Install Flutter https://docs.flutter.dev/get-started/install 
     2. Install golang https://go.dev/dl/
+    3. Install postgresql https://www.postgresql.org/
 
 # IV. Run server
     cd /your_path/motel-project/motel-backend
     go run main.go
+# V. Run UI
+    cd /your_path/motel-project/motel
+    flutter pub upgrade --major-versions
+    dart run build_runner build

@@ -19,10 +19,30 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motel/bloc/bottom/bottom_event.dart';
 import 'package:motel/bloc/bottom/bottom_state.dart';
 
 class BottomBloc extends Bloc<BottomEvent, BottomState> {
-  BottomBloc() : super(BottomInitState());
+  BottomBloc() : super(BottomInitState()) {
+    log("BottomBloc constructor");
+    on<BottomEvent>(_bottom);
+  }
+  Future<void> _bottom(BottomEvent event, Emitter<BottomState> emit) async {
+    switch (event.runtimeType) {
+      case BotttonInitEvent:
+        log("BottomBloc BotttonInitEvent");
+        emit(BottomInitState());
+        break;
+      case BotttonSelectedEvent:
+        log("BottomBloc BotttonSelectedEvent ");
+
+        emit(BottomSelectedState());
+        break;
+      default:
+        break;
+    }
+  }
 }

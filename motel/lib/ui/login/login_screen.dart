@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginScreen> {
           "Thành công",
           maskType: EasyLoadingMaskType.clear,
         );
-        BlocProvider.of<NavRouterBloc>(context).add(MoveToHomeEvent());
+        BlocProvider.of<NavRouterBloc>(context).add(NavRouterEvent.bottomBar);
         break;
       case LoginErrorState:
         EasyLoading.showError("Đã có lỗi xảy ra!",
@@ -184,16 +184,16 @@ class _LoginPageState extends State<LoginScreen> {
   }
 
   Widget bottomView() {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           "Bạn chưa phải là thành viên?",
           style: TextStyle(
             fontWeight: FontWeight.normal,
           ),
         ),
-        InkWell(
+        const InkWell(
           child: Text(
             " Đăng ký,",
             style: TextStyle(
@@ -201,7 +201,11 @@ class _LoginPageState extends State<LoginScreen> {
           ),
         ),
         InkWell(
-          child: Text(
+          onTap: () {
+            BlocProvider.of<NavRouterBloc>(context)
+                .add(NavRouterEvent.bottomBar);
+          },
+          child: const Text(
             " Tiếp tục",
             style: TextStyle(
                 fontWeight: FontWeight.bold, color: Colors.blueAccent),

@@ -25,25 +25,29 @@ import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/bloc/nav-router/nav_router_state.dart';
 
 class NavRouterBloc extends Bloc<NavRouterEvent, NavRouterState> {
-  NavRouterBloc() : super(NavRouterInitState()) {
+  NavRouterBloc() : super(NavRouterState.appInit) {
     on<NavRouterEvent>(_login);
   }
   Future<void> _login(
       NavRouterEvent event, Emitter<NavRouterState> emit) async {
-    switch (event.runtimeType) {
-      case NavRouterInitEvent:
-        log("NavRouterBloc NavRouterInitEvent ");
-
-        emit(NavRouterSplashState());
-        break;
-      case MoveToLoginEvent:
-        log("NavRouterBloc MoveToLoginEvent ");
+    switch (event) {
+      case NavRouterEvent.appInit:
+        log("NavRouterBloc appInit ");
+        emit(NavRouterState.splash);
         await Future.delayed(const Duration(seconds: 2));
-        emit(NavRouterLoginState());
         break;
-      case MoveToHomeEvent:
-        log("NavRouterBloc MoveToHomeEvent");
-        emit(NavRouterHomeState());
+      case NavRouterEvent.login:
+        log("NavRouterBloc login ");
+        await Future.delayed(const Duration(seconds: 2));
+        emit(NavRouterState.login);
+        break;
+      case NavRouterEvent.bottomBar:
+        log("NavRouterBloc bottomBar ");
+        emit(NavRouterState.bottomBar);
+        break;
+      case NavRouterEvent.home:
+        log("NavRouterBloc home");
+        emit(NavRouterState.home);
         break;
       default:
         break;
