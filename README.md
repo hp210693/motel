@@ -20,3 +20,4 @@
     flutter pub upgrade --major-versions
     dart run build_runner build
     click F5 on visual studio code
+    flutter build apk --release

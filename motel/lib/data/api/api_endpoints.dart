@@ -28,7 +28,7 @@ class ApiEndPoints {
     switch (_evm) {
       case Environment.developing:
         //_urlBase = 'http://localhost:8080/';
-        _urlBase = 'http://10.0.2.2:8080/';
+        _urlBase = 'http://192.168.5.36:8080/';
         break;
       case Environment.production:
         _urlBase = 'http://192.168.5.36:8080/';
