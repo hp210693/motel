@@ -21,54 +21,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package main
+package delivery
 
 import (
-	"motel-backend/config"
-	accdeli "motel-backend/delivery/account"
-	accserv "motel-backend/service/account"
-
-	infrast "motel-backend/infrast/postgress"
-
-	roomdeli "motel-backend/delivery/room"
-	roomserv "motel-backend/service/room"
-
-	billdeli "motel-backend/delivery/bill"
-	billserv "motel-backend/service/bill"
+	"fmt"
+	repository "motel-backend/repository/bill"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
-func main() {
+type billDelivery struct {
+	serviceRepo repository.BillServiceRepo
+}
 
-	// Connect To Database
-	config.DatabaseInit()
-	gorm := config.DB()
+func NewBillDelivery(echo *echo.Echo, serviceRepo repository.BillServiceRepo) {
 
-	db, err := gorm.DB()
+	bill := &billDelivery{serviceRepo: serviceRepo}
 
-	if err != nil {
-		panic(err)
+	echo.GET("/bill", bill.apiBill)
+}
+
+func (bill *billDelivery) apiBill(echo echo.Context) error {
+
+	var results, error = bill.serviceRepo.FetchBill()
+	if error != nil {
+		return echo.JSON(http.StatusInternalServerError, "Can'n get Bill")
 	}
+	fmt.Print("\n\nhhhhhhhhhhhhhhhhhh\n\n", results)
 
-	db.Ping()
-
-	echoContext := echo.New()
-
-	// Call api Login
-	accoutInfrast := infrast.NewTableAccount(gorm)
-	accountService := accserv.NewAccountService(accoutInfrast)
-	accdeli.NewAccountDelivery(echoContext, accountService)
-
-	// Call api Room
-	roomInfrast := infrast.NewTableRoom(gorm)
-	roomService := roomserv.NewRoomService(roomInfrast)
-	roomdeli.NewRoomDelivery(echoContext, roomService)
-
-	// Call api Bill
-	billInfrast := infrast.NewTableBill(gorm)
-	billService := billserv.NewBillService(billInfrast)
-	billdeli.NewBillDelivery(echoContext, billService)
-
-	echoContext.Logger.Fatal(echoContext.Start(":8080"))
+	return echo.JSON(http.StatusOK, results)
 }

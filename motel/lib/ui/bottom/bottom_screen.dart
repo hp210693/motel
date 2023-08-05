@@ -27,12 +27,12 @@ import 'package:motel/bloc/bottom/bottom_event.dart';
 import 'package:motel/bloc/bottom/bottom_state.dart';
 import 'package:motel/ui/chat/chat_screen.dart';
 import 'package:motel/ui/home/home_screen.dart';
+import 'package:motel/ui/report/report_screen.dart';
 import 'package:motel/ui/setting/setting_screen.dart';
 
 class BottomScreen extends StatefulWidget {
   const BottomScreen({super.key});
   static Route<void> route() {
-    //return MaterialPageRoute<void>(builder: (_) => const BottomScreen());
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
           const BottomScreen(),
@@ -71,6 +71,7 @@ class _BottomPageState extends State<BottomScreen> {
 
   List<Widget> widgetOptions = <Widget>[
     const HomeScreen(),
+    const ReportScreen(),
     const ChatScreen(),
     const SettingScreen()
   ];
@@ -87,10 +88,15 @@ class _BottomPageState extends State<BottomScreen> {
       bottomNavigationBar: BlocBuilder<BottomBloc, BottomState>(
         builder: (context, state) {
           return BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Phòng',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.report),
+                label: 'Báo cáo',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.message_rounded),
