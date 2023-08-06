@@ -24,11 +24,12 @@ SOFTWARE.
 package model
 
 import (
+	"encoding/json"
 	"time"
 )
 
 type Room struct {
-	Room_Id        int        `json:"room_id" gorm:"primaryKey"`
+	RoomId         int        `json:"room_id" gorm:"primaryKey"`
 	FlowId         int        `json:"flow_id"`
 	Area           string     `json:"area"`
 	StatusRoom     int        `json:"status_room"`
@@ -53,4 +54,20 @@ type Room struct {
 // TableName overrides the table name used by Account to `account`
 func (Room) TableName() string {
 	return "room"
+}
+
+func (a *Room) MarshalJSON() ([]byte, error) {
+
+	type Alias Room
+	return json.Marshal(&struct {
+		BookingDate string `json:"booking_date"`
+		DateMoveIn  string `json:"date_move_in"`
+		DateMoveOut string `json:"date_move_out"`
+		*Alias
+	}{
+		BookingDate: a.BookingDate.Format("2006-01-02 15:04:05"),
+		DateMoveIn:  a.DateMoveIn.Format("2006-01-02 15:04:05"),
+		DateMoveOut: a.DateMoveOut.Format("2006-01-02 15:04:05"),
+		Alias:       (*Alias)(a),
+	})
 }

@@ -24,22 +24,32 @@ SOFTWARE.
 package model
 
 import (
-	mdAccount "motel-backend/model/account"
-	mdRoom "motel-backend/model/room"
+	"encoding/json"
 	"time"
 )
 
 type Bill struct {
-	Bill_id           int               `json:"bill_id" gorm:"primaryKey"`
-	Account_id        mdAccount.Account `json:"account_id" gorm:"foreignKey:Account_id;references:account_id"`
-	Room_Id           mdRoom.Room       `json:"room_id" gorm:"foreignKey:Room_Id;references:room_id"`
-	Created_date      *time.Time        `json:"created_date" gorm:"dateTime:timestamp"`
-	Total_payment     float64           `json:"total_payment"`
-	Img_total_payment string            `json:"img_total_payment"`
-	Note              string            `json:"note"`
+	BillId          int        `json:"bill_id" gorm:"primaryKey"`
+	AccountId       int        `json:"account_id"`
+	RoomId          int        `json:"room_id"`
+	Created_Date    *time.Time `json:"created_date"`
+	TotalPayment    float64    `json:"total_payment"`
+	ImgTotalPayment string     `json:"img_total_payment"`
+	Note            string     `json:"note"`
 }
 
 // TableName overrides the table name used by Bill to `bill`
 func (Bill) TableName() string {
 	return "bill"
+}
+
+func (a *Bill) MarshalJSON() ([]byte, error) {
+	type Alias Bill
+	return json.Marshal(&struct {
+		CreatedDate string `json:"created_date"`
+		*Alias
+	}{
+		CreatedDate: a.Created_Date.Format("2006-01-02 15:04:05"),
+		Alias:       (*Alias)(a),
+	})
 }

@@ -27,7 +27,6 @@ import (
 	"fmt"
 	model "motel-backend/model/bill"
 	repository "motel-backend/repository/bill"
-	"time"
 )
 
 type billService struct {
@@ -40,7 +39,6 @@ func (bill *billService) FetchBill() ([]model.Bill, error) {
 	if errorDB != nil {
 		return []model.Bill{}, errorDB
 	}
-	fmt.Printf("\n\n\n\nhung????????????????????????????????// %s\n\n", time.DateTime)
 
 	fmt.Printf("\n----\n%v", bills)
 

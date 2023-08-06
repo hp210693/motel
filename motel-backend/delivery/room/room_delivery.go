@@ -45,11 +45,10 @@ func (room *roomDelivery) apiAllRoom(echo echo.Context) error {
 
 	var rooms, error = room.serviceRepo.FetchAllRoom()
 
-	fmt.Print("\n\apiAllRoom 0k\n\n")
-
 	if error != nil {
-		return echo.JSON(http.StatusInternalServerError, "Can't get all room")
+		return echo.JSON(http.StatusInternalServerError, "roomDelivery Can't get all room")
 	}
 
+	fmt.Print("\n\n \t\t roomDelivery 0k\n\n")
 	return echo.JSON(http.StatusOK, rooms)
 }

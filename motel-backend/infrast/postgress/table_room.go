@@ -54,7 +54,7 @@ func (tbRoom *tableRoom) GetAllRoom() ([]model.Room, error) {
 		return []model.Room{}, result.Error
 	}
 
-	fmt.Printf("called database room ok \n%v", rooms)
+	fmt.Printf("\n\n\ninfrast tableRoom called database room ok \n\n\n%v", rooms)
 
 	return rooms, nil
 }

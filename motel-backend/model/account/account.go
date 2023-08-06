@@ -24,20 +24,34 @@ SOFTWARE.
 package model
 
 import (
+	"encoding/json"
 	"time"
 )
 
 type Account struct {
-	Account_Id int        `json:"account_id" gorm:"primaryKey"`
-	Room_Id    int        `json:"room_id"`
-	User_Name  string     `json:"user_name"`
-	Password   string     `json:"password"`
-	Email      string     `json:"email"`
-	Created_On *time.Time `json:"created_on"`
-	Last_Login *time.Time `json:"last_login"`
+	AccountId int        `json:"account_id" gorm:"primaryKey"`
+	RoomId    int        `json:"room_id"`
+	UserName  string     `json:"user_name"`
+	Password  string     `json:"password"`
+	Email     string     `json:"email"`
+	CreatedOn *time.Time `json:"created_on"`
+	LastLogin *time.Time `json:"last_login"`
 }
 
 // TableName overrides the table name used by Account to `account`
 func (Account) TableName() string {
 	return "account"
+}
+
+func (a *Account) MarshalJSON() ([]byte, error) {
+	type Alias Account
+	return json.Marshal(&struct {
+		CreatedOn string `json:"created_on"`
+		LastLogin string `json:"last_login"`
+		*Alias
+	}{
+		CreatedOn: a.CreatedOn.Format("2006-01-02 15:04:05"),
+		LastLogin: a.LastLogin.Format("2006-01-02 15:04:05"),
+		Alias:     (*Alias)(a),
+	})
 }

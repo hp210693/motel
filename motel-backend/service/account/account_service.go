@@ -45,7 +45,7 @@ func (acc *accountService) FetchLogin(userName string, password string) error {
 	}
 	fmt.Printf("\n----\n%v", accounts)
 	for _, account := range accounts {
-		if account.User_Name == userName && account.Password == password {
+		if account.UserName == userName && account.Password == password {
 			fmt.Printf("\nokokokokokokok\n")
 			return nil
 		}

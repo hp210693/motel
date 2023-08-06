@@ -46,7 +46,7 @@ func (room *roomService) FetchAllRoom() ([]model.Room, error) {
 		return rooms, error
 	}
 
-	fmt.Printf("\n----\n%v", rooms)
+	fmt.Printf("\n\n\n--roomService FetchAllRoom--\n\n\n%v", rooms)
 
 	return rooms, nil
 }
