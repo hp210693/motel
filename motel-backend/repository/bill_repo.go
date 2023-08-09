@@ -21,38 +21,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package delivery
+package repository
 
-import (
-	"fmt"
-	repository "motel-backend/repository/account"
-	"net/http"
+import model "motel-backend/model"
 
-	"github.com/labstack/echo/v4"
-)
+// This interface is the connection between [service] layer and [infrast(database)] layer
+type BillInfrastRepo interface {
 
-type accountDelivery struct {
-	serviceRepo repository.AccountServiceRepo
+	// Get all bill from datable
+	// return  []Bill and error = nil when success
+	// return emptly []Bill and error = "error" when failure
+	GetAllBill() ([]model.Bill, error)
+
+	// Insert a bill into datable
+	// return error = nil when success
+	// return error = "error" when failure
+	InsertBill(bill model.Bill) error
+
+	// Update a bill into datable
+	// return error = nil when success
+	// return error = "error" when failure
+	UpdateBill(bill model.Bill) error
+
+	// Deactivate a bill in datable
+	// return error = nil when success
+	// return error = "error" when failure
+	DeleteBill(bill model.Bill) error
 }
 
-func NewAccountDelivery(echo *echo.Echo, serviceRepo repository.AccountServiceRepo) {
-
-	account := &accountDelivery{serviceRepo: serviceRepo}
-
-	echo.GET("/login", account.apiLogin)
-}
-
-func (acc *accountDelivery) apiLogin(echo echo.Context) error {
-
-	user_name := echo.QueryParam("user")
-	password := echo.QueryParam("pass")
-
-	fmt.Printf("2 server reciver user = %v , pass = %v \n", user_name, password)
-	var result = acc.serviceRepo.FetchLogin(user_name, password)
-	fmt.Print("\n\nhhhhhhhhhhhhhhhhhh\n\n", result)
-	if result != nil {
-		return echo.JSON(http.StatusInternalServerError, "Can't Login")
-	}
-
-	return echo.JSON(http.StatusOK, "Success")
+// This interface is the connection between [delivery] layer and [service] layer
+type BillServiceRepo interface {
+	FetchBill() ([]model.Bill, error)
 }

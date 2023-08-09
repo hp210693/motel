@@ -21,32 +21,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package service
+package delivery
 
 import (
 	"fmt"
-	model "motel-backend/model/room"
-	repository "motel-backend/repository/room"
+	repository "motel-backend/repository"
+	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
-type roomService struct {
-	roomRepo repository.RoomInfrastRepo
+type roomDelivery struct {
+	serviceRepo repository.RoomServiceRepo
 }
 
-func NewRoomService(repo repository.RoomInfrastRepo) repository.RoomServiceRepo {
-	return &roomService{roomRepo: repo}
+func NewRoomDelivery(echo *echo.Echo, serviceRepo repository.RoomServiceRepo) {
+	room := &roomDelivery{serviceRepo: serviceRepo}
+
+	echo.GET("/room", room.apiAllRoom)
 }
 
-// FetchAllRoom implements repository.RoomServiceRepo.
-func (room *roomService) FetchAllRoom() ([]model.Room, error) {
+func (room *roomDelivery) apiAllRoom(echo echo.Context) error {
 
-	var rooms, error = room.roomRepo.GetAllRoom()
+	var rooms, error = room.serviceRepo.FetchAllRoom()
 
 	if error != nil {
-		return rooms, error
+		return echo.JSON(http.StatusInternalServerError, "roomDelivery Can't get all room")
 	}
 
-	fmt.Printf("\n\n\n--roomService FetchAllRoom--\n\n\n%v", rooms)
-
-	return rooms, nil
+	fmt.Print("\n\n \t\t roomDelivery 0k\n\n")
+	return echo.JSON(http.StatusOK, rooms)
 }

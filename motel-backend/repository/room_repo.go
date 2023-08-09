@@ -21,34 +21,37 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package service
+package repository
 
 import (
-	"errors"
-	"fmt"
-	repository "motel-backend/repository/account"
+	model "motel-backend/model"
 )
 
-type accountService struct {
-	accountRepo repository.AccountInfrastRepo
+// This interface is the connection between [service] layer and [infrast(database)] layer
+type RoomInfrastRepo interface {
+
+	// Get all room from datable
+	// return  []Room and error = nil when success
+	// return emptly []Account and error = "error" when failure
+	GetAllRoom() ([]model.Room, error)
+
+	// Insert a room into datable
+	// return error = nil when success
+	// return error = "error" when failure
+	InsertRoom(room model.Room) error
+
+	// Update a room into datable
+	// return error = nil when success
+	// return error = "error" when failure
+	UpdateRoom(room model.Room) error
+
+	// Deactivate a room in datable
+	// return error = nil when success
+	// return error = "error" when failure
+	DeleteRoom(room model.Room) error
 }
 
-func NewAccountService(repo repository.AccountInfrastRepo) repository.AccountServiceRepo {
-	return &accountService{accountRepo: repo}
-}
-
-// Login implements repository.AccountServiceRepo.
-func (acc *accountService) FetchLogin(userName string, password string) error {
-	var accounts, errorDB = acc.accountRepo.GetAllAccount()
-	if errorDB != nil {
-		return errorDB
-	}
-	fmt.Printf("\n----\n%v", accounts)
-	for _, account := range accounts {
-		if account.UserName == userName && account.Password == password {
-			fmt.Printf("\nokokokokokokok\n")
-			return nil
-		}
-	}
-	return errors.New("error")
+// This interface is the connection between [delivery] layer and [service] layer
+type RoomServiceRepo interface {
+	FetchAllRoom() ([]model.Room, error)
 }

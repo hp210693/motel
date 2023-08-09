@@ -25,30 +25,34 @@ package delivery
 
 import (
 	"fmt"
-	repository "motel-backend/repository/bill"
+	repository "motel-backend/repository"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
-type billDelivery struct {
-	serviceRepo repository.BillServiceRepo
+type accountDelivery struct {
+	serviceRepo repository.AccountServiceRepo
 }
 
-func NewBillDelivery(echo *echo.Echo, serviceRepo repository.BillServiceRepo) {
+func NewAccountDelivery(echo *echo.Echo, serviceRepo repository.AccountServiceRepo) {
 
-	bill := &billDelivery{serviceRepo: serviceRepo}
+	account := &accountDelivery{serviceRepo: serviceRepo}
 
-	echo.GET("/bill", bill.apiBill)
+	echo.GET("/login", account.apiLogin)
 }
 
-func (bill *billDelivery) apiBill(echo echo.Context) error {
+func (acc *accountDelivery) apiLogin(echo echo.Context) error {
 
-	var results, error = bill.serviceRepo.FetchBill()
-	if error != nil {
-		return echo.JSON(http.StatusInternalServerError, "Can'n get Bill")
+	user_name := echo.QueryParam("user")
+	password := echo.QueryParam("pass")
+
+	fmt.Printf("2 server reciver user = %v , pass = %v \n", user_name, password)
+	var result = acc.serviceRepo.FetchLogin(user_name, password)
+	fmt.Print("\n\nhhhhhhhhhhhhhhhhhh\n\n", result)
+	if result != nil {
+		return echo.JSON(http.StatusInternalServerError, "Can't Login")
 	}
-	fmt.Print("\n\nhhhhhhhhhhhhhhhhhh\n\n", results)
 
-	return echo.JSON(http.StatusOK, results)
+	return echo.JSON(http.StatusOK, "Success")
 }

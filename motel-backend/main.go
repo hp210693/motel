@@ -25,16 +25,10 @@ package main
 
 import (
 	"motel-backend/config"
-	accdeli "motel-backend/delivery/account"
-	accserv "motel-backend/service/account"
+	delivery "motel-backend/delivery"
+	service "motel-backend/service"
 
 	infrast "motel-backend/infrast/postgress"
-
-	roomdeli "motel-backend/delivery/room"
-	roomserv "motel-backend/service/room"
-
-	billdeli "motel-backend/delivery/bill"
-	billserv "motel-backend/service/bill"
 
 	"github.com/labstack/echo/v4"
 )
@@ -57,18 +51,18 @@ func main() {
 
 	// Call api Login
 	accoutInfrast := infrast.NewTableAccount(gorm)
-	accountService := accserv.NewAccountService(accoutInfrast)
-	accdeli.NewAccountDelivery(echoContext, accountService)
+	accountService := service.NewAccountService(accoutInfrast)
+	delivery.NewAccountDelivery(echoContext, accountService)
 
 	// Call api Room
 	roomInfrast := infrast.NewTableRoom(gorm)
-	roomService := roomserv.NewRoomService(roomInfrast)
-	roomdeli.NewRoomDelivery(echoContext, roomService)
+	roomService := service.NewRoomService(roomInfrast)
+	delivery.NewRoomDelivery(echoContext, roomService)
 
 	// Call api Bill
 	billInfrast := infrast.NewTableBill(gorm)
-	billService := billserv.NewBillService(billInfrast)
-	billdeli.NewBillDelivery(echoContext, billService)
+	billService := service.NewBillService(billInfrast)
+	delivery.NewBillDelivery(echoContext, billService)
 
 	echoContext.Logger.Fatal(echoContext.Start(":8080"))
 }

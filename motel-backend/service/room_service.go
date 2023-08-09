@@ -21,35 +21,32 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package repository
+package service
 
-import model "motel-backend/model/account"
+import (
+	"fmt"
+	model "motel-backend/model"
+	repository "motel-backend/repository"
+)
 
-// This interface is the connection between [service] layer and [infrast(database)] layer
-type AccountInfrastRepo interface {
-
-	// Get all account from datable
-	// return  []Account and error = nil when success
-	// return emptly []Account and error = "error" when failure
-	GetAllAccount() ([]model.Account, error)
-
-	// Insert a account into datable
-	// return error = nil when success
-	// return error = "error" when failure
-	InsertAccount(account model.Account) error
-
-	// Update a account into datable
-	// return error = nil when success
-	// return error = "error" when failure
-	UpdateAccount(account model.Account) error
-
-	// Deactivate a account in datable
-	// return error = nil when success
-	// return error = "error" when failure
-	DeleteAccount(account model.Account) error
+type roomService struct {
+	roomRepo repository.RoomInfrastRepo
 }
 
-// This interface is the connection between [delivery] layer and [service] layer
-type AccountServiceRepo interface {
-	FetchLogin(userName, password string) error
+func NewRoomService(repo repository.RoomInfrastRepo) repository.RoomServiceRepo {
+	return &roomService{roomRepo: repo}
+}
+
+// FetchAllRoom implements repository.RoomServiceRepo.
+func (room *roomService) FetchAllRoom() ([]model.Room, error) {
+
+	var rooms, error = room.roomRepo.GetAllRoom()
+
+	if error != nil {
+		return rooms, error
+	}
+
+	fmt.Printf("\n\n\n--roomService FetchAllRoom--\n\n\n%v", rooms)
+
+	return rooms, nil
 }

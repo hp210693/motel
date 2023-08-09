@@ -25,9 +25,7 @@ package config
 
 import (
 	"log"
-	mdAccount "motel-backend/model/account"
-	mdBill "motel-backend/model/bill"
-	mdRoom "motel-backend/model/room"
+	model "motel-backend/model"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -48,7 +46,7 @@ func DatabaseInit() {
 	/* database.AutoMigrate(&mdRoom.Room{})
 	database.AutoMigrate(&mdAccount.Account{})
 	database.AutoMigrate(&mdBill.Bill{}) */
-	database.AutoMigrate(&mdRoom.Room{}, &mdAccount.Account{}, &mdBill.Bill{})
+	database.AutoMigrate(&model.Room{}, &model.Account{}, &model.Bill{})
 
 	log.Println("Connected:", database)
 }

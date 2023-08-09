@@ -21,35 +21,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package repository
+package delivery
 
-import model "motel-backend/model/bill"
+import (
+	"fmt"
+	repository "motel-backend/repository"
+	"net/http"
 
-// This interface is the connection between [service] layer and [infrast(database)] layer
-type BillInfrastRepo interface {
+	"github.com/labstack/echo/v4"
+)
 
-	// Get all bill from datable
-	// return  []Bill and error = nil when success
-	// return emptly []Bill and error = "error" when failure
-	GetAllBill() ([]model.Bill, error)
-
-	// Insert a bill into datable
-	// return error = nil when success
-	// return error = "error" when failure
-	InsertBill(bill model.Bill) error
-
-	// Update a bill into datable
-	// return error = nil when success
-	// return error = "error" when failure
-	UpdateBill(bill model.Bill) error
-
-	// Deactivate a bill in datable
-	// return error = nil when success
-	// return error = "error" when failure
-	DeleteBill(bill model.Bill) error
+type billDelivery struct {
+	serviceRepo repository.BillServiceRepo
 }
 
-// This interface is the connection between [delivery] layer and [service] layer
-type BillServiceRepo interface {
-	FetchBill() ([]model.Bill, error)
+func NewBillDelivery(echo *echo.Echo, serviceRepo repository.BillServiceRepo) {
+
+	bill := &billDelivery{serviceRepo: serviceRepo}
+
+	echo.GET("/bill", bill.apiBill)
+}
+
+func (bill *billDelivery) apiBill(echo echo.Context) error {
+
+	var results, error = bill.serviceRepo.FetchBill()
+	if error != nil {
+		return echo.JSON(http.StatusInternalServerError, "Can'n get Bill")
+	}
+	fmt.Print("\n\nhhhhhhhhhhhhhhhhhh\n\n", results)
+
+	return echo.JSON(http.StatusOK, results)
 }

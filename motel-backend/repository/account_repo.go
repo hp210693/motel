@@ -21,30 +21,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package service
+package repository
 
-import (
-	"fmt"
-	model "motel-backend/model/bill"
-	repository "motel-backend/repository/bill"
-)
+import model "motel-backend/model"
 
-type billService struct {
-	billRepo repository.BillInfrastRepo
+// This interface is the connection between [service] layer and [infrast(database)] layer
+type AccountInfrastRepo interface {
+
+	// Get all account from datable
+	// return  []Account and error = nil when success
+	// return emptly []Account and error = "error" when failure
+	GetAllAccount() ([]model.Account, error)
+
+	// Insert a account into datable
+	// return error = nil when success
+	// return error = "error" when failure
+	InsertAccount(account model.Account) error
+
+	// Update a account into datable
+	// return error = nil when success
+	// return error = "error" when failure
+	UpdateAccount(account model.Account) error
+
+	// Deactivate a account in datable
+	// return error = nil when success
+	// return error = "error" when failure
+	DeleteAccount(account model.Account) error
 }
 
-// FetchBill implements repository.BillServiceRepo.
-func (bill *billService) FetchBill() ([]model.Bill, error) {
-	var bills, errorDB = bill.billRepo.GetAllBill()
-	if errorDB != nil {
-		return []model.Bill{}, errorDB
-	}
-
-	fmt.Printf("\n----\n%v", bills)
-
-	return bills, nil
-}
-
-func NewBillService(repo repository.BillInfrastRepo) repository.BillServiceRepo {
-	return &billService{billRepo: repo}
+// This interface is the connection between [delivery] layer and [service] layer
+type AccountServiceRepo interface {
+	FetchLogin(userName, password string) error
 }

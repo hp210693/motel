@@ -21,34 +21,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package delivery
+package service
 
 import (
 	"fmt"
-	repository "motel-backend/repository/room"
-	"net/http"
-
-	"github.com/labstack/echo/v4"
+	model "motel-backend/model"
+	repository "motel-backend/repository"
 )
 
-type roomDelivery struct {
-	serviceRepo repository.RoomServiceRepo
+type billService struct {
+	billRepo repository.BillInfrastRepo
 }
 
-func NewRoomDelivery(echo *echo.Echo, serviceRepo repository.RoomServiceRepo) {
-	room := &roomDelivery{serviceRepo: serviceRepo}
-
-	echo.GET("/room", room.apiAllRoom)
-}
-
-func (room *roomDelivery) apiAllRoom(echo echo.Context) error {
-
-	var rooms, error = room.serviceRepo.FetchAllRoom()
-
-	if error != nil {
-		return echo.JSON(http.StatusInternalServerError, "roomDelivery Can't get all room")
+// FetchBill implements repository.BillServiceRepo.
+func (bill *billService) FetchBill() ([]model.Bill, error) {
+	var bills, errorDB = bill.billRepo.GetAllBill()
+	if errorDB != nil {
+		return []model.Bill{}, errorDB
 	}
 
-	fmt.Print("\n\n \t\t roomDelivery 0k\n\n")
-	return echo.JSON(http.StatusOK, rooms)
+	fmt.Printf("\n----\n%v", bills)
+
+	return bills, nil
+}
+
+func NewBillService(repo repository.BillInfrastRepo) repository.BillServiceRepo {
+	return &billService{billRepo: repo}
 }

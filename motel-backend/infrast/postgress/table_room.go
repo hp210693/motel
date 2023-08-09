@@ -25,8 +25,8 @@ package infrast
 
 import (
 	"fmt"
-	model "motel-backend/model/room"
-	repository "motel-backend/repository/room"
+	model "motel-backend/model"
+	repository "motel-backend/repository"
 
 	"gorm.io/gorm"
 )
