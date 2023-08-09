@@ -74,7 +74,7 @@ CREATE TABLE bill(
 	account_id INT NULL REFERENCES account (account_id),
 	room_id INT NOT NULL REFERENCES room (room_id),
 	created_date TIMESTAMP DEFAULT(CURRENT_TIMESTAMP(0)) NOT NULL,
-    total_payment FLOAT DEFAULT(0) NOT NULL,
+    total_payment FLOAT DEFAULT(1000000) NOT NULL,
 	img_total_payment TEXT DEFAULT('') NULL,
 	note TEXT DEFAULT('') NULL
 );
@@ -246,11 +246,31 @@ INSERT INTO account(
 	(10,'KIOT1-034982142','123456789','abc13@gmail.com'),
 	(10,'KIOT2-034982142','123456789','abc11@gmail.com');
 
-INSERT INTO bill(account_id, room_id) VALUES
-					(1,1),
-					(3,1),
-					(4,1),
-					(5,2);
+INSERT INTO bill(account_id, room_id,created_date) VALUES
+					(1,1,'2022-12-06 10:10:10'),
+					(3,1,'2023-01-06 10:10:10'),
+					(4,1,'2023-02-06 10:10:10'),
+					(1,2,'2023-03-06 10:10:10'),
+					(3,3,'2023-04-06 10:10:10'),
+					(4,4,'2023-05-06 10:10:10'),
+					(1,1,'2023-06-06 10:10:10'),
+					(3,1,'2023-07-06 10:10:10'),
+					(4,1,'2023-08-06 10:10:10'),
+					(1,5,'2023-09-06 10:10:10'),
+					(3,6,'2023-10-06 10:10:10'),
+					(4,7,'2023-11-06 10:10:10'),
+					(5,5,'2023-12-06 10:10:10'),
+					(3,1,'2023-02-06 10:10:10'),
+					(4,1,'2023-03-06 10:10:10'),
+					(1,2,'2023-03-06 10:10:10'),
+					(3,3,'2023-04-06 10:10:10'),
+					(4,4,'2023-05-06 10:10:10'),
+					(1,1,'2023-06-06 10:10:10'),
+					(3,1,'2023-07-06 10:10:10'),
+					(4,1,'2023-02-06 10:10:10'),
+					(1,5,'2023-02-06 10:10:10'),
+					(3,6,'2023-12-06 10:10:10'),
+					(4,7,'2023-11-06 10:10:10');
 					 
 SELECT *From account;
 SELECT *From bill;

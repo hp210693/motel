@@ -61,4 +61,19 @@ class NetworkApiService extends BaseApiService {
       rethrow;
     }
   }
+
+  @override
+  Future<dynamic> getReportResponse(String _) async {
+    try {
+      final url = ApiEndPoints().reportsUrl();
+      log("NetworkApiService - getReportResponse - url = $url");
+      final resp = await http
+          .get(Uri.parse(url))
+          .timeout(const Duration(seconds: _timeOut));
+
+      if (resp.statusCode == 200) return resp.body;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

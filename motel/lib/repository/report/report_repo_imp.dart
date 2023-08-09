@@ -19,8 +19,35 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-abstract class BaseApiService {
-  Future<dynamic> getLoginResponse(String userName, String passWord);
-  Future<dynamic> getHomeResponse(String _);
-  Future<dynamic> getReportResponse(String _);
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:collection/collection.dart';
+import 'package:motel/data/api/base_api_service.dart';
+import 'package:motel/data/api/network_api_service.dart';
+import 'package:motel/data/report/report.dart';
+import 'package:motel/repository/report/report_repo.dart';
+
+class ReportRepoImp implements ReportRepo {
+  final BaseApiService _apiService = NetworkApiService();
+  late Map<String, List<Report>> _reports;
+  @override
+  Future<Map<String, List<Report>>> getReportFetchData() async {
+    try {
+      final data = await _apiService.getReportResponse('');
+      log("ReportRepoImp - getLoginInData\n $data");
+      final jsonData = jsonDecode(data);
+      final listReport =
+          List<Report>.from(jsonData.map((object) => Report.fromJson(object)))
+              .toList();
+
+      _reports =
+          groupBy(listReport, (Report obj) => obj.createdDate.toString());
+      log("LoginRepoImp - convert data ok\n $listReport");
+      return _reports;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
 }

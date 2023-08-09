@@ -27,7 +27,6 @@ class ApiEndPoints {
   ApiEndPoints() {
     switch (_evm) {
       case Environment.developing:
-        //_urlBase = 'http://localhost:8080/';
         _urlBase = 'http://192.168.5.36:8080/';
         break;
       case Environment.production:
@@ -51,5 +50,9 @@ extension V1 on ApiEndPoints {
 
   String roomsUrl() {
     return '${_urlBase}room';
+  }
+
+  String reportsUrl() {
+    return '${_urlBase}bill';
   }
 }

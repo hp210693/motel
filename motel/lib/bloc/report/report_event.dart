@@ -19,8 +19,17 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-abstract class BaseApiService {
-  Future<dynamic> getLoginResponse(String userName, String passWord);
-  Future<dynamic> getHomeResponse(String _);
-  Future<dynamic> getReportResponse(String _);
+abstract class ReportEvent {}
+
+class ReportFetchDataEvent extends ReportEvent {
+  final String _userName;
+  final String _passWord;
+
+  ReportFetchDataEvent(this._userName, this._passWord);
+
+  /// return String user name
+  String get userName => _userName;
+
+  /// return String password
+  String get passWord => _passWord;
 }

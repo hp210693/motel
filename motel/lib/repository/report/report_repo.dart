@@ -19,8 +19,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-abstract class BaseApiService {
-  Future<dynamic> getLoginResponse(String userName, String passWord);
-  Future<dynamic> getHomeResponse(String _);
-  Future<dynamic> getReportResponse(String _);
+class ReportRepo {
+  Future<dynamic> getReportFetchData() async {}
 }

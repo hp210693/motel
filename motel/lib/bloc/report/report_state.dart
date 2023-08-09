@@ -19,8 +19,26 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-abstract class BaseApiService {
-  Future<dynamic> getLoginResponse(String userName, String passWord);
-  Future<dynamic> getHomeResponse(String _);
-  Future<dynamic> getReportResponse(String _);
+import 'package:motel/data/report/report.dart';
+
+abstract class ReportState {}
+
+class ReportInitialState extends ReportState {}
+
+class ReportLoadingState extends ReportState {}
+
+class ReportSuccessedState extends ReportState {
+  final Map<String, List<Report>> reports;
+  ReportSuccessedState(this.reports);
+
+  /// return a message when user login in successed
+//  String get message => _message;
+}
+
+class HomeErrorState extends ReportState {
+  final String _errMessage;
+  HomeErrorState(this._errMessage);
+
+  /// return a string when user login in or login out error
+  String get errMessage => _errMessage;
 }

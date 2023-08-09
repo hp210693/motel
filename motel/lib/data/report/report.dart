@@ -19,8 +19,44 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-abstract class BaseApiService {
-  Future<dynamic> getLoginResponse(String userName, String passWord);
-  Future<dynamic> getHomeResponse(String _);
-  Future<dynamic> getReportResponse(String _);
+import 'package:json_annotation/json_annotation.dart';
+part 'report.g.dart';
+
+@JsonSerializable()
+class Report {
+  @JsonKey(name: 'created_date')
+  final DateTime createdDate;
+
+  @JsonKey(name: 'bill_id')
+  final int billId;
+
+  @JsonKey(name: 'account_id')
+  final int accountId;
+
+  @JsonKey(name: 'room_id')
+  final int roomId;
+
+  @JsonKey(name: 'total_payment')
+  final double totalPayment;
+
+  @JsonKey(name: 'img_total_payment')
+  final String imgTotalPayment;
+
+  @JsonKey(name: 'note')
+  final String note;
+
+  /// Connect the generated [_$ReportFromJson] function to the `fromJson`
+  /// factory.
+  Report(
+      {required this.createdDate,
+      required this.billId,
+      required this.accountId,
+      required this.roomId,
+      required this.totalPayment,
+      required this.imgTotalPayment,
+      required this.note});
+  factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
+
+  /// Connect the generated [_$ReportToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$ReportToJson(this);
 }

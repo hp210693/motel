@@ -67,7 +67,7 @@ class _BottomPageState extends State<BottomScreen> {
     );
   }
 
-  int selectedIndex = 0;
+  int selectedIndex = 1;
 
   List<Widget> widgetOptions = <Widget>[
     const HomeScreen(),
