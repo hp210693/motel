@@ -47,8 +47,8 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         emit(ReportInitialState());
       } catch (error) {
         log("ReportBloc call error");
-        //  await Future.delayed(const Duration(seconds: 1));
-        // emit(ReportErrorState(error.toString()));
+        await Future.delayed(const Duration(seconds: 1));
+        emit(ReportErrorState(error.toString()));
       }
     }
   }

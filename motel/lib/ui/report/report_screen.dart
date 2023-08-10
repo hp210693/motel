@@ -20,6 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
+import 'dart:developer';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +28,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:motel/bloc/report/report_bloc.dart';
 import 'package:motel/bloc/report/report_event.dart';
 import 'package:motel/bloc/report/report_state.dart';
+import 'package:motel/data/report/report.dart';
 
 class AppColors {
   static const Color primary = contentColorCyan;
@@ -60,6 +62,7 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportPageState extends State<ReportScreen> {
+  Map<String, List<Report>>? reports;
   List<Color> gradientColors = [
     AppColors.contentColorCyan,
     AppColors.contentColorBlue,
@@ -79,21 +82,50 @@ class _ReportPageState extends State<ReportScreen> {
     );
   }
 
+  void navigateBlocState(state) {
+    log("BlocBuilder state = $state");
+    switch (state.runtimeType) {
+      case ReportLoadingState:
+        EasyLoading.show(
+          status: 'Đợi chút nhé...',
+          maskType: EasyLoadingMaskType.clear,
+        );
+        break;
+      case ReportSuccessedState:
+        reports = state.reports;
+        EasyLoading.showSuccess(
+          "Thành công",
+          maskType: EasyLoadingMaskType.clear,
+        );
+        break;
+      case ReportErrorState:
+        EasyLoading.showError("Đã có lỗi xảy ra!",
+            maskType: EasyLoadingMaskType.clear);
+        break;
+      default:
+        EasyLoading.dismiss();
+        break;
+    }
+  }
+
   Widget viewChild() {
     return Scaffold(
       body: BlocBuilder<ReportBloc, ReportState>(
         builder: (context, state) {
-          return Center(
+          navigateBlocState(state);
+          if (reports == null) return const Text('');
+          return Container(
+            alignment: Alignment.center,
             child: Stack(
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.70,
                   child: Padding(
                     padding: const EdgeInsets.only(
-                      right: 18,
-                      left: 12,
-                      top: 24,
-                      bottom: 12,
+                      right: 5,
+                      left: 5,
+                      top: 5,
+                      bottom: 5,
                     ),
                     child: LineChart(
                       mainData(),
@@ -110,19 +142,48 @@ class _ReportPageState extends State<ReportScreen> {
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 16,
+      fontWeight: FontWeight.normal,
+      fontSize: 14,
+      backgroundColor: Colors.red,
     );
+    if (reports == null) return const Text("");
     Widget text;
     switch (value.toInt()) {
+      case 0:
+        text = const Text('Tháng\n1', style: style);
+        break;
+      case 1:
+        text = const Text('Tháng\n2', style: style);
+        break;
       case 2:
-        text = const Text('MAR', style: style);
+        text = const Text('Tháng\n3', style: style);
+        break;
+      case 3:
+        text = const Text('Tháng\n4', style: style);
+        break;
+      case 4:
+        text = const Text('Tháng\n5', style: style);
         break;
       case 5:
-        text = const Text('JUN', style: style);
+        text = const Text('Tháng\n6', style: style);
+        break;
+      case 6:
+        text = const Text('Tháng\n7', style: style);
+        break;
+      case 7:
+        text = const Text('Tháng\n8', style: style);
         break;
       case 8:
-        text = const Text('SEP', style: style);
+        text = const Text('Tháng\n9', style: style);
+        break;
+      case 9:
+        text = const Text('Tháng\n10', style: style);
+        break;
+      case 10:
+        text = const Text('Tháng\n11', style: style);
+        break;
+      case 11:
+        text = const Text('Tháng\n12', style: style);
         break;
       default:
         text = const Text('', style: style);
@@ -138,18 +199,39 @@ class _ReportPageState extends State<ReportScreen> {
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 15,
+      fontSize: 14,
     );
     String text;
     switch (value.toInt()) {
+      case 0:
+        text = '10Triệu';
+        break;
       case 1:
-        text = '10K';
+        text = '20Triệu';
+        break;
+      case 2:
+        text = '30Triệu';
         break;
       case 3:
-        text = '30k';
+        text = '40Triệu';
+        break;
+      case 4:
+        text = '50Triệu';
         break;
       case 5:
-        text = '50k';
+        text = '60Triệu';
+        break;
+      case 6:
+        text = '70Triệu';
+        break;
+      case 7:
+        text = '80Triệu';
+        break;
+      case 8:
+        text = '90Triệu';
+        break;
+      case 9:
+        text = '100Triệu';
         break;
       default:
         return Container();
@@ -189,7 +271,7 @@ class _ReportPageState extends State<ReportScreen> {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
+            reservedSize: 45,
             interval: 1,
             getTitlesWidget: bottomTitleWidgets,
           ),
@@ -199,7 +281,7 @@ class _ReportPageState extends State<ReportScreen> {
             showTitles: true,
             interval: 1,
             getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
+            reservedSize: 60,
           ),
         ),
       ),
@@ -208,28 +290,27 @@ class _ReportPageState extends State<ReportScreen> {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 11,
+      maxX: reports!.length - 1.0,
+      //reports?.entries.first.value.fold(0.0,
+      //(previousValue, element) => previousValue! + element.totalPayment),
       minY: 0,
-      maxY: 6,
+      maxY: 10,
       lineBarsData: [
         LineChartBarData(
           spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
+            FlSpot(0, 10),
+            FlSpot(1, 20),
+            FlSpot(2, 30),
+            FlSpot(3, 40)
           ],
           isCurved: true,
           gradient: LinearGradient(
             colors: gradientColors,
           ),
-          barWidth: 4,
+          barWidth: 3,
           isStrokeCapRound: true,
           dotData: const FlDotData(
-            show: false,
+            show: true,
           ),
           belowBarData: BarAreaData(
             show: true,
