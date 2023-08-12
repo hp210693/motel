@@ -24,6 +24,14 @@ abstract class ReportState {}
 
 class ReportInitialState extends ReportState {}
 
+class ReportPageSelectedState extends ReportState {
+  final int _pageSelected;
+  final bool _called;
+  ReportPageSelectedState(this._pageSelected, this._called);
+  int get pageSelected => _pageSelected;
+  bool get called => _called;
+}
+
 class ReportLoadingState extends ReportState {}
 
 class ReportSuccessedState extends ReportState {

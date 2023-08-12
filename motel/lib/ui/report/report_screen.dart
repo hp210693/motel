@@ -24,8 +24,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:motel/bloc/report/report_bloc.dart';
 import 'package:motel/bloc/report/report_event.dart';
+import 'package:motel/bloc/report/report_state.dart';
 import 'package:motel/ui/report/report_year_screen.dart';
 
 class ReportScreen extends StatefulWidget {
@@ -54,108 +56,90 @@ class _ReportPageState extends State<ReportScreen> {
 
   static const textType = TextStyle(
     fontWeight: FontWeight.bold,
-    fontSize: 30,
-    backgroundColor: Colors.purpleAccent,
+    fontSize: 20,
+    backgroundColor: Colors.redAccent,
     color: Colors.blueGrey,
     decoration: TextDecoration.none,
   );
 
   Widget titleView(String text) {
-    return Wrap(
-      direction: Axis.horizontal,
-      alignment: WrapAlignment.spaceBetween,
+    //double width = (MediaQuery.of(context).size.width / 3);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
           onTap: () {},
-          child: const Text("Năm", style: textType),
-        ),
-        const SizedBox(width: 15),
-        GestureDetector(
-          onTap: () {},
-          child: const FittedBox(
-            child: Text(" Tháng", style: textType),
+          child: Container(
+            alignment: Alignment.center,
+            child: const Text("Năm", style: textType),
           ),
         ),
-        const SizedBox(width: 15),
+        const SizedBox(width: 2),
         GestureDetector(
           onTap: () {},
-          child: const FittedBox(
-            //fit: BoxFit.fitHeight,
-            child: Text(" Tuần", style: textType),
+          child: Container(
+            alignment: Alignment.center,
+            child: const Text("Tháng", style: textType),
+          ),
+        ),
+        const SizedBox(width: 2),
+        GestureDetector(
+          onTap: () {},
+          child: Container(
+            alignment: Alignment.center,
+            child: const Text("Tuần", style: textType),
           ),
         ),
       ],
     );
-
-    /* return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        GestureDetector(
-          onTap: () {},
-          child: const Text("Năm", style: textType),
-        ),
-        const SizedBox(width: 15),
-        GestureDetector(
-          onTap: () {},
-          child: const FittedBox(
-            child: Text(" Tháng", style: textType),
-          ),
-        ),
-        const SizedBox(width: 15),
-        GestureDetector(
-          onTap: () {},
-          child: const FittedBox(
-            //fit: BoxFit.fitHeight,
-            child: Text(" Tuần", style: textType),
-          ),
-        ),
-      ],
-    ); */
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // theme: ThemeData(primaryColor: Colors.blue),
+      theme: ThemeData(primaryColor: Colors.blue),
       color: Colors.black,
       home: BlocProvider(
-        create: (_) => ReportBloc()..add(ReportFetchDataEvent('', '')),
-        child: Stack(
-          alignment: Alignment.topCenter,
-          fit: StackFit.loose,
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: 0.7,
-              child: PageView(
-                controller: controller,
-                scrollDirection: Axis.horizontal,
-                onPageChanged: (value) {
-                  setState(() {
-                    activePage = value;
-                    log('state - page = $activePage');
-                  });
-                },
-                physics: const BouncingScrollPhysics(),
-                children: pages,
-              ),
-            ),
-            Positioned(top: 50, child: titleView('')),
-          ],
-        ),
-      ),
-
-      // builder: EasyLoading.init(),
-    );
-
-    /*    return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.blue),
-      color: Colors.yellow,
-      home: BlocProvider(
-        create: (_) => ReportBloc()..add(ReportFetchDataEvent('', '')),
+        create: (_) =>
+            ReportBloc()..add(ReportPageSelectedEvent(activePage, false)),
         child: viewChild(),
       ),
-      // builder: EasyLoading.init(),
-    ); */
+      builder: EasyLoading.init(),
+    );
+  }
+
+  Widget viewChild() {
+    return Scaffold(
+      backgroundColor: Colors.grey[300],
+      body: BlocBuilder<ReportBloc, ReportState>(
+        builder: (context, state) {
+          //navigateBlocState(state);
+          return SafeArea(
+            child: Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                PageView(
+                  controller: controller,
+                  scrollDirection: Axis.horizontal,
+                  onPageChanged: (value) {
+                    activePage = value;
+                    log('state - page = $activePage');
+                    context
+                        .read<ReportBloc>()
+                        .add(ReportPageSelectedEvent(activePage, true));
+                  },
+                  physics: const BouncingScrollPhysics(),
+                  children: pages,
+                ),
+                Positioned(
+                  top: 50,
+                  child: titleView(''),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }

@@ -21,6 +21,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 abstract class ReportEvent {}
 
+class ReportPageSelectedEvent extends ReportEvent {
+  final int _pageSelected;
+  final bool _called;
+  ReportPageSelectedEvent(this._pageSelected, this._called);
+  int get pageSelected => _pageSelected;
+  bool get called => _called;
+}
+
 class ReportFetchDataEvent extends ReportEvent {
   final String _userName;
   final String _passWord;

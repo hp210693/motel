@@ -21,6 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:async';
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motel/bloc/report/report_event.dart';
 import 'package:motel/bloc/report/report_state.dart';
@@ -28,28 +29,64 @@ import 'package:motel/repository/report/report_repo_imp.dart';
 
 class ReportBloc extends Bloc<ReportEvent, ReportState> {
   final _reportRepo = ReportRepoImp();
-  ReportBloc() : super(ReportInitialState()) {
-    log("HomeBloc constructor");
-    on<ReportEvent>(_fetchReports);
+
+  ReportBloc() : super(ReportPageSelectedState(0, false)) {
+    log("\n\nLoging -- class $runtimeType -- contructor ${StackFrame.fromStackTrace(StackTrace.current)[0].isConstructor}\n\n");
+    on<ReportEvent>(_eventReport);
   }
 
-  Future<void> _fetchReports(
+  Future<void> _eventReport(
       ReportEvent event, Emitter<ReportState> emit) async {
-    if (event is ReportFetchDataEvent) {
-      log("ReportBloc HomeEvent");
-      emit(ReportLoadingState());
-      try {
-        final respon = await _reportRepo.getReportFetchData();
-        log("ReportBloc respon data\n = $respon");
-        await Future.delayed(const Duration(seconds: 2));
-        emit(ReportSuccessedState(respon));
-        await Future.delayed(const Duration(seconds: 1));
-        emit(ReportInitialState());
-      } catch (error) {
-        log("ReportBloc call error");
-        await Future.delayed(const Duration(seconds: 1));
-        emit(ReportErrorState(error.toString()));
-      }
+    switch (event.runtimeType) {
+      case ReportFetchDataEvent:
+        await _fetchReport(event, emit);
+        break;
+      case ReportPageSelectedEvent:
+        await _selectedPage(event, emit);
+        break;
+      default:
+        await _somethingError("Unknown error", emit);
+        break;
     }
+  }
+
+  Future<void> _fetchReport(event, emit) async {
+    log("\n\nLoging -- class $runtimeType -- method ${StackFrame.fromStackTrace(StackTrace.current)[0].method}\n\n");
+    try {
+      final respon = await _reportRepo.getReportFetchData();
+      log("ReportBloc respon data\n = $respon");
+      await Future.delayed(const Duration(seconds: 2));
+      emit(ReportSuccessedState(respon));
+      await Future.delayed(const Duration(seconds: 1));
+      emit(ReportInitialState());
+    } catch (error) {
+      _somethingError(error, emit);
+    }
+  }
+
+  Future<void> _selectedPage(event, emit) async {
+    log("\n\nLoging -- class $runtimeType -- method ${StackFrame.fromStackTrace(StackTrace.current)[0].method}\n\n");
+    emit(ReportLoadingState());
+    await Future.delayed(const Duration(seconds: 2));
+    switch (event.pageSelected) {
+      case 0:
+        emit(ReportPageSelectedState(0, true));
+        break;
+      case 1:
+        emit(ReportPageSelectedState(1, true));
+        break;
+      case 2:
+        emit(ReportPageSelectedState(2, true));
+        break;
+      default:
+        emit(ReportPageSelectedState(-100, false));
+        break;
+    }
+  }
+
+  Future<void> _somethingError(err, emit) async {
+    log("\n\nLoging -- class $runtimeType -- method ${StackFrame.fromStackTrace(StackTrace.current)[0].method}\n\n");
+    await Future.delayed(const Duration(seconds: 1));
+    emit(ReportErrorState(err.toString()));
   }
 }
