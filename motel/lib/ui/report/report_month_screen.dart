@@ -33,14 +33,14 @@ import 'package:motel/data/report/report.dart';
 import 'package:intl/intl.dart';
 import 'package:motel/utility/ex_double.dart';
 
-class ReportYearScreen extends StatefulWidget {
-  const ReportYearScreen({super.key});
+class ReportMonthScreen extends StatefulWidget {
+  const ReportMonthScreen({super.key});
 
   @override
-  State<ReportYearScreen> createState() => _ReportYearPageState();
+  State<ReportMonthScreen> createState() => _ReportMonthPageState();
 }
 
-class _ReportYearPageState extends State<ReportYearScreen> {
+class _ReportMonthPageState extends State<ReportMonthScreen> {
   Map<String, List<Report>>? reports;
   static const maxY = 14.0;
   static double total = 180000000;
@@ -224,7 +224,7 @@ class _ReportYearPageState extends State<ReportYearScreen> {
   LineChartData mainData() {
     return LineChartData(
       gridData: FlGridData(
-        show: false,
+        show: true,
         drawVerticalLine: true,
         horizontalInterval: 1,
         verticalInterval: 1,
@@ -242,7 +242,7 @@ class _ReportYearPageState extends State<ReportYearScreen> {
         },
       ),
       titlesData: FlTitlesData(
-        show: true,
+        show: false,
         rightTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),

@@ -28,6 +28,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:motel/bloc/report/report_bloc.dart';
 import 'package:motel/bloc/report/report_event.dart';
 import 'package:motel/bloc/report/report_state.dart';
+import 'package:motel/ui/report/report_month_screen.dart';
+import 'package:motel/ui/report/report_week_screen.dart';
 import 'package:motel/ui/report/report_year_screen.dart';
 
 class ReportScreen extends StatefulWidget {
@@ -39,58 +41,88 @@ class ReportScreen extends StatefulWidget {
 
 class _ReportPageState extends State<ReportScreen> {
   final controller = PageController(
-    initialPage: activePage,
+    initialPage: 0,
   );
   final List<Widget> pages = [
     const ReportYearScreen(),
-    Container(color: Colors.red),
-    Container(color: Colors.blue)
+    const ReportMonthScreen(),
+    const ReportWeekScreen(),
   ];
   static int activePage = 0;
 
   @override
   void dispose() {
     controller.dispose();
+    activePage = 0;
     super.dispose();
   }
 
-  static const textType = TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 20,
-    backgroundColor: Colors.redAccent,
-    color: Colors.blueGrey,
+  final textType = const TextStyle(
+    fontWeight: FontWeight.w600,
+    fontSize: 24,
+    //  backgroundColor: Colors.red,
+    color: Colors.black,
     decoration: TextDecoration.none,
   );
 
   Widget titleView(String text) {
-    //double width = (MediaQuery.of(context).size.width / 3);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            alignment: Alignment.center,
-            child: const Text("Năm", style: textType),
+    double width = (MediaQuery.of(context).size.width / 1.7);
+    const unSelected = Colors.white;
+    const selected = Colors.amber;
+
+    return Container(
+      padding: const EdgeInsets.all(2.0),
+      width: width + 8.0,
+      decoration: BoxDecoration(
+        color: Colors.amber[800],
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              margin: const EdgeInsets.only(right: 2.0),
+              decoration: BoxDecoration(
+                color: (activePage == 0) ? selected : unSelected,
+                borderRadius: const BorderRadius.horizontal(
+                  left: Radius.circular(8.0),
+                ),
+              ),
+              width: width / 3,
+              alignment: Alignment.center,
+              child: Text("Năm", style: textType),
+            ),
           ),
-        ),
-        const SizedBox(width: 2),
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            alignment: Alignment.center,
-            child: const Text("Tháng", style: textType),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              margin: const EdgeInsets.only(right: 2.0),
+              decoration: BoxDecoration(
+                color: (activePage == 1) ? selected : unSelected,
+              ),
+              width: width / 3,
+              alignment: Alignment.center,
+              child: Text("Tháng", style: textType),
+            ),
           ),
-        ),
-        const SizedBox(width: 2),
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            alignment: Alignment.center,
-            child: const Text("Tuần", style: textType),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              decoration: BoxDecoration(
+                color: (activePage == 2) ? selected : unSelected,
+                borderRadius: const BorderRadius.horizontal(
+                  right: Radius.circular(8.0),
+                ),
+              ),
+              width: width / 3,
+              alignment: Alignment.center,
+              child: Text("Tuần", style: textType),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
