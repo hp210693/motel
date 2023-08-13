@@ -28,6 +28,8 @@ import 'package:motel/bloc/home/home_bloc.dart';
 import 'package:motel/bloc/home/home_event.dart';
 import 'package:motel/bloc/home/home_state.dart';
 import 'package:motel/data/home/room.dart';
+import 'package:motel/utility/ex_money.dart';
+import 'package:motel/utility/ex_styles.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -70,35 +72,31 @@ class _HomePageState extends State<HomeScreen> {
                   nameFlow = rooms!.keys.toList()[index1].toString();
                   numberRooms = rooms!.values.toList()[index1].length;
                 }
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Dãy $nameFlow',
-                      style: const TextStyle(
-                        backgroundColor: Colors.blueGrey,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: ExStyles.title1,
                     ),
+                    const SizedBox(height: 5),
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
+                      itemCount: numberRooms,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
-                        crossAxisSpacing: 4,
-                        mainAxisSpacing: 3,
-                        childAspectRatio: 1 / .6,
+                        crossAxisSpacing: 3.0,
+                        mainAxisSpacing: 3.0,
                       ),
-                      itemCount: numberRooms,
-                      itemBuilder: (_, index2) {
+                      itemBuilder: (BuildContext context, int index2) {
                         Room room =
                             rooms!.values.toList()[index1].elementAt(index2);
                         return subView(room);
                       },
                     ),
-                    const SizedBox(height: 5),
                   ],
                 );
               },
@@ -136,75 +134,66 @@ class _HomePageState extends State<HomeScreen> {
   }
 
   Widget subView(Room room) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white),
-            //color: Colors.yellowAccent,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Column(
-            children: [
-              nameRoomView(room.roomName),
-              widthHeightView(),
-              moneyView(room.roomRates),
-            ],
-          ),
-        ),
-      ],
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.orange),
+        color: Colors.white24,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          nameRoomView(room.roomName),
+          areaView(room.area),
+          moneyView(room.roomRates),
+          statusRoomView(room.statusRoom),
+        ],
+      ),
     );
   }
 
-  Widget widthHeightView() {
-    return const Text(
-      "Diện tích: 10m x 20m",
+  Widget areaView(String area) {
+    return Text(
+      'Diện tích: $area',
       maxLines: 2,
-      style: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.bold,
-        //color: Colors.yellow,
-        // backgroundColor: Colors.purpleAccent,
-      ),
+      style: ExStyles.text1,
     );
   }
 
   Widget moneyView(double money) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          color: Colors.green,
+          color: Colors.transparent,
           child: const Icon(
             Icons.attach_money,
-            color: Colors.white,
+            color: Colors.blue,
             size: 14,
           ),
         ),
         Text(
-          ' $money',
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            //color: Colors.yellow,
-            //backgroundColor: Colors.purpleAccent,
-          ),
+          '${''}${vnd(money)}',
+          style: ExStyles.text1,
         ),
       ],
     );
   }
 
   Widget nameRoomView(String nameRoom) {
-    return Text(
-      nameRoom,
-      textAlign: TextAlign.center,
-      style: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        color: Colors.redAccent,
-        //backgroundColor: Colors.purple,
+    return Container(
+      alignment: Alignment.center,
+      child: Text(
+        nameRoom,
+        style: ExStyles.head1,
       ),
+    );
+  }
+
+  Widget statusRoomView(int status) {
+    return Text(
+      'Tình trạng: ${status == -1 ? "hết phòng" : "còn phòng"}',
+      style: ExStyles.text1,
     );
   }
 }

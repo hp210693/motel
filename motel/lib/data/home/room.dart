@@ -30,7 +30,7 @@ class Room {
   @JsonKey(name: 'flow_id')
   final int? flowId;
   @JsonKey(name: 'area')
-  final String? area;
+  final String area;
   @JsonKey(name: 'status_room')
   final int statusRoom;
   @JsonKey(name: 'room_name')

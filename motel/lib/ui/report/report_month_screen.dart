@@ -26,12 +26,13 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:intl/intl.dart';
 import 'package:motel/bloc/report/report_bloc.dart';
 import 'package:motel/bloc/report/report_event.dart';
 import 'package:motel/bloc/report/report_state.dart';
 import 'package:motel/data/report/report.dart';
-import 'package:intl/intl.dart';
 import 'package:motel/utility/ex_double.dart';
+import 'package:motel/utility/ex_money.dart';
 
 class ReportMonthScreen extends StatefulWidget {
   const ReportMonthScreen({super.key});
@@ -44,7 +45,7 @@ class _ReportMonthPageState extends State<ReportMonthScreen> {
   Map<String, List<Report>>? reports;
   static const maxY = 14.0;
   static double total = 180000000;
-  static final money = NumberFormat('#,##0.00', 'en_US');
+
   bool fitInsideBottomTitle = true;
   bool fitInsideLeftTitle = false;
   late double touchedValue;
@@ -292,7 +293,7 @@ class _ReportMonthPageState extends State<ReportMonthScreen> {
                   default:
                     textAlign = TextAlign.center;
                 } */
-                log('????---${flSpot.x}-  ${money.format((total * flSpot.y) / 14)}');
+
                 return LineTooltipItem(
                   'Doanh thu tháng ${flSpot.x.toInt() + 1}\n',
                   const TextStyle(
@@ -301,7 +302,7 @@ class _ReportMonthPageState extends State<ReportMonthScreen> {
                   ),
                   children: [
                     TextSpan(
-                      text: (money.format((total * flSpot.y) / 14)).toString(),
+                      text: (vnd((total * flSpot.y) / 14)),
                       style: const TextStyle(
                         color: Colors.greenAccent,
                         fontWeight: FontWeight.w900,
