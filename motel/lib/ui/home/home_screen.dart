@@ -65,6 +65,7 @@ class _HomePageState extends State<HomeScreen> {
           return SafeArea(
             child: ListView.builder(
               itemCount: rooms == null ? 0 : rooms?.length,
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (_, index1) {
                 String nameFlow = "";
                 int numberRooms = 0;
@@ -72,7 +73,6 @@ class _HomePageState extends State<HomeScreen> {
                   nameFlow = rooms!.keys.toList()[index1].toString();
                   numberRooms = rooms!.values.toList()[index1].length;
                 }
-
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -81,21 +81,24 @@ class _HomePageState extends State<HomeScreen> {
                       style: ExStyles.title1,
                     ),
                     const SizedBox(height: 5),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: numberRooms,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 3.0,
-                        mainAxisSpacing: 3.0,
+                    Container(
+                      margin: const EdgeInsets.all(3.0),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: numberRooms,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 3.0,
+                          mainAxisSpacing: 3.0,
+                        ),
+                        itemBuilder: (BuildContext _, int index2) {
+                          Room room =
+                              rooms!.values.toList()[index1].elementAt(index2);
+                          return subView(room);
+                        },
                       ),
-                      itemBuilder: (BuildContext context, int index2) {
-                        Room room =
-                            rooms!.values.toList()[index1].elementAt(index2);
-                        return subView(room);
-                      },
                     ),
                   ],
                 );
