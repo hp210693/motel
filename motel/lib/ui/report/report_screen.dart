@@ -80,8 +80,11 @@ class _ReportPageState extends State<ReportScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          GestureDetector(
-            onTap: () {},
+          InkWell(
+            onTap: () {
+              activePage = 0;
+              controller.jumpToPage(0);
+            },
             child: Container(
               margin: const EdgeInsets.only(right: 2.0),
               decoration: BoxDecoration(
@@ -95,8 +98,11 @@ class _ReportPageState extends State<ReportScreen> {
               child: Text("Năm", style: textType),
             ),
           ),
-          GestureDetector(
-            onTap: () {},
+          InkWell(
+            onTap: () {
+              activePage = 1;
+              controller.jumpToPage(1);
+            },
             child: Container(
               margin: const EdgeInsets.only(right: 2.0),
               decoration: BoxDecoration(
@@ -107,8 +113,11 @@ class _ReportPageState extends State<ReportScreen> {
               child: Text("Tháng", style: textType),
             ),
           ),
-          GestureDetector(
-            onTap: () {},
+          InkWell(
+            onTap: () {
+              activePage = 2;
+              controller.jumpToPage(2);
+            },
             child: Container(
               decoration: BoxDecoration(
                 color: (activePage == 2) ? selected : unSelected,
