@@ -2,16 +2,16 @@
 -- sudo -u postgres psql
 -- \password postgres
 
-SELECT *
-FROM pg_stat_activity
-WHERE datname = 'motel';
+--SELECT *
+--FROM pg_stat_activity
+--WHERE datname = 'motel';
 
-SELECT
-	pg_terminate_backend (pg_stat_activity.pid)
-FROM
-	pg_stat_activity
-WHERE
-	pg_stat_activity.datname = 'motel';
+--SELECT
+--	pg_terminate_backend (pg_stat_activity.pid)
+--FROM
+--	pg_stat_activity
+--WHERE
+--	pg_stat_activity.datname = 'motel';
 
 drop database motel;
 
