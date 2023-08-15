@@ -20,8 +20,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:motel/ui/app/app_screen.dart';
+import 'package:motel/utility/ut_color.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      systemNavigationBarColor: UTColors.backGround[1], // navigation bar color
+      statusBarColor: UTColors.backGround[1], // status bar color
+    ),
+  );
   runApp(const AppScreen());
 }

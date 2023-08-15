@@ -28,8 +28,8 @@ import 'package:motel/bloc/home/home_bloc.dart';
 import 'package:motel/bloc/home/home_event.dart';
 import 'package:motel/bloc/home/home_state.dart';
 import 'package:motel/data/home/room.dart';
-import 'package:motel/utility/ex_money.dart';
-import 'package:motel/utility/ex_styles.dart';
+import 'package:motel/utility/ut_money.dart';
+import 'package:motel/utility/ut_styles.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomeScreen> {
                   children: [
                     Text(
                       'Dãy $nameFlow',
-                      style: ExStyles.title1,
+                      style: UTStyles.title[1],
                     ),
                     const SizedBox(height: 5),
                     Container(
@@ -160,7 +160,7 @@ class _HomePageState extends State<HomeScreen> {
     return Text(
       'Diện tích: $area',
       maxLines: 2,
-      style: ExStyles.text1,
+      style: UTStyles.text[1],
     );
   }
 
@@ -177,7 +177,7 @@ class _HomePageState extends State<HomeScreen> {
         ),
         Text(
           '${''}${vnd(money)}',
-          style: ExStyles.text1,
+          style: UTStyles.text[1],
         ),
       ],
     );
@@ -188,7 +188,7 @@ class _HomePageState extends State<HomeScreen> {
       alignment: Alignment.center,
       child: Text(
         nameRoom,
-        style: ExStyles.head1,
+        style: UTStyles.head1,
       ),
     );
   }
@@ -196,7 +196,7 @@ class _HomePageState extends State<HomeScreen> {
   Widget statusRoomView(int status) {
     return Text(
       'Tình trạng: ${status == -1 ? "hết phòng" : "còn phòng"}',
-      style: ExStyles.text1,
+      style: UTStyles.text[1],
     );
   }
 }

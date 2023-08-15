@@ -31,7 +31,7 @@ import 'package:motel/bloc/report/report_event.dart';
 import 'package:motel/bloc/report/report_state.dart';
 import 'package:motel/data/report/report.dart';
 import 'package:intl/intl.dart';
-import 'package:motel/utility/ex_double.dart';
+import 'package:motel/utility/ut_double.dart';
 
 class ReportYearScreen extends StatefulWidget {
   const ReportYearScreen({super.key});

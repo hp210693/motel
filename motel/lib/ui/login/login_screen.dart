@@ -24,12 +24,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:motel/bloc/login/login_bloc.dart';
 import 'package:motel/bloc/login/login_event.dart';
 import 'package:motel/bloc/login/login_state.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
+import 'package:motel/utility/ut_color.dart';
+import 'package:motel/utility/ut_styles.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -49,8 +50,6 @@ class _LoginPageState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.blue),
-      color: Colors.yellow,
       home: BlocProvider(create: (_) => LoginBloc(), child: viewChild()),
       builder: EasyLoading.init(),
     );
@@ -82,73 +81,80 @@ class _LoginPageState extends State<LoginScreen> {
     }
   }
 
-  Widget introView() {
-    return Column(
-      children: [
-        const Icon(
-          Icons.phone_android,
-          size: 60,
-        ),
-
-        const SizedBox(height: 40),
-
-        //hello
-        Text(
-          "XIN CHÀO!",
-          textAlign: TextAlign.center,
-          style: GoogleFonts.bebasNeue(fontSize: 52),
-        ),
-
-        const SizedBox(height: 10),
-
-        const Text(
-          "Chào mừng đã quay trở lại!",
-          maxLines: 1,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 50),
-      ],
-    );
-  }
-
   Widget userNameView() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.grey[200],
-            border: Border.all(color: Colors.white),
-            borderRadius: BorderRadius.circular(12.0)),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10.0),
-          child: TextField(
-            onChanged: (value) => userName = value,
-            decoration: const InputDecoration(
-                hintText: "Nhập số điện thoại hoặc email",
-                border: InputBorder.none),
+      padding: const EdgeInsets.only(right: 30, left: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Text(
+              "Đăng nhập",
+              style: UTStyles.title[3],
+            ),
           ),
-        ),
+          Text(
+            "Tài khoản",
+            style: UTStyles.text[1],
+          ),
+          TextField(
+            onChanged: (value) => userName = value,
+            decoration: InputDecoration(
+              hintText: "Nhập số điện thoại hoặc email",
+              border: InputBorder.none,
+              hintStyle: UTStyles.text[2],
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: UTColors.text[3]),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: UTColors.text[3]),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget passWordView() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.grey[200],
-            border: Border.all(color: Colors.white),
-            borderRadius: BorderRadius.circular(12.0)),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10.0),
-          child: TextField(
-            obscureText: true,
-            onChanged: (value) => passWord = value,
-            decoration: const InputDecoration(
-                hintText: "Nhập mật khẩu", border: InputBorder.none),
+      padding: const EdgeInsets.only(left: 30, right: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Mật khẩu",
+            style: UTStyles.text[1],
           ),
+          TextField(
+            onChanged: (value) => passWord = value,
+            obscureText: true,
+            decoration: InputDecoration(
+              hintText: "Nhập mật khẩu",
+              border: InputBorder.none,
+              hintStyle: UTStyles.text[2],
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: UTColors.text[3]),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: UTColors.text[3]),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget forgetView() {
+    return Container(
+      alignment: Alignment.centerRight,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10, bottom: 20, right: 30),
+        child: Text(
+          "Quên mật khẩu?",
+          style: UTStyles.text[2],
         ),
       ),
     );
@@ -156,7 +162,7 @@ class _LoginPageState extends State<LoginScreen> {
 
   Widget loginView(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      padding: const EdgeInsets.only(left: 30, right: 30.0),
       child: InkWell(
         onTap: () {
           log("user click button login");
@@ -165,17 +171,13 @@ class _LoginPageState extends State<LoginScreen> {
         child: Container(
           padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.white),
-              color: Colors.deepPurpleAccent,
-              borderRadius: BorderRadius.circular(12.0)),
-          child: const Center(
+            color: UTColors.backGround[4],
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          child: Center(
             child: Text(
               "Đăng nhập",
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.normal,
-              ),
+              style: UTStyles.text[3],
             ),
           ),
         ),
@@ -187,17 +189,14 @@ class _LoginPageState extends State<LoginScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           "Bạn chưa phải là thành viên?",
-          style: TextStyle(
-            fontWeight: FontWeight.normal,
-          ),
+          style: UTStyles.text[4],
         ),
-        const InkWell(
+        InkWell(
           child: Text(
             " Đăng ký,",
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.blueAccent),
+            style: UTStyles.text[5],
           ),
         ),
         InkWell(
@@ -205,10 +204,9 @@ class _LoginPageState extends State<LoginScreen> {
             BlocProvider.of<NavRouterBloc>(context)
                 .add(NavRouterEvent.bottomBar);
           },
-          child: const Text(
+          child: Text(
             " Tiếp tục",
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.blueAccent),
+            style: UTStyles.text[5],
           ),
         ),
       ],
@@ -216,8 +214,9 @@ class _LoginPageState extends State<LoginScreen> {
   }
 
   Widget viewChild() {
+    EasyLoading.init();
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: UTColors.backGround[1],
       body: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           navigateBlocState(state);
@@ -225,16 +224,17 @@ class _LoginPageState extends State<LoginScreen> {
             child: Center(
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    introView(),
                     userNameView(),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 30),
                     passWordView(),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5.0),
+                    forgetView(),
                     loginView(context),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 30),
                     bottomView(),
                   ],
                 ),
