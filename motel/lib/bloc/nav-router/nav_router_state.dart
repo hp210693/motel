@@ -39,6 +39,8 @@ enum NavRouterState {
   loading,
   splash,
   login,
+  signUp,
+  forgotPass,
   home,
   bottomBar,
 }

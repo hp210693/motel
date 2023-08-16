@@ -20,15 +20,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/bloc/nav-router/nav_router_state.dart';
 
 class NavRouterBloc extends Bloc<NavRouterEvent, NavRouterState> {
   NavRouterBloc() : super(NavRouterState.appInit) {
-    on<NavRouterEvent>(_login);
+    log("\n\nLoging -- class $runtimeType -- Contructor ${StackFrame.fromStackTrace(StackTrace.current)[0].isConstructor}\n\n");
+    on<NavRouterEvent>(_navEvent);
   }
-  Future<void> _login(
+  Future<void> _navEvent(
       NavRouterEvent event, Emitter<NavRouterState> emit) async {
     switch (event) {
       case NavRouterEvent.appInit:
@@ -38,8 +40,15 @@ class NavRouterBloc extends Bloc<NavRouterEvent, NavRouterState> {
         break;
       case NavRouterEvent.login:
         log("NavRouterBloc login ");
-        await Future.delayed(const Duration(seconds: 2));
         emit(NavRouterState.login);
+        break;
+      case NavRouterEvent.signUp:
+        log("NavRouterBloc signUp ");
+        emit(NavRouterState.signUp);
+        break;
+      case NavRouterEvent.forgotPass:
+        log("NavRouterBloc forgotPass ");
+        emit(NavRouterState.forgotPass);
         break;
       case NavRouterEvent.bottomBar:
         log("NavRouterBloc bottomBar ");

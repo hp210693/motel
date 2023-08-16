@@ -25,8 +25,10 @@ import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/bloc/nav-router/nav_router_state.dart';
 import 'package:motel/ui/bottom/bottom_screen.dart';
+import 'package:motel/ui/forgot-pass/forgot_pass.dart';
 import 'package:motel/ui/home/home_screen.dart';
 import 'package:motel/ui/login/login_screen.dart';
+import 'package:motel/ui/signup/signup_screent.dart';
 import 'package:motel/ui/splash/splash_screen.dart';
 
 class AppScreen extends StatefulWidget {
@@ -62,6 +64,18 @@ class _AppState extends State<AppScreen> {
                 case NavRouterState.login:
                   navigator.pushAndRemoveUntil<void>(
                     LoginScreen.route(),
+                    (route) => false,
+                  );
+                  break;
+                case NavRouterState.signUp:
+                  navigator.pushAndRemoveUntil<void>(
+                    SignUpScreen.route(),
+                    (route) => false,
+                  );
+                  break;
+                case NavRouterState.forgotPass:
+                  navigator.pushAndRemoveUntil<void>(
+                    ForgotPassScreen.route(),
                     (route) => false,
                   );
                   break;

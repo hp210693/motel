@@ -32,18 +32,18 @@ import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/utility/ut_color.dart';
 import 'package:motel/utility/ut_styles.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class ForgotPassScreen extends StatefulWidget {
+  const ForgotPassScreen({super.key});
 
   static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const LoginScreen());
+    return MaterialPageRoute<void>(builder: (_) => const ForgotPassScreen());
   }
 
   @override
-  State<LoginScreen> createState() => _LoginPageState();
+  State<ForgotPassScreen> createState() => _ForgotPassPageState();
 }
 
-class _LoginPageState extends State<LoginScreen> {
+class _ForgotPassPageState extends State<ForgotPassScreen> {
   var userName = "";
   var passWord = "";
 
@@ -110,55 +110,6 @@ class _LoginPageState extends State<LoginScreen> {
     );
   }
 
-  Widget passWordView() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Mật khẩu",
-            style: UTStyles.text[1],
-          ),
-          TextField(
-            onChanged: (value) => passWord = value,
-            obscureText: true,
-            decoration: InputDecoration(
-              hintText: "Nhập mật khẩu",
-              border: InputBorder.none,
-              hintStyle: UTStyles.text[2],
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: UTColors.text[3]),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: UTColors.text[3]),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget forgetView() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 10, bottom: 20, right: 20),
-        child: InkWell(
-          onTap: () {
-            BlocProvider.of<NavRouterBloc>(context)
-                .add(NavRouterEvent.forgotPass);
-          },
-          child: Text(
-            "Quên mật khẩu?",
-            style: UTStyles.text[2],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget loginView(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
@@ -175,7 +126,7 @@ class _LoginPageState extends State<LoginScreen> {
           ),
           child: Center(
             child: Text(
-              "Đăng nhập",
+              "Gửi yêu cầu",
               style: UTStyles.text[3],
             ),
           ),
@@ -185,36 +136,15 @@ class _LoginPageState extends State<LoginScreen> {
   }
 
   Widget bottomView() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Bạn chưa phải là thành viên?",
-            style: UTStyles.text[4],
-          ),
-          InkWell(
-            onTap: () {
-              BlocProvider.of<NavRouterBloc>(context)
-                  .add(NavRouterEvent.signUp);
-            },
-            child: Text(
-              " Đăng ký,",
-              style: UTStyles.text[5],
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              BlocProvider.of<NavRouterBloc>(context)
-                  .add(NavRouterEvent.bottomBar);
-            },
-            child: Text(
-              " Tiếp tục",
-              style: UTStyles.text[5],
-            ),
-          ),
-        ],
+    return Center(
+      child: InkWell(
+        onTap: () {
+          BlocProvider.of<NavRouterBloc>(context).add(NavRouterEvent.login);
+        },
+        child: Text(
+          "Quay lại trang đăng nhập?",
+          style: UTStyles.text[4],
+        ),
       ),
     );
   }
@@ -230,7 +160,6 @@ class _LoginPageState extends State<LoginScreen> {
             child: Center(
               child: SingleChildScrollView(
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -238,15 +167,12 @@ class _LoginPageState extends State<LoginScreen> {
                       padding: const EdgeInsets.only(
                           left: 15, right: 15, bottom: 20),
                       child: Text(
-                        "Đăng nhập",
+                        "Lấy lại mật khẩu",
                         style: UTStyles.title[3],
                       ),
                     ),
                     userNameView(),
                     const SizedBox(height: 30),
-                    passWordView(),
-                    const SizedBox(height: 5.0),
-                    forgetView(),
                     loginView(context),
                     const SizedBox(height: 30),
                     bottomView(),

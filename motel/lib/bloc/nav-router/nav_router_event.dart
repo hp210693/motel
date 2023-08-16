@@ -33,6 +33,8 @@ enum NavRouterEvent {
   appInit,
   splash,
   login,
+  signUp,
+  forgotPass,
   home,
   bottomBar,
 }

@@ -5,17 +5,17 @@ import 'package:motel/utility/ut_color.dart';
 abstract class UTStyles {
   static final title = _UTStyles(
     <int, TextStyle>{
-      1: GoogleFonts.acme(
+      1: GoogleFonts.robotoSlab(
         fontSize: 18,
         fontWeight: FontWeight.bold,
         color: UTColors.text[1],
       ),
-      2: GoogleFonts.acme(
+      2: GoogleFonts.robotoSlab(
         fontSize: 22,
         fontWeight: FontWeight.bold,
         color: UTColors.text[1],
       ),
-      3: GoogleFonts.acme(
+      3: GoogleFonts.robotoSlab(
         fontSize: 40,
         fontWeight: FontWeight.bold,
         color: UTColors.text[1],
@@ -23,37 +23,30 @@ abstract class UTStyles {
     },
   );
 
-  static const head1 = TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
-    color: Colors.blue,
-    // backgroundColor: Colors.purpleAccent,
-  );
-
   static final text = _UTStyles(
     <int, TextStyle>{
-      1: GoogleFonts.acme(
+      1: GoogleFonts.robotoSlab(
         fontSize: 16,
         fontWeight: FontWeight.normal,
         color: UTColors.text[1],
       ),
-      2: GoogleFonts.acme(
+      2: GoogleFonts.robotoSlab(
         fontSize: 14,
         fontWeight: FontWeight.normal,
         color: UTColors.text[3],
       ),
-      3: GoogleFonts.acme(
+      3: GoogleFonts.robotoSlab(
         fontSize: 22,
         fontWeight: FontWeight.normal,
         color: UTColors.backGround[5],
       ),
-      4: GoogleFonts.aBeeZee(
-        fontSize: 16,
+      4: GoogleFonts.robotoSlab(
+        fontSize: 14,
         fontWeight: FontWeight.bold,
         color: UTColors.text[3],
       ),
-      5: GoogleFonts.acme(
-        fontSize: 16,
+      5: GoogleFonts.robotoSlab(
+        fontSize: 14,
         fontWeight: FontWeight.bold,
         color: UTColors.text[3],
       ),

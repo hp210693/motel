@@ -188,7 +188,7 @@ class _HomePageState extends State<HomeScreen> {
       alignment: Alignment.center,
       child: Text(
         nameRoom,
-        style: UTStyles.head1,
+        style: UTStyles.title[1],
       ),
     );
   }

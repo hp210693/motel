@@ -29,13 +29,16 @@ import (
 )
 
 type Account struct {
-	AccountId int        `json:"account_id" gorm:"primaryKey"`
-	RoomId    int        `json:"room_id"`
-	UserName  string     `json:"user_name"`
-	Password  string     `json:"password"`
-	Email     string     `json:"email"`
-	CreatedOn *time.Time `json:"created_on"`
-	LastLogin *time.Time `json:"last_login"`
+	AccountId     int        `json:"account_id" gorm:"primaryKey"`
+	RoomId        int        `json:"room_id"`
+	UserName      string     `json:"user_name"`
+	CID           string     `json:"cid"`
+	DriverLicense string     `json:"driver_license"`
+	Phone         string     `json:"phone"`
+	Password      string     `json:"password"`
+	Email         string     `json:"email"`
+	CreatedOn     *time.Time `json:"created_on"`
+	LastLogin     *time.Time `json:"last_login"`
 }
 
 // TableName overrides the table name used by Account to `account`

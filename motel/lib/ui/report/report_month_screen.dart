@@ -26,7 +26,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:intl/intl.dart';
 import 'package:motel/bloc/report/report_bloc.dart';
 import 'package:motel/bloc/report/report_event.dart';
 import 'package:motel/bloc/report/report_state.dart';

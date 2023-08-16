@@ -39,6 +39,15 @@ class Login {
   @JsonKey(name: 'user_name')
   final String userName;
 
+  @JsonKey(name: 'cid')
+  final String cid;
+
+  @JsonKey(name: 'driver_license')
+  final String driverLicense;
+
+  @JsonKey(name: 'phone')
+  final String phone;
+
   @JsonKey(name: 'password')
   final String passWord;
 
@@ -59,6 +68,9 @@ class Login {
       required this.accountId,
       required this.roomId,
       required this.userName,
+      required this.cid,
+      required this.driverLicense,
+      required this.phone,
       required this.passWord,
       required this.email,
       required this.createdOn,
