@@ -23,39 +23,12 @@ SOFTWARE.
 */
 package model
 
-import (
-	"encoding/json"
-	"time"
-)
-
-type Account struct {
-	AccountId     int        `json:"account_id" gorm:"primaryKey"`
-	RoomId        int        `json:"room_id"`
-	RoleId        int        `json:"role_id"`
-	UserName      string     `json:"user_name"`
-	CID           string     `json:"cid"`
-	DriverLicense string     `json:"driver_license"`
-	Phone         string     `json:"phone"`
-	Password      string     `json:"password"`
-	Email         string     `json:"email"`
-	CreatedOn     *time.Time `json:"created_on"`
-	LastLogin     *time.Time `json:"last_login"`
+type Flow struct {
+	FlowId   int    `json:"flow_id" gorm:"primaryKey"`
+	FlowName string `json:"flow_name"`
 }
 
 // TableName overrides the table name used by Account to `account`
-func (Account) TableName() string {
-	return "account"
-}
-
-func (a *Account) MarshalJSON() ([]byte, error) {
-	type Alias Account
-	return json.Marshal(&struct {
-		CreatedOn string `json:"created_on"`
-		LastLogin string `json:"last_login"`
-		*Alias
-	}{
-		CreatedOn: a.CreatedOn.Format("2006-01-02 15:04:05"),
-		LastLogin: a.LastLogin.Format("2006-01-02 15:04:05"),
-		Alias:     (*Alias)(a),
-	})
+func (Flow) TableName() string {
+	return "flow"
 }

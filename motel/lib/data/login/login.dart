@@ -36,6 +36,9 @@ class Login {
   @JsonKey(name: 'room_id')
   final int roomId;
 
+  @JsonKey(name: 'role_id')
+  final int roleId;
+
   @JsonKey(name: 'user_name')
   final String userName;
 
@@ -67,6 +70,7 @@ class Login {
       required this.message,
       required this.accountId,
       required this.roomId,
+      required this.roleId,
       required this.userName,
       required this.cid,
       required this.driverLicense,

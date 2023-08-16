@@ -1,5 +1,4 @@
-/*
-MIT License
+/*MIT License
 
 Copyright (c) 2023 Hung Phan (@hp210693)
 
@@ -19,43 +18,28 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
-package config
+SOFTWARE.*/
+import 'dart:core';
+import 'package:json_annotation/json_annotation.dart';
+part 'flow.g.dart';
 
-import (
-	"fmt"
-	"log"
-	model "motel-backend/model"
-	"os"
+@JsonSerializable()
+class Flow {
+  @JsonKey(name: 'flow_id')
+  final int flowId;
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-)
+  @JsonKey(name: 'flow_name')
+  final String flowName;
 
-var database *gorm.DB
-var e error
+  /// Connect the generated [_$FlowFromJson] function to the `fromJson`
+  /// factory.
+  Flow({
+    required this.flowId,
+    required this.flowName,
+  });
 
-func DatabaseInit() {
-	//dsn := "host=localhost user=postgres password=1 dbname=motel pzort=5432 sslmode=disable"
-	dsn := fmt.Sprintf(
-		"host=db user=%s password=%s dbname=%s port=5432 sslmode=disable TimeZone=Asia/Shanghai",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-	)
+  factory Flow.fromJson(Map<String, dynamic> json) => _$FlowFromJson(json);
 
-	database, e = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-
-	if e != nil {
-		log.Fatalln("Cannot connect to Possgress:", e)
-	}
-	log.Println("Running migrations")
-	database.AutoMigrate(&model.Room{}, &model.Account{}, &model.Bill{}, &model.Flow{}, &model.Role{})
-
-	log.Println("Connected:", database)
-}
-
-func DB() *gorm.DB {
-	return database
+  /// Connect the generated [_$FlowToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$FlowToJson(this);
 }

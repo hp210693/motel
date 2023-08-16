@@ -1,5 +1,4 @@
-/*
-MIT License
+/*MIT License
 
 Copyright (c) 2023 Hung Phan (@hp210693)
 
@@ -19,43 +18,28 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
-package config
+SOFTWARE.*/
+import 'dart:core';
+import 'package:json_annotation/json_annotation.dart';
+part 'role.g.dart';
 
-import (
-	"fmt"
-	"log"
-	model "motel-backend/model"
-	"os"
+@JsonSerializable()
+class Role {
+  @JsonKey(name: 'role_id')
+  final int roleId;
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-)
+  @JsonKey(name: 'role_name')
+  final String roleName;
 
-var database *gorm.DB
-var e error
+  @JsonKey(name: 'grant_date')
+  final String grantDate;
 
-func DatabaseInit() {
-	//dsn := "host=localhost user=postgres password=1 dbname=motel pzort=5432 sslmode=disable"
-	dsn := fmt.Sprintf(
-		"host=db user=%s password=%s dbname=%s port=5432 sslmode=disable TimeZone=Asia/Shanghai",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-	)
+  /// Connect the generated [_$RoleFromJson] function to the `fromJson`
+  /// factory.
+  Role({required this.roleId, required this.roleName, required this.grantDate});
 
-	database, e = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+  factory Role.fromJson(Map<String, dynamic> json) => _$RoleFromJson(json);
 
-	if e != nil {
-		log.Fatalln("Cannot connect to Possgress:", e)
-	}
-	log.Println("Running migrations")
-	database.AutoMigrate(&model.Room{}, &model.Account{}, &model.Bill{}, &model.Flow{}, &model.Role{})
-
-	log.Println("Connected:", database)
-}
-
-func DB() *gorm.DB {
-	return database
+  /// Connect the generated [_$RoleToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$RoleToJson(this);
 }

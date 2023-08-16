@@ -28,34 +28,24 @@ import (
 	"time"
 )
 
-type Account struct {
-	AccountId     int        `json:"account_id" gorm:"primaryKey"`
-	RoomId        int        `json:"room_id"`
-	RoleId        int        `json:"role_id"`
-	UserName      string     `json:"user_name"`
-	CID           string     `json:"cid"`
-	DriverLicense string     `json:"driver_license"`
-	Phone         string     `json:"phone"`
-	Password      string     `json:"password"`
-	Email         string     `json:"email"`
-	CreatedOn     *time.Time `json:"created_on"`
-	LastLogin     *time.Time `json:"last_login"`
+type Role struct {
+	RoletId   int        `json:"role_id" gorm:"primaryKey"`
+	RoleName  string     `json:"role_name"`
+	GrantDate *time.Time `json:"grant_date"`
 }
 
 // TableName overrides the table name used by Account to `account`
-func (Account) TableName() string {
-	return "account"
+func (Role) TableName() string {
+	return "role"
 }
 
-func (a *Account) MarshalJSON() ([]byte, error) {
-	type Alias Account
+func (a *Role) MarshalJSON() ([]byte, error) {
+	type Alias Role
 	return json.Marshal(&struct {
-		CreatedOn string `json:"created_on"`
-		LastLogin string `json:"last_login"`
+		GrantDate string `json:"grant_date"`
 		*Alias
 	}{
-		CreatedOn: a.CreatedOn.Format("2006-01-02 15:04:05"),
-		LastLogin: a.LastLogin.Format("2006-01-02 15:04:05"),
+		GrantDate: a.GrantDate.Format("2006-01-02 15:04:05"),
 		Alias:     (*Alias)(a),
 	})
 }

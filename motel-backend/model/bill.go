@@ -30,7 +30,6 @@ import (
 
 type Bill struct {
 	BillId          int        `json:"bill_id" gorm:"primaryKey"`
-	AccountId       int        `json:"account_id"`
 	RoomId          int        `json:"room_id"`
 	Created_Date    *time.Time `json:"created_date"`
 	TotalPayment    float64    `json:"total_payment"`

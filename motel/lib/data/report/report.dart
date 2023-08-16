@@ -24,17 +24,14 @@ part 'report.g.dart';
 
 @JsonSerializable()
 class Report {
-  @JsonKey(name: 'created_date')
-  final DateTime createdDate;
-
   @JsonKey(name: 'bill_id')
   final int billId;
 
-  @JsonKey(name: 'account_id')
-  final int accountId;
-
   @JsonKey(name: 'room_id')
   final int roomId;
+
+  @JsonKey(name: 'created_date')
+  final DateTime createdDate;
 
   @JsonKey(name: 'total_payment')
   final double totalPayment;
@@ -50,7 +47,6 @@ class Report {
   Report(
       {required this.createdDate,
       required this.billId,
-      required this.accountId,
       required this.roomId,
       required this.totalPayment,
       required this.imgTotalPayment,

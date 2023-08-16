@@ -8,9 +8,10 @@
     2. Backend part: golang, clean architecture, gorm, echo, postgresql
 
 # III. Setup environment
-    1. Install Flutter https://docs.flutter.dev/get-started/install 
+    1. Install flutter https://docs.flutter.dev/get-started/install 
     2. Install golang https://go.dev/dl/
-    3. Install postgresql https://www.postgresql.org/
+    3. Install draw https://app.diagrams.net/
+    4. Install docker https://www.docker.com/
 
 # IV. Run server
     cd /your_path/motel-project/motel-backend
@@ -21,3 +22,5 @@
     dart run build_runner build
     click F5 on visual studio code
     flutter build apk --release
+    sudo pkill -u postgres
+    docker compose run --service-ports web bash

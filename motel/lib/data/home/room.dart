@@ -28,7 +28,7 @@ class Room {
   @JsonKey(name: 'room_id')
   final int roomId;
   @JsonKey(name: 'flow_id')
-  final int? flowId;
+  final int flowId;
   @JsonKey(name: 'area')
   final String area;
   @JsonKey(name: 'status_room')
@@ -36,11 +36,11 @@ class Room {
   @JsonKey(name: 'room_name')
   final String roomName;
   @JsonKey(name: 'booking_date')
-  final DateTime? bookingDate;
+  final DateTime bookingDate;
   @JsonKey(name: 'date_move_in')
-  final DateTime? dateMoveIn;
+  final DateTime dateMoveIn;
   @JsonKey(name: 'date_move_out')
-  final DateTime? dateMoveOut;
+  final DateTime dateMoveOut;
   @JsonKey(name: 'total_days')
   final double totalDays;
   @JsonKey(name: 'electric_number')
