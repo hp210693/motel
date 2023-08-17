@@ -19,6 +19,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
+import 'dart:convert';
 import 'dart:developer';
 import 'package:motel/data/api/api_endpoints.dart';
 import 'package:motel/data/api/base_api_service.dart';
@@ -69,6 +70,28 @@ class NetworkApiService extends BaseApiService {
       log("NetworkApiService - getReportResponse - url = $url");
       final resp = await http
           .get(Uri.parse(url))
+          .timeout(const Duration(seconds: _timeOut));
+
+      if (resp.statusCode == 200) return resp.body;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future postSignUpNewAccount(dynamic account) async {
+    try {
+      final url = ApiEndPoints().signUpUrl();
+      log("NetworkApiService - postSignUpNewAccount - url = $url");
+      final resp = await http
+          .post(
+            Uri.parse(url),
+            body: jsonEncode(account),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            encoding: Encoding.getByName("utf-8"),
+          )
           .timeout(const Duration(seconds: _timeOut));
 
       if (resp.statusCode == 200) return resp.body;

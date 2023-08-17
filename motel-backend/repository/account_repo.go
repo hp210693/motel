@@ -23,7 +23,10 @@ SOFTWARE.
 */
 package repository
 
-import model "motel-backend/model"
+import (
+	model "motel-backend/model"
+	"time"
+)
 
 // This interface is the connection between [service] layer and [infrast(database)] layer
 type AccountInfrastRepo interface {
@@ -52,4 +55,6 @@ type AccountInfrastRepo interface {
 // This interface is the connection between [delivery] layer and [service] layer
 type AccountServiceRepo interface {
 	FetchLogin(userName, password string) error
+	SignUpAccount(accountId, roomId, roleId int, userName, cid, driverLicense,
+		phone, password, email string, createdOn, lastLogin *time.Time) error
 }

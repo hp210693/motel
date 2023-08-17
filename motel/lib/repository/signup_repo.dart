@@ -19,45 +19,40 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-enum Environment { developing, testting, production }
+import 'dart:convert';
+import 'dart:developer';
+import 'package:flutter/material.dart';
+import 'package:motel/data/api/base_api_service.dart';
+import 'package:motel/data/api/network_api_service.dart';
+import 'package:motel/data/login/login.dart';
 
-class ApiEndPoints {
-  final Environment _evm = Environment.developing;
-  late String _urlBase = '';
-  ApiEndPoints() {
-    switch (_evm) {
-      case Environment.developing:
-        //_urlBase = 'http://10.0.2.2:8080/';
-        _urlBase = 'http://192.168.4.12:8080/';
-        break;
-      case Environment.production:
-        _urlBase = 'http://192.168.5.36:8080/';
-        break;
-      case Environment.testting:
-      default:
-        _urlBase = 'localhost:1234/';
+class SignUpRepo {
+  final BaseApiService _apiService = NetworkApiService();
+  Future<String> postSignUpNewAccountData(
+      String userName, String phone, String cid, String passWord) async {
+    try {
+      final json = Login(
+        statusCode: "",
+        message: "",
+        accountId: 0,
+        roomId: 1,
+        roleId: 4,
+        userName: "hung",
+        cid: "cccd",
+        driverLicense: "",
+        phone: phone,
+        passWord: "pass",
+        email: "",
+      ).toJson();
+
+      final data = await _apiService.postSignUpNewAccount(json);
+      log("LoginRepoImp - getLoginInData\n $data");
+      //final user = Login.fromJson(jsonDecode(data));
+      final user = jsonDecode(data);
+      log("LoginRepoImp - convert data ok\n $user");
+      return user;
+    } catch (e) {
+      rethrow;
     }
-  }
-}
-
-extension V1 on ApiEndPoints {
-  String loginUrl(String userName, String passWord) {
-    return '${_urlBase}login?user=' '$userName' '&pass=' '$passWord';
-  }
-
-  String accountsUrl() {
-    return '${_urlBase}account';
-  }
-
-  String roomsUrl() {
-    return '${_urlBase}room';
-  }
-
-  String reportsUrl() {
-    return '${_urlBase}bill';
-  }
-
-  String signUpUrl() {
-    return '${_urlBase}login';
   }
 }

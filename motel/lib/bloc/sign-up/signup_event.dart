@@ -19,45 +19,20 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-enum Environment { developing, testting, production }
 
-class ApiEndPoints {
-  final Environment _evm = Environment.developing;
-  late String _urlBase = '';
-  ApiEndPoints() {
-    switch (_evm) {
-      case Environment.developing:
-        //_urlBase = 'http://10.0.2.2:8080/';
-        _urlBase = 'http://192.168.4.12:8080/';
-        break;
-      case Environment.production:
-        _urlBase = 'http://192.168.5.36:8080/';
-        break;
-      case Environment.testting:
-      default:
-        _urlBase = 'localhost:1234/';
-    }
-  }
-}
+abstract class SignUpEvent {}
 
-extension V1 on ApiEndPoints {
-  String loginUrl(String userName, String passWord) {
-    return '${_urlBase}login?user=' '$userName' '&pass=' '$passWord';
-  }
+class SignUpNewEvent extends SignUpEvent {
+  final String userName;
+  final String phone;
+  final String cid;
+  final String passWord;
 
-  String accountsUrl() {
-    return '${_urlBase}account';
-  }
+  SignUpNewEvent(this.userName, this.phone, this.cid, this.passWord);
 
-  String roomsUrl() {
-    return '${_urlBase}room';
-  }
+/*   /// return String user name
+  String get userName => _userName;
 
-  String reportsUrl() {
-    return '${_urlBase}bill';
-  }
-
-  String signUpUrl() {
-    return '${_urlBase}login';
-  }
+  /// return String password
+  String get passWord => _passWord; */
 }

@@ -29,6 +29,9 @@ import 'package:motel/bloc/login/login_event.dart';
 import 'package:motel/bloc/login/login_state.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
+import 'package:motel/bloc/sign-up/signup_bloc.dart';
+import 'package:motel/bloc/sign-up/signup_event.dart';
+import 'package:motel/bloc/sign-up/signup_state.dart';
 import 'package:motel/utility/ut_color.dart';
 import 'package:motel/utility/ut_styles.dart';
 
@@ -45,12 +48,15 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpScreen> {
   var userName = "";
+  var cid = "";
+  var phone = "";
   var passWord = "";
+  var repassWord = "";
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BlocProvider(create: (_) => LoginBloc(), child: viewChild()),
+      home: BlocProvider(create: (_) => SignUpBloc(), child: viewChild()),
       builder: EasyLoading.init(),
     );
   }
@@ -112,6 +118,7 @@ class _SignUpPageState extends State<SignUpScreen> {
           ),
           TextField(
             onChanged: (value) => userName = value,
+            keyboardType: TextInputType.phone,
             decoration: InputDecoration(
               hintText: "Nhập Số điện thoại",
               border: InputBorder.none,
@@ -194,7 +201,7 @@ class _SignUpPageState extends State<SignUpScreen> {
       child: InkWell(
         onTap: () {
           log("user click button login");
-          context.read<LoginBloc>().add(LoginInEvent(userName, passWord));
+          context.read<SignUpBloc>().add(SignUpNewEvent("","","",""));
         },
         child: Container(
           padding: const EdgeInsets.all(12.0),
@@ -231,7 +238,7 @@ class _SignUpPageState extends State<SignUpScreen> {
     EasyLoading.init();
     return Scaffold(
       backgroundColor: UTColors.backGround[1],
-      body: BlocBuilder<LoginBloc, LoginState>(
+      body: BlocBuilder<SignUpBloc, SignUpState>(
         builder: (context, state) {
           navigateBlocState(state);
           return SafeArea(

@@ -19,45 +19,24 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-enum Environment { developing, testting, production }
+abstract class SignUpState {}
 
-class ApiEndPoints {
-  final Environment _evm = Environment.developing;
-  late String _urlBase = '';
-  ApiEndPoints() {
-    switch (_evm) {
-      case Environment.developing:
-        //_urlBase = 'http://10.0.2.2:8080/';
-        _urlBase = 'http://192.168.4.12:8080/';
-        break;
-      case Environment.production:
-        _urlBase = 'http://192.168.5.36:8080/';
-        break;
-      case Environment.testting:
-      default:
-        _urlBase = 'localhost:1234/';
-    }
-  }
+class SignUpInitialState extends SignUpState {}
+
+class SignUpLoadingState extends SignUpState {}
+
+class SignUpSuccessedState extends SignUpState {
+  final String _message;
+  SignUpSuccessedState(this._message);
+
+  /// return a message when user login in successed
+  String get message => _message;
 }
 
-extension V1 on ApiEndPoints {
-  String loginUrl(String userName, String passWord) {
-    return '${_urlBase}login?user=' '$userName' '&pass=' '$passWord';
-  }
+class SignUpErrorState extends SignUpState {
+  final String _errMessage;
+  SignUpErrorState(this._errMessage);
 
-  String accountsUrl() {
-    return '${_urlBase}account';
-  }
-
-  String roomsUrl() {
-    return '${_urlBase}room';
-  }
-
-  String reportsUrl() {
-    return '${_urlBase}bill';
-  }
-
-  String signUpUrl() {
-    return '${_urlBase}login';
-  }
+  /// return a string when user login in or login out error
+  String get errMessage => _errMessage;
 }

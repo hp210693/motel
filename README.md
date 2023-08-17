@@ -15,7 +15,7 @@
 
 # IV. Run server
     cd /your_path/motel-project/motel-backend
-    go run main.go
+    docker compose up
 # V. Run UI
     cd /your_path/motel-project/motel
     flutter pub upgrade --major-versions

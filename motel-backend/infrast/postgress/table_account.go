@@ -61,7 +61,14 @@ func (tbAccount *tableAccount) GetAllAccount() ([]model.Account, error) {
 
 // InsertAccount implements repository.AccountRepo.
 func (tbAccount *tableAccount) InsertAccount(account model.Account) error {
-	panic("unimplemented")
+	var accounts []model.Account
+
+	// Insert a account to database;
+	if result := tbAccount.db.Create(&accounts); result.Error != nil {
+		return result.Error
+	}
+	fmt.Printf("called database account ok \n%v", accounts)
+	return nil
 }
 
 // UpdateAccount implements repository.AccountRepo.

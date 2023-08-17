@@ -25,8 +25,10 @@ package delivery
 
 import (
 	"fmt"
+	"motel-backend/model"
 	repository "motel-backend/repository"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -40,6 +42,7 @@ func NewAccountDelivery(echo *echo.Echo, serviceRepo repository.AccountServiceRe
 	account := &accountDelivery{serviceRepo: serviceRepo}
 
 	echo.GET("/login", account.apiLogin)
+	echo.POST("/login", account.apiSignUpAccount)
 }
 
 func (acc *accountDelivery) apiLogin(echo echo.Context) error {
@@ -55,4 +58,21 @@ func (acc *accountDelivery) apiLogin(echo echo.Context) error {
 	}
 
 	return echo.JSON(http.StatusOK, "Success")
+}
+
+func (acc *accountDelivery) apiSignUpAccount(echo echo.Context) error {
+
+	var account = model.Account{}
+	start := time.Now()
+	if err := echo.Bind(&account); err != nil {
+		return echo.JSON(http.StatusInternalServerError, "Can't sign up error")
+	}
+	fmt.Printf("\nclient sent to server\n %v \n", account.UserName)
+
+	if error := acc.serviceRepo.SignUpAccount(account.AccountId, account.RoleId, account.RoleId, account.UserName, account.CID, account.DriverLicense,
+		account.Phone, account.Password, account.Email, &start, &start); error != nil {
+		return error
+	}
+
+	return echo.JSON(http.StatusCreated, "Success")
 }

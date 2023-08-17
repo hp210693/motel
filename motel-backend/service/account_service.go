@@ -26,7 +26,9 @@ package service
 import (
 	"errors"
 	"fmt"
+	"motel-backend/model"
 	repository "motel-backend/repository"
+	"time"
 )
 
 type accountService struct {
@@ -51,4 +53,21 @@ func (acc *accountService) FetchLogin(userName string, password string) error {
 		}
 	}
 	return errors.New("error")
+}
+
+// SignUpAccount implements repository.AccountServiceRepo.
+func (acc *accountService) SignUpAccount(accountId int, roomId int, roleId int, userName string,
+	cid string, driverLicense string, phone string, password string, email string,
+	createdOn *time.Time, lastLogin *time.Time) error {
+
+	var account = model.Account{AccountId: accountId, RoomId: roleId, RoleId: roleId,
+		UserName: userName, CID: cid, DriverLicense: driverLicense, Phone: phone,
+		Password: password, Email: email, CreatedOn: createdOn, LastLogin: lastLogin}
+
+	var error = acc.accountRepo.InsertAccount(account)
+	if error != nil {
+		return error
+	}
+
+	return nil
 }
