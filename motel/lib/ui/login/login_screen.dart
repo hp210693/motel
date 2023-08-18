@@ -45,7 +45,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginPageState extends State<LoginScreen> {
   var userName = "";
-  var passWord = "";
+  var password = "";
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginScreen> {
             style: UTStyles.text[1],
           ),
           TextField(
-            onChanged: (value) => passWord = value,
+            onChanged: (value) => password = value,
             obscureText: true,
             decoration: InputDecoration(
               hintText: "Nhập mật khẩu",
@@ -165,7 +165,7 @@ class _LoginPageState extends State<LoginScreen> {
       child: InkWell(
         onTap: () {
           log("user click button login");
-          context.read<LoginBloc>().add(LoginInEvent(userName, passWord));
+          context.read<LoginBloc>().add(LoginInEvent(userName, password));
         },
         child: Container(
           padding: const EdgeInsets.all(12.0),

@@ -25,6 +25,11 @@ class SignUpInitialState extends SignUpState {}
 
 class SignUpLoadingState extends SignUpState {}
 
+class SignUpConfirmedDataState extends SignUpState {
+  final bool check;
+  SignUpConfirmedDataState(this.check);
+}
+
 class SignUpSuccessedState extends SignUpState {
   final String _message;
   SignUpSuccessedState(this._message);

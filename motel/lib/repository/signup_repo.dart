@@ -21,7 +21,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/material.dart';
 import 'package:motel/data/api/base_api_service.dart';
 import 'package:motel/data/api/network_api_service.dart';
 import 'package:motel/data/login/login.dart';
@@ -29,7 +28,7 @@ import 'package:motel/data/login/login.dart';
 class SignUpRepo {
   final BaseApiService _apiService = NetworkApiService();
   Future<String> postSignUpNewAccountData(
-      String userName, String phone, String cid, String passWord) async {
+      String userName, String phone, String cid, String password) async {
     try {
       final json = Login(
         statusCode: "",
@@ -37,11 +36,11 @@ class SignUpRepo {
         accountId: 0,
         roomId: 1,
         roleId: 4,
-        userName: "hung",
-        cid: "cccd",
+        userName: userName,
+        cid: cid,
         driverLicense: "",
         phone: phone,
-        passWord: "pass",
+        passWord: password,
         email: "",
       ).toJson();
 

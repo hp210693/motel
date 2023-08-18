@@ -24,8 +24,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:motel/bloc/login/login_bloc.dart';
-import 'package:motel/bloc/login/login_event.dart';
 import 'package:motel/bloc/login/login_state.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
@@ -47,12 +45,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpScreen> {
-  var userName = "";
-  var cid = "";
-  var phone = "";
-  var passWord = "";
-  var repassWord = "";
-
+  List<String> check = ["", "", "", "", "", ""];
+  bool firstRun = false;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -87,7 +81,15 @@ class _SignUpPageState extends State<SignUpScreen> {
     }
   }
 
-  Widget infoView() {
+  Color checkColor(bool focus, int index) {
+    if (focus == true || check[0] == "") {
+      return UTColors.text[3];
+    } else {
+      return (check[index] == "") ? UTColors.text[4] : UTColors.text[3];
+    }
+  }
+
+  Widget infoView(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 20, left: 20),
       child: Column(
@@ -98,16 +100,22 @@ class _SignUpPageState extends State<SignUpScreen> {
             style: UTStyles.text[1],
           ),
           TextField(
-            onChanged: (value) => userName = value,
+            onChanged: (value) {
+              check[0] = "1";
+              check[1] = value;
+              context
+                  .read<SignUpBloc>()
+                  .add(SignUpNewEvent("", "", "", "", false));
+            },
             decoration: InputDecoration(
               hintText: "Nhập tên hoặc email",
               border: InputBorder.none,
               hintStyle: UTStyles.text[2],
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: UTColors.text[3]),
+                borderSide: BorderSide(color: checkColor(false, 1)),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: UTColors.text[3]),
+                borderSide: BorderSide(color: checkColor(true, 1)),
               ),
             ),
           ),
@@ -117,17 +125,23 @@ class _SignUpPageState extends State<SignUpScreen> {
             style: UTStyles.text[1],
           ),
           TextField(
-            onChanged: (value) => userName = value,
+            onChanged: (value) {
+              check[0] = "2";
+              check[2] = value;
+              context
+                  .read<SignUpBloc>()
+                  .add(SignUpNewEvent("", "", "", "", false));
+            },
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
               hintText: "Nhập Số điện thoại",
               border: InputBorder.none,
               hintStyle: UTStyles.text[2],
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: UTColors.text[3]),
+                borderSide: BorderSide(color: checkColor(false, 2)),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: UTColors.text[3]),
+                borderSide: BorderSide(color: checkColor(true, 2)),
               ),
             ),
           ),
@@ -137,16 +151,22 @@ class _SignUpPageState extends State<SignUpScreen> {
             style: UTStyles.text[1],
           ),
           TextField(
-            onChanged: (value) => userName = value,
+            onChanged: (value) {
+              check[0] = "3";
+              check[3] = value;
+              context
+                  .read<SignUpBloc>()
+                  .add(SignUpNewEvent("", "", "", "", false));
+            },
             decoration: InputDecoration(
               hintText: "Nhâp CCCD hoặc CMND",
               border: InputBorder.none,
               hintStyle: UTStyles.text[2],
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: UTColors.text[3]),
+                borderSide: BorderSide(color: checkColor(false, 3)),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: UTColors.text[3]),
+                borderSide: BorderSide(color: checkColor(true, 3)),
               ),
             ),
           ),
@@ -156,17 +176,23 @@ class _SignUpPageState extends State<SignUpScreen> {
             style: UTStyles.text[1],
           ),
           TextField(
-            onChanged: (value) => passWord = value,
+            onChanged: (value) {
+              check[0] = "4";
+              check[4] = value;
+              context
+                  .read<SignUpBloc>()
+                  .add(SignUpNewEvent("", "", "", "", false));
+            },
             obscureText: true,
             decoration: InputDecoration(
               hintText: "Nhập mật khẩu",
               border: InputBorder.none,
               hintStyle: UTStyles.text[2],
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: UTColors.text[3]),
+                borderSide: BorderSide(color: checkColor(false, 4)),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: UTColors.text[3]),
+                borderSide: BorderSide(color: checkColor(true, 4)),
               ),
             ),
           ),
@@ -176,17 +202,23 @@ class _SignUpPageState extends State<SignUpScreen> {
             style: UTStyles.text[1],
           ),
           TextField(
-            onChanged: (value) => passWord = value,
+            onChanged: (value) {
+              check[0] = "5";
+              check[5] = value;
+              context
+                  .read<SignUpBloc>()
+                  .add(SignUpNewEvent("", "", "", "", false));
+            },
             obscureText: true,
             decoration: InputDecoration(
               hintText: "Nhập mật khẩu",
               border: InputBorder.none,
               hintStyle: UTStyles.text[2],
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: UTColors.text[3]),
+                borderSide: BorderSide(color: checkColor(false, 5)),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: UTColors.text[3]),
+                borderSide: BorderSide(color: checkColor(true, 5)),
               ),
             ),
           ),
@@ -200,8 +232,24 @@ class _SignUpPageState extends State<SignUpScreen> {
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: InkWell(
         onTap: () {
-          log("user click button login");
-          context.read<SignUpBloc>().add(SignUpNewEvent("","","",""));
+          if (check[1].isEmpty ||
+              check[2].isEmpty ||
+              check[3].isEmpty ||
+              check[4].isEmpty) {
+            check[0] = "1";
+            context
+                .read<SignUpBloc>()
+                .add(SignUpNewEvent("", "", "", "", false));
+          } else {
+            /*  if (check[3] != check[4]) {
+              context
+                  .read<SignUpBloc>()
+                  .add(SignUpNewEvent("", "", "", "", false));
+            } else { */
+            context.read<SignUpBloc>().add(
+                SignUpNewEvent(check[1], check[2], check[3], check[4], true));
+            //}
+          }
         },
         child: Container(
           padding: const EdgeInsets.all(12.0),
@@ -256,7 +304,7 @@ class _SignUpPageState extends State<SignUpScreen> {
                         style: UTStyles.title[3],
                       ),
                     ),
-                    infoView(),
+                    infoView(context),
                     const SizedBox(height: 30),
                     submitView(context),
                     const SizedBox(height: 15),

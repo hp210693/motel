@@ -35,19 +35,25 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   Future<void> _navEvent(SignUpEvent event, Emitter<SignUpState> emit) async {
     if (event is SignUpNewEvent) {
       log("SignUpBloc LoginInEvent");
-      emit(SignUpLoadingState());
-      try {
-        final respon = await _repo.postSignUpNewAccountData(
-            event.userName, event.phone, event.cid, event.passWord);
+      if (event.check == false) {
+        emit(SignUpConfirmedDataState(false));
+        log("---SignUpBloc LoginInEvent = false");
+      } else {
+        emit(SignUpConfirmedDataState(true));
+        emit(SignUpLoadingState());
+        try {
+          final respon = await _repo.postSignUpNewAccountData(
+              event.userName, event.phone, event.cid, event.passWord);
 
-        log("SignUpBloc respon data\n = $respon");
-        await Future.delayed(const Duration(seconds: 2));
-        emit(SignUpSuccessedState(respon));
-        await Future.delayed(const Duration(seconds: 1));
-        emit(SignUpInitialState());
-      } catch (error) {
-        log("SignUpBloc call error");
-        emit(SignUpErrorState(error.toString()));
+          log("SignUpBloc respon data\n = $respon");
+          await Future.delayed(const Duration(seconds: 2));
+          emit(SignUpSuccessedState(respon));
+          await Future.delayed(const Duration(seconds: 1));
+          emit(SignUpInitialState());
+        } catch (error) {
+          log("SignUpBloc call error");
+          emit(SignUpErrorState(error.toString()));
+        }
       }
     }
   }

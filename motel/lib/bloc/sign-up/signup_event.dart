@@ -27,8 +27,10 @@ class SignUpNewEvent extends SignUpEvent {
   final String phone;
   final String cid;
   final String passWord;
+  final bool check;
 
-  SignUpNewEvent(this.userName, this.phone, this.cid, this.passWord);
+  SignUpNewEvent(
+      this.userName, this.phone, this.cid, this.passWord, this.check);
 
 /*   /// return String user name
   String get userName => _userName;
