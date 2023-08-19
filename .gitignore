@@ -1,7 +1,7 @@
 genjson
 *.drawio.bkp
 *.drawio.dtmp
-.vscode
+#.vscode
 # Binaries for programs and plugins
 *.exe
 *.exe~
@@ -21,4 +21,4 @@ genjson
 /tmp/*
 __debug*
 
-.env
+#.env
