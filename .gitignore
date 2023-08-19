@@ -19,5 +19,6 @@ genjson
 # vendor/
 
 /tmp/*
+__debug*
 
 .env

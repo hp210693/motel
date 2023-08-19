@@ -2,14 +2,19 @@ version: '3.8'
 
 services:
   web:
-    build: .
+    build: 
+      context: .
+      target: debug
     env_file:
       - .env
     ports:
       - "8080:8080"
+      - "2345:2345"
     volumes:
       - .:/usr/src/app
     command: go run main.go -b 0.0.0.0
+    security_opt:
+      - "seccomp:unconfined"
     depends_on:
       - db
     restart: always
