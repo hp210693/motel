@@ -25,6 +25,7 @@ package delivery
 
 import (
 	"fmt"
+	"log"
 	"motel-backend/model"
 	repository "motel-backend/repository"
 	"net/http"
@@ -69,9 +70,11 @@ func (acc *accountDelivery) apiSignUpAccount(echo echo.Context) error {
 	}
 	fmt.Printf("\nclient sent to server\n %v \n", account)
 
-	if error := acc.serviceRepo.SignUpAccount(account.AccountId, account.RoleId, account.RoleId, account.UserName, account.CID, account.DriverLicense,
-		account.Phone, account.Password, account.Email, &start, &start); error != nil {
-		return error
+	if error := acc.serviceRepo.SignUpAccount(account.AccountId, account.RoleId, account.RoleId,
+		account.UserName, account.CID, account.DriverLicense, account.Phone,
+		account.Password, account.Email, &start, &start); error != nil {
+		log.Printf("\n\n\n\n\n++++++++++++++++++++++??????????? = \n\n\n\n\n%v", error.Error())
+		return echo.JSON(http.StatusInternalServerError, error.Error())
 	}
 
 	return echo.JSON(http.StatusOK, "Success")

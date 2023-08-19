@@ -24,10 +24,10 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motel/bloc/home/home_event.dart';
 import 'package:motel/bloc/home/home_state.dart';
-import 'package:motel/repository/home/home_repo_imp.dart';
+import 'package:motel/repository/home_repo.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final _homeRepo = HomeRepoImp();
+  final _homeRepo = HomeRepo();
   HomeBloc() : super(HomeInitialState()) {
     log("HomeBloc constructor");
     on<HomeEvent>(_fetchRooms);

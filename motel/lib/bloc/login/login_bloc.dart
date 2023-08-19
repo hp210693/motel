@@ -23,10 +23,10 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motel/bloc/login/login_event.dart';
 import 'package:motel/bloc/login/login_state.dart';
-import 'package:motel/repository/login/login_repo_imp.dart';
+import 'package:motel/repository/login_repo.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final _loginRepo = LoginRepoImp();
+  final _loginRepo = LoginRepo();
   LoginBloc() : super(LoginInitialState()) {
     log("LoginBloc constructor");
     on<LoginInEvent>(_login);

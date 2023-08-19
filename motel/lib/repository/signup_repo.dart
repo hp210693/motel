@@ -23,7 +23,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:motel/data/api/base_api_service.dart';
 import 'package:motel/data/api/network_api_service.dart';
-import 'package:motel/data/login/login.dart';
+import 'package:motel/data/login.dart';
 
 class SignUpRepo {
   final BaseApiService _apiService = NetworkApiService();

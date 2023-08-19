@@ -21,22 +21,50 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:convert';
 import 'dart:developer';
+
+import 'package:collection/collection.dart';
 import 'package:motel/data/api/base_api_service.dart';
 import 'package:motel/data/api/network_api_service.dart';
-import 'package:motel/repository/login/login_repo.dart';
+import 'package:motel/data/report.dart';
 
-class LoginRepoImp extends LoginRepo {
+class ReportRepo {
   final BaseApiService _apiService = NetworkApiService();
-  @override
-  Future<String> getLoginInData(String userName, String passWord) async {
+
+  Future<Map<String, List<Report>>> getReportFetchData() async {
     try {
-      final data = await _apiService.getLoginResponse(userName, passWord);
-      log("LoginRepoImp - getLoginInData\n $data");
-      //final user = Login.fromJson(jsonDecode(data));
-      final user = jsonDecode(data);
-      log("LoginRepoImp - convert data ok\n $user");
-      return user;
+      final data = await _apiService.getReportResponse('');
+      log("ReportRepoImp - getLoginInData\n $data");
+      final jsonData = jsonDecode(data);
+
+      final listReport = List<Report>.from(
+        jsonData.map(
+          (object) => Report.fromJson(object),
+        ),
+      ).toList();
+
+      // Group by year-month
+      final listGroupBy = groupBy(
+        listReport.toList(),
+        (Report obj) => "${obj.createdDate.year}-${obj.createdDate.month}",
+      );
+
+      // sort map increment
+      final listSort = Map.fromEntries(
+        listGroupBy.entries.toList()
+          ..sort(
+            (e1, e2) => e1.value
+                .fold(
+                    0.0, (preValue, element) => preValue + element.totalPayment)
+                .compareTo(
+                  e2.value.fold(0.0,
+                      (preValue, element) => preValue + element.totalPayment),
+                ),
+          ),
+      );
+
+      return listSort;
     } catch (e) {
+      log(e.toString());
       rethrow;
     }
   }

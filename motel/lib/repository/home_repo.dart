@@ -25,45 +25,25 @@ import 'dart:developer';
 import 'package:collection/collection.dart';
 import 'package:motel/data/api/base_api_service.dart';
 import 'package:motel/data/api/network_api_service.dart';
-import 'package:motel/data/report/report.dart';
-import 'package:motel/repository/report/report_repo.dart';
+import 'package:motel/data/room.dart';
 
-class ReportRepoImp implements ReportRepo {
+class HomeRepo {
   final BaseApiService _apiService = NetworkApiService();
-  @override
-  Future<Map<String, List<Report>>> getReportFetchData() async {
+  late Map<String, List<Room>> _rooms;
+
+  Future<Map<String, List<Room>>> getHomeFetchData(String jwt) async {
     try {
-      final data = await _apiService.getReportResponse('');
-      log("ReportRepoImp - getLoginInData\n $data");
-      final jsonData = jsonDecode(data);
-
-      final listReport = List<Report>.from(
-        jsonData.map(
-          (object) => Report.fromJson(object),
-        ),
-      ).toList();
-
-      // Group by year-month
-      final listGroupBy = groupBy(
-        listReport.toList(),
-        (Report obj) => "${obj.createdDate.year}-${obj.createdDate.month}",
-      );
-
-      // sort map increment
-      final listSort = Map.fromEntries(
-        listGroupBy.entries.toList()
-          ..sort(
-            (e1, e2) => e1.value
-                .fold(
-                    0.0, (preValue, element) => preValue + element.totalPayment)
-                .compareTo(
-                  e2.value.fold(0.0,
-                      (preValue, element) => preValue + element.totalPayment),
-                ),
-          ),
-      );
-
-      return listSort;
+      final data = await _apiService.getHomeResponse(jwt);
+      final listJson = jsonDecode(data);
+      log("HomeRepoImp - convert data ok\n ");
+      // Remember remove dynamic error
+      //_rooms = groupBy(listJson, (dynamic obj) => obj['flow_id']);
+      final listRoom =
+          List<Room>.from(listJson.map((object) => Room.fromJson(object)))
+              .toList();
+      _rooms = groupBy(listRoom, (Room obj) => obj.flowId.toString());
+      log("$_rooms");
+      return _rooms;
     } catch (e) {
       log(e.toString());
       rethrow;

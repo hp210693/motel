@@ -61,13 +61,12 @@ func (tbAccount *tableAccount) GetAllAccount() ([]model.Account, error) {
 
 // InsertAccount implements repository.AccountRepo.
 func (tbAccount *tableAccount) InsertAccount(account model.Account) error {
-	var accounts []model.Account
 
 	// Insert a account to database;
-	if result := tbAccount.db.Create(&accounts); result.Error != nil {
+	if result := tbAccount.db.Create(&account); result.Error != nil {
 		return result.Error
 	}
-	fmt.Printf("called database account ok \n%v", accounts)
+	fmt.Printf("called database account ok \n%v", account)
 	return nil
 }
 

@@ -60,12 +60,11 @@ func (acc *accountService) SignUpAccount(accountId int, roomId int, roleId int, 
 	cid string, driverLicense string, phone string, password string, email string,
 	createdOn *time.Time, lastLogin *time.Time) error {
 
-	var account = model.Account{AccountId: accountId, RoomId: roleId, RoleId: roleId,
+	account := model.Account{AccountId: accountId, RoomId: roleId, RoleId: roleId,
 		UserName: userName, CID: cid, DriverLicense: driverLicense, Phone: phone,
 		Password: password, Email: email, CreatedOn: createdOn, LastLogin: lastLogin}
 
-	var error = acc.accountRepo.InsertAccount(account)
-	if error != nil {
+	if error := acc.accountRepo.InsertAccount(account); error != nil {
 		return error
 	}
 

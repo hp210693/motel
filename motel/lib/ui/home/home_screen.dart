@@ -27,7 +27,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:motel/bloc/home/home_bloc.dart';
 import 'package:motel/bloc/home/home_event.dart';
 import 'package:motel/bloc/home/home_state.dart';
-import 'package:motel/data/home/room.dart';
+import 'package:motel/data/room.dart';
 import 'package:motel/utility/ut_money.dart';
 import 'package:motel/utility/ut_styles.dart';
 

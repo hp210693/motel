@@ -19,6 +19,24 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-class ReportRepo {
-  Future<dynamic> getReportFetchData() async {}
+import 'dart:convert';
+import 'dart:developer';
+import 'package:motel/data/api/base_api_service.dart';
+import 'package:motel/data/api/network_api_service.dart';
+
+class LoginRepo {
+  final BaseApiService _apiService = NetworkApiService();
+
+  Future<String> getLoginInData(String userName, String passWord) async {
+    try {
+      final data = await _apiService.getLoginResponse(userName, passWord);
+      log("LoginRepoImp - getLoginInData\n $data");
+      //final user = Login.fromJson(jsonDecode(data));
+      final user = jsonDecode(data);
+      log("LoginRepoImp - convert data ok\n $user");
+      return user;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

@@ -25,10 +25,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motel/bloc/report/report_event.dart';
 import 'package:motel/bloc/report/report_state.dart';
-import 'package:motel/repository/report/report_repo_imp.dart';
+import 'package:motel/repository/report_repo.dart';
 
 class ReportBloc extends Bloc<ReportEvent, ReportState> {
-  final _reportRepo = ReportRepoImp();
+  final _reportRepo = ReportRepo();
 
   ReportBloc() : super(ReportPageSelectedState(0, false)) {
     log("\n\nLoging -- class $runtimeType -- contructor ${StackFrame.fromStackTrace(StackTrace.current)[0].isConstructor}\n\n");
