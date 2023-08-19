@@ -21,8 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:convert';
 import 'dart:developer';
-import 'package:motel/data/api/api_endpoints.dart';
-import 'package:motel/data/api/base_api_service.dart';
+import 'package:motel/api/api_endpoints.dart';
+import 'package:motel/api/base_api_service.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkApiService extends BaseApiService {

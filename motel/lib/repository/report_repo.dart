@@ -23,8 +23,8 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:collection/collection.dart';
-import 'package:motel/data/api/base_api_service.dart';
-import 'package:motel/data/api/network_api_service.dart';
+import 'package:motel/api/base_api_service.dart';
+import 'package:motel/api/network_api_service.dart';
 import 'package:motel/data/report.dart';
 
 class ReportRepo {

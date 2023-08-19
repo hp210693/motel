@@ -21,8 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:convert';
 import 'dart:developer';
-import 'package:motel/data/api/base_api_service.dart';
-import 'package:motel/data/api/network_api_service.dart';
+import 'package:motel/api/base_api_service.dart';
+import 'package:motel/api/network_api_service.dart';
 
 class LoginRepo {
   final BaseApiService _apiService = NetworkApiService();
