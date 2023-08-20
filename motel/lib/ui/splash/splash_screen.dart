@@ -21,6 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'package:flutter/material.dart';
 import 'package:motel/utility/ut_color.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -33,6 +34,23 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: UTColors.backGround[1],
+      body: const Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Image(
+              image: AssetImage('assets/images/friendship.png'),
+              fit: BoxFit.fill,
+            ),
+          ),
+          SpinKitSquareCircle(
+            color: Colors.orange,
+            size: 40.0,
+          ),
+        ],
+      ),
     );
   }
 }

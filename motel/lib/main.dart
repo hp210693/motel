@@ -31,5 +31,6 @@ void main() {
       statusBarColor: UTColors.backGround[1], // status bar color
     ),
   );
+
   runApp(const AppScreen());
 }

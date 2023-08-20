@@ -36,7 +36,6 @@ class NavRouterBloc extends Bloc<NavRouterEvent, NavRouterState> {
       case NavRouterEvent.appInit:
         log("NavRouterBloc appInit ");
         emit(NavRouterState.splash);
-        await Future.delayed(const Duration(seconds: 2));
         break;
       case NavRouterEvent.login:
         log("NavRouterBloc login ");

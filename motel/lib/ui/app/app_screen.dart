@@ -51,13 +51,14 @@ class _AppState extends State<AppScreen> {
         navigatorKey: navigatorKey,
         builder: (context, child) {
           return BlocListener<NavRouterBloc, NavRouterState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               switch (state) {
                 case NavRouterState.splash:
                   navigator.pushAndRemoveUntil<void>(
                     SplashScreen.route(),
                     (route) => false,
                   );
+                  await Future.delayed(const Duration(seconds: 2));
 
                   context.read<NavRouterBloc>().add(NavRouterEvent.login);
                   break;
