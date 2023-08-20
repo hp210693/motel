@@ -24,7 +24,7 @@ SOFTWARE.
 package infrast
 
 import (
-	"fmt"
+	"log"
 	model "motel-backend/model"
 	repository "motel-backend/repository"
 
@@ -40,31 +40,53 @@ func NewTableRoom(db *gorm.DB) repository.RoomInfrastRepo {
 }
 
 // DeleteRoom implements repository.RoomInfrastRepo.
-func (tbRoom *tableRoom) DeleteRoom(room model.Room) error {
-	panic("unimplemented")
+func (tb *tableRoom) DeleteRoom(room model.Room) error {
+
+	// Delete a Room to database;
+	if result := tb.db.Delete(&room); result.Error != nil {
+		return result.Error
+	}
+
+	log.Printf("Delete database Room ok \n%v", room)
+	return nil
 }
 
 // GetAllRoom implements repository.RoomInfrastRepo.
-func (tbRoom *tableRoom) GetAllRoom() ([]model.Room, error) {
+func (tb *tableRoom) GetAllRoom() ([]model.Room, error) {
+
 	var rooms []model.Room
 
 	// Get all records
 	// SELECT * FROM room;
-	if result := tbRoom.db.Find(&rooms); result.Error != nil {
+	if result := tb.db.Find(&rooms); result.Error != nil {
 		return []model.Room{}, result.Error
 	}
 
-	fmt.Printf("\n\n\ninfrast tableRoom called database room ok \n\n\n%v", rooms)
+	log.Printf("Get all room from database ok\n%v", rooms)
 
 	return rooms, nil
 }
 
 // InsertRoom implements repository.RoomInfrastRepo.
-func (tbRoom *tableRoom) InsertRoom(room model.Room) error {
-	panic("unimplemented")
+func (tb *tableRoom) InsertRoom(room model.Room) error {
+
+	// Insert a Room to database;
+	if result := tb.db.Create(&room); result.Error != nil {
+		return result.Error
+	}
+
+	log.Printf("Insert database Bill ok \n%v", room)
+	return nil
 }
 
 // UpdateRoom implements repository.RoomInfrastRepo.
-func (tbRoom *tableRoom) UpdateRoom(room model.Room) error {
-	panic("unimplemented")
+func (tb *tableRoom) UpdateRoom(room model.Room) error {
+
+	// Update a Room to database;
+	if result := tb.db.Save(&room); result.Error != nil {
+		return result.Error
+	}
+
+	log.Printf("Update database Bill ok \n%v", room)
+	return nil
 }

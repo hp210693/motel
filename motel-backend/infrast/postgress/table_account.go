@@ -24,7 +24,7 @@ SOFTWARE.
 package infrast
 
 import (
-	"fmt"
+	"log"
 	model "motel-backend/model"
 	repository "motel-backend/repository"
 
@@ -40,37 +40,53 @@ func NewTableAccount(db *gorm.DB) repository.AccountInfrastRepo {
 }
 
 // DeleteAccount implements repository.AccountRepo.
-func (tbAccount *tableAccount) DeleteAccount(account model.Account) error {
-	panic("unimplemented")
+func (tb *tableAccount) DeleteAccount(account model.Account) error {
+
+	// Delete a account to database;
+	if result := tb.db.Delete(&account); result.Error != nil {
+		return result.Error
+	}
+
+	log.Printf("Delete database account ok \n%v", account)
+	return nil
 }
 
 // Return slice Account and error = nil when success
 // Return emptly []Account and error = "error" when failure
-func (tbAccount *tableAccount) GetAllAccount() ([]model.Account, error) {
+func (tb *tableAccount) GetAllAccount() ([]model.Account, error) {
 
 	var accounts []model.Account
 
 	// Get all records
 	// SELECT * FROM account;
-	if result := tbAccount.db.Find(&accounts); result.Error != nil {
+	if result := tb.db.Find(&accounts); result.Error != nil {
 		return []model.Account{}, result.Error
 	}
-	fmt.Printf("called database account ok \n%v", accounts)
+
+	log.Printf("Get all database account ok \n%v", accounts)
 	return accounts, nil
 }
 
 // InsertAccount implements repository.AccountRepo.
-func (tbAccount *tableAccount) InsertAccount(account model.Account) error {
+func (tb *tableAccount) InsertAccount(account model.Account) error {
 
 	// Insert a account to database;
-	if result := tbAccount.db.Create(&account); result.Error != nil {
+	if result := tb.db.Create(&account); result.Error != nil {
 		return result.Error
 	}
-	fmt.Printf("called database account ok \n%v", account)
+
+	log.Printf("Insert database account ok \n%v", account)
 	return nil
 }
 
 // UpdateAccount implements repository.AccountRepo.
-func (tbAccount *tableAccount) UpdateAccount(account model.Account) error {
-	panic("unimplemented")
+func (tb *tableAccount) UpdateAccount(account model.Account) error {
+
+	// Update a account to database;
+	if result := tb.db.Save(&account); result.Error != nil {
+		return result.Error
+	}
+
+	log.Printf("Update database account ok \n%v", account)
+	return nil
 }

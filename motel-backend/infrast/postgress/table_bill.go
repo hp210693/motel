@@ -24,7 +24,7 @@ SOFTWARE.
 package infrast
 
 import (
-	"fmt"
+	"log"
 	model "motel-backend/model"
 	repository "motel-backend/repository"
 
@@ -40,31 +40,53 @@ func NewTableBill(db *gorm.DB) repository.BillInfrastRepo {
 }
 
 // DeleteBill implements repository.BillRepo.
-func (tb *tableBill) DeleteBill(account model.Bill) error {
-	panic("unimplemented")
+func (tb *tableBill) DeleteBill(bill model.Bill) error {
+
+	// Delete a Bill to database;
+	if result := tb.db.Delete(&bill); result.Error != nil {
+		return result.Error
+	}
+
+	log.Printf("save database Bill ok \n%v", bill)
+	return nil
 }
 
 // Return slice Bill and error = nil when success
 // Return emptly []Bill and error = "error" when failure
 func (tb *tableBill) GetAllBill() ([]model.Bill, error) {
 
-	var accounts []model.Bill
+	var bills []model.Bill
 
 	// Get all records
 	// SELECT * FROM bill;
-	if result := tb.db.Find(&accounts); result.Error != nil {
+	if result := tb.db.Find(&bills); result.Error != nil {
 		return []model.Bill{}, result.Error
 	}
-	fmt.Printf("called database account ok \n%v", accounts)
-	return accounts, nil
+
+	log.Printf("Called database account ok \n%v", bills)
+	return bills, nil
 }
 
 // InsertAccount implements repository.AccountRepo.
-func (tb *tableBill) InsertBill(account model.Bill) error {
-	panic("unimplemented")
+func (tb *tableBill) InsertBill(bill model.Bill) error {
+
+	// Insert a Bill to database;
+	if result := tb.db.Create(&bill); result.Error != nil {
+		return result.Error
+	}
+
+	log.Printf("Insert database Bill ok \n%v", bill)
+	return nil
 }
 
 // UpdateAccount implements repository.AccountRepo.
-func (tb *tableBill) UpdateBill(account model.Bill) error {
-	panic("unimplemented")
+func (tb *tableBill) UpdateBill(bill model.Bill) error {
+
+	// Update a Bill to database;
+	if result := tb.db.Save(&bill); result.Error != nil {
+		return result.Error
+	}
+
+	log.Printf("save database Bill ok \n%v", bill)
+	return nil
 }
