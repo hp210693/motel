@@ -28,6 +28,7 @@ import 'package:motel/bloc/home/home_bloc.dart';
 import 'package:motel/bloc/home/home_event.dart';
 import 'package:motel/bloc/home/home_state.dart';
 import 'package:motel/data/room.dart';
+import 'package:motel/utility/ut_color.dart';
 import 'package:motel/utility/ut_money.dart';
 import 'package:motel/utility/ut_styles.dart';
 
@@ -58,7 +59,7 @@ class _HomePageState extends State<HomeScreen> {
 
   Widget viewChild() {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: UTColors.backGround[1],
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           navigateBlocState(state);
@@ -70,7 +71,8 @@ class _HomePageState extends State<HomeScreen> {
                 String nameFlow = "";
                 int numberRooms = 0;
                 if (rooms != null) {
-                  nameFlow = rooms!.keys.toList()[index1].toString();
+                  Room temp = rooms!.values.toList()[index1].elementAt(0);
+                  nameFlow = index1 == 9 ? "KIOT" : temp.roomName.toString()[0];
                   numberRooms = rooms!.values.toList()[index1].length;
                 }
                 return Column(
@@ -78,7 +80,7 @@ class _HomePageState extends State<HomeScreen> {
                   children: [
                     Text(
                       'Dãy $nameFlow',
-                      style: UTStyles.title[1],
+                      style: UTStyles.title[2],
                     ),
                     const SizedBox(height: 5),
                     Container(
@@ -139,8 +141,8 @@ class _HomePageState extends State<HomeScreen> {
   Widget subView(Room room) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.orange),
-        color: Colors.white24,
+        border: Border.all(color: UTColors.backGround[3]),
+        color: UTColors.backGround[2],
         borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
@@ -160,7 +162,7 @@ class _HomePageState extends State<HomeScreen> {
     return Text(
       'Diện tích: $area',
       maxLines: 2,
-      style: UTStyles.text[1],
+      style: UTStyles.text[6],
     );
   }
 
@@ -171,13 +173,13 @@ class _HomePageState extends State<HomeScreen> {
           color: Colors.transparent,
           child: const Icon(
             Icons.attach_money,
-            color: Colors.blue,
+            color: Colors.red,
             size: 14,
           ),
         ),
         Text(
           '${''}${vnd(money)}',
-          style: UTStyles.text[1],
+          style: UTStyles.text[6],
         ),
       ],
     );
@@ -195,8 +197,8 @@ class _HomePageState extends State<HomeScreen> {
 
   Widget statusRoomView(int status) {
     return Text(
-      'Tình trạng: ${status == -1 ? "hết phòng" : "còn phòng"}',
-      style: UTStyles.text[1],
+      'Trạng thái: ${status == -1 ? "hết phòng" : "Còn phòng"}',
+      style: UTStyles.text[6],
     );
   }
 }

@@ -50,6 +50,16 @@ abstract class UTStyles {
         fontWeight: FontWeight.bold,
         color: UTColors.text[3],
       ),
+      6: GoogleFonts.robotoSlab(
+        fontSize: 12,
+        fontWeight: FontWeight.bold,
+        color: UTColors.text[3],
+      ),
+      7: GoogleFonts.robotoSlab(
+        fontSize: 11,
+        fontWeight: FontWeight.bold,
+        color: UTColors.text[3],
+      ),
     },
   );
 }

@@ -24,7 +24,7 @@ SOFTWARE.
 package delivery
 
 import (
-	"fmt"
+	"log"
 	repository "motel-backend/repository"
 	"net/http"
 
@@ -48,7 +48,7 @@ func (bill *billDelivery) apiBill(echo echo.Context) error {
 	if error != nil {
 		return echo.JSON(http.StatusInternalServerError, "Can'n get Bill")
 	}
-	fmt.Print("\n\nhhhhhhhhhhhhhhhhhh\n\n", results)
+	log.Print("\n\nhhhhhhhhhhhhhhhhhh\n\n", results)
 
 	return echo.JSON(http.StatusOK, results)
 }

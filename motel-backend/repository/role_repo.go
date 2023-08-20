@@ -21,34 +21,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package delivery
+package repository
 
-import (
-	"log"
-	repository "motel-backend/repository"
-	"net/http"
+import model "motel-backend/model"
 
-	"github.com/labstack/echo/v4"
-)
+// This interface is the connection between [service] layer and [infrast(database)] layer
+type RoleInfrastRepo interface {
 
-type roomDelivery struct {
-	serviceRepo repository.RoomServiceRepo
+	// Get all Role from datable
+	// return  []Role and error = nil when success
+	// return emptly []Role and error = "error" when failure
+	GetAllRole() ([]model.Role, error)
+
+	// Insert a Role into datable
+	// return error = nil when success
+	// return error = "error" when failure
+	InsertRole(role model.Role) error
+
+	// Update a Role into datable
+	// return error = nil when success
+	// return error = "error" when failure
+	UpdateRole(role model.Role) error
+
+	// Deactivate a Role in datable
+	// return error = nil when success
+	// return error = "error" when failure
+	DeleteRole(role model.Role) error
 }
 
-func NewRoomDelivery(echo *echo.Echo, serviceRepo repository.RoomServiceRepo) {
-	room := &roomDelivery{serviceRepo: serviceRepo}
-
-	echo.GET("/room", room.apiAllRoom)
-}
-
-func (room *roomDelivery) apiAllRoom(echo echo.Context) error {
-
-	var rooms, error = room.serviceRepo.FetchAllRoom()
-
-	if error != nil {
-		return echo.JSON(http.StatusInternalServerError, "roomDelivery Can't get all room")
-	}
-
-	log.Print("\n\n \t\t roomDelivery 0k\n\n")
-	return echo.JSON(http.StatusOK, rooms)
+// This interface is the connection between [delivery] layer and [service] layer
+type RoleServiceRepo interface {
+	FetchRole() ([]model.Role, error)
 }

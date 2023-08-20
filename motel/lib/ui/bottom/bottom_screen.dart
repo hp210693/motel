@@ -29,6 +29,8 @@ import 'package:motel/ui/chat/chat_screen.dart';
 import 'package:motel/ui/home/home_screen.dart';
 import 'package:motel/ui/report/report_screen.dart';
 import 'package:motel/ui/setting/setting_screen.dart';
+import 'package:motel/utility/ut_color.dart';
+import 'package:motel/utility/ut_styles.dart';
 
 class BottomScreen extends StatefulWidget {
   const BottomScreen({super.key});
@@ -60,8 +62,8 @@ class _BottomPageState extends State<BottomScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.blue),
-      color: Colors.yellow,
+      //  theme: ThemeData(primaryColor: Colors.blue),
+      // color: Colors.yellow,
       home: BlocProvider(create: (_) => BottomBloc(), child: viewChild()),
       builder: EasyLoading.init(),
     );
@@ -88,6 +90,7 @@ class _BottomPageState extends State<BottomScreen> {
       bottomNavigationBar: BlocBuilder<BottomBloc, BottomState>(
         builder: (context, state) {
           return BottomNavigationBar(
+            backgroundColor: UTColors.backGround[1],
             type: BottomNavigationBarType.fixed,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
@@ -108,7 +111,8 @@ class _BottomPageState extends State<BottomScreen> {
               ),
             ],
             currentIndex: selectedIndex,
-            selectedItemColor: Colors.amber[800],
+            selectedItemColor: UTColors.backGround[4],
+            selectedLabelStyle: UTStyles.text[7],
             onTap: (value) {
               selectedIndex = value;
               context.read<BottomBloc>().add(BotttonSelectedEvent());

@@ -24,7 +24,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:motel/bloc/login/login_state.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/bloc/sign-up/signup_bloc.dart';
@@ -58,20 +57,20 @@ class _SignUpPageState extends State<SignUpScreen> {
   void navigateBlocState(state) {
     log("BlocBuilder state = $state");
     switch (state.runtimeType) {
-      case LoginLoadingState:
+      case SignUpLoadingState:
         EasyLoading.show(
           status: 'Đợi chút nhé...',
           maskType: EasyLoadingMaskType.clear,
         );
         break;
-      case LoginSuccessedState:
+      case SignUpSuccessedState:
         EasyLoading.showSuccess(
           "Thành công",
           maskType: EasyLoadingMaskType.clear,
         );
-        BlocProvider.of<NavRouterBloc>(context).add(NavRouterEvent.bottomBar);
+        // BlocProvider.of<NavRouterBloc>(context).add(NavRouterEvent.bottomBar);
         break;
-      case LoginErrorState:
+      case SignUpErrorState:
         EasyLoading.showError("Đã có lỗi xảy ra!",
             maskType: EasyLoadingMaskType.clear);
         break;
