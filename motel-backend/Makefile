@@ -24,6 +24,6 @@ migrateforce:
 	migrate -path "$(PATH_MIGRATIONS)" -database "$(DB_URL)" force "$(VERSION)"
 
 test:
-	echo "tested"
+	cd motel-backend echo "tested"
 
 .PHONY: postgres createdb dropdb migrateup migratedown

@@ -26,4 +26,4 @@ jobs:
 
 
     - name: Test
-      run: cd motel-backend make test
+      run: make test
