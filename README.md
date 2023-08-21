@@ -9,9 +9,8 @@
 
 # III. Setup environment
     1. Install flutter https://docs.flutter.dev/get-started/install 
-    2. Install golang https://go.dev/dl/
-    3. Install draw https://app.diagrams.net/
-    4. Install docker https://www.docker.com/
+    2. Install docker https://www.docker.com/
+    3. Database online https://dbdiagram.io/d/64e20f2702bd1c4a5e13120c
 
 # IV. Run server
     cd /your_path/motel-project/motel-backend
@@ -20,7 +19,8 @@
     cd /your_path/motel-project/motel
     flutter pub upgrade --major-versions
     dart run build_runner build
-    click F5 on visual studio code
     flutter build apk --release
     sudo pkill -u postgres
-    docker compose run --service-ports web bash
+    
+    DROP SCHEMA public CASCADE;
+    CREATE SCHEMA public;
