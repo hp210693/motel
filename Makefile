@@ -1,5 +1,5 @@
 VERSION=1
-PATH_MIGRATIONS=db/migration
+PATH_MIGRATIONS=motel-backend/db/migration
 PROJECT_NAME=motelproject
 DB_NAME=motel
 PASS_DB=msecret
