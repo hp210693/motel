@@ -15,7 +15,7 @@ dropdb: # Drop database
 	docker exec -it "$(PROJECT_NAME)" dropdb "$(DB_NAME)"
 
 migrateup:
-	migrate -path "$(PATH_MIGRATIONS)" -database "$(DB_URL)" -verbose up
+	migrate -path $(PATH_MIGRATIONS) -database "$(DB_URL)" -verbose up
 
 migratedown:
 	migrate -path "$(PATH_MIGRATIONS)" -database "$(DB_URL)" -verbose down
