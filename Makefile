@@ -1,9 +1,10 @@
 VERSION=1
 PATH_MIGRATIONS=motel-backend/db/migration
-PROJECT_NAME=motelproject
+PROJECT_NAME="motel aws"
 DB_NAME=motel
-PASS_DB=msecret
-DB_URL=postgresql://root:"$(PASS_DB)"@localhost:5432/"$(DB_NAME)"?sslmode=disable
+PASS_DB=9KxhcJUkpdCFZVl5RliK
+END_POINT=motel.cbionciaxbip.ap-southeast-1.rds.amazonaws.com
+DB_URL=postgresql://root:"$(PASS_DB)"@$(END_POINT):5432/"$(DB_NAME)"
 
 postgres: # Startup database run [make postgres]
 	docker run --name "$(PROJECT_NAME)" -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD="$(PASS_DB)" -d postgres:14-alpine

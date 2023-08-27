@@ -37,12 +37,13 @@ var database *gorm.DB
 var e error
 
 func DatabaseInit() {
-	//dsn := "host=localhost user=postgres password=1 dbname=motel pzort=5432 sslmode=disable"
 	dsn := fmt.Sprintf(
-		"host=db user=%s password=%s dbname=%s port=5432 sslmode=disable TimeZone=Asia/Shanghai",
+		"host=%s user=%s password=%s dbname=%s port=%s TimeZone=Asia/Shanghai",
+		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),
+		os.Getenv("DB_PORT"),
 	)
 
 	database, e = gorm.Open(postgres.Open(dsn), &gorm.Config{})
