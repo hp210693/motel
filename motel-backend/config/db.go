@@ -38,7 +38,7 @@ var e error
 
 func DatabaseInit() {
 	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s TimeZone=Asia/Shanghai",
+		"host=%s user=%s password=%s dbname=%s port=%s",
 		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),

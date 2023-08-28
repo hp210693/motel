@@ -24,3 +24,7 @@
     
     DROP SCHEMA public CASCADE;
     CREATE SCHEMA public;
+
+    service docker stop
+rm ~/.docker/config.json
+service docker start
