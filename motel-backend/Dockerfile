@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 
 
 COPY . .
+COPY .env .
 
 #RUN go install github.com/go-delve/delve/cmd/dlv@latest
 RUN go mod download
