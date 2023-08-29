@@ -24,7 +24,6 @@ SOFTWARE.
 package config
 
 import (
-	"fmt"
 	"log"
 	model "motel-backend/model"
 
@@ -35,17 +34,29 @@ import (
 var database *gorm.DB
 var e error
 
+type Env struct {
+	Host     string
+	UserName string
+	Password string
+	DbName   string
+	Port     string
+}
+
+func NewEnv() *Env {
+	return &Env{
+		Host:     "host=motel.cxyhp96h5ofj.ap-southeast-1.rds.amazonaws.com",
+		UserName: " user=root",
+		Password: " password=9KxhcJUkpdCFZVl5RliK",
+		DbName:   " dbname=motel",
+		Port:     " port=5432",
+	}
+}
+
 func DatabaseInit() {
-	/* 	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s",
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-		os.Getenv("DB_PORT"),
-	) */
-	dsn := fmt.Sprintf(
-		"host=motel.cxyhp96h5ofj.ap-southeast-1.rds.amazonaws.com user=root password=9KxhcJUkpdCFZVl5RliK dbname=motel port=5432")
+
+	env := NewEnv()
+
+	dsn := env.Host + env.UserName + env.Password + env.DbName + env.Port
 
 	database, e = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 

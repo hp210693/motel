@@ -22,7 +22,7 @@ SOFTWARE.*/
 enum Environment { developing, testting, production }
 
 class ApiEndPoints {
-  final Environment _evm = Environment.developing;
+  final Environment _evm = Environment.production;
   late String _urlBase = '';
   ApiEndPoints() {
     switch (_evm) {
@@ -31,7 +31,7 @@ class ApiEndPoints {
         _urlBase = 'http://192.168.4.12:8080/';
         break;
       case Environment.production:
-        _urlBase = 'http://192.168.5.36:8080/';
+        _urlBase = 'http://54.179.16.64:8080/';
         break;
       case Environment.testting:
       default:
