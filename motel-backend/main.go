@@ -24,19 +24,17 @@ SOFTWARE.
 package main
 
 import (
-	"net/http"
+	"motel-backend/config"
+	"motel-backend/delivery"
+	infrast "motel-backend/infrast/postgress"
+	"motel-backend/service"
 
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
-	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World! hhhhhhhhhhhhhhhh")
-	})
-	e.Logger.Fatal(e.Start(":8080"))
 
-	/* // Connect To Database
+	// Connect To Database
 	config.DatabaseInit()
 	gorm := config.DB()
 
@@ -65,5 +63,5 @@ func main() {
 	billService := service.NewBillService(billInfrast)
 	delivery.NewBillDelivery(echoContext, billService)
 
-	echoContext.Logger.Fatal(echoContext.Start(":8080")) */
+	echoContext.Logger.Fatal(echoContext.Start(":8080"))
 }
