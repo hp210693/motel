@@ -3,7 +3,7 @@ PATH_MIGRATIONS=motel-backend/db/migration
 PROJECT_NAME="motel aws"
 DB_NAME=motel
 PASS_DB=9KxhcJUkpdCFZVl5RliK
-END_POINT=motel.cbionciaxbip.ap-southeast-1.rds.amazonaws.com
+END_POINT=motel.cxyhp96h5ofj.ap-southeast-1.rds.amazonaws.com
 DB_URL=postgresql://root:"$(PASS_DB)"@$(END_POINT):5432/"$(DB_NAME)"
 
 postgres: # Startup database run [make postgres]
