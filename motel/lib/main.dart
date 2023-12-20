@@ -21,8 +21,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
+import 'package:motel/bloc/nav-router/nav_router_event.dart';
+import 'package:motel/bloc/nav-router/nav_router_state.dart';
+import 'package:motel/ui/app-router/app_router.dart';
 import 'package:motel/ui/app/app_screen.dart';
+import 'package:motel/ui/detail/detail_screen.dart';
+import 'package:motel/ui/home/home_screen.dart';
 import 'package:motel/utility/ut_color.dart';
+
+import 'package:go_router/go_router.dart';
+import 'package:motel/utility/ut_styles.dart';
+import 'package:motel/ui/app-router/app_router.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -32,5 +43,14 @@ void main() {
     ),
   );
 
+  /*  runApp(
+    MaterialApp(
+      navigatorKey: AppRouter.navigatorKey,
+      home: BlocProvider(
+        create: (_) => NavRouterBloc()..add(NavRouterEvent.appInit),
+        child: const AppScreen(),
+      ),
+    ),
+  ); */
   runApp(const AppScreen());
 }

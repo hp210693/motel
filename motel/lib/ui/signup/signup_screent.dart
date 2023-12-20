@@ -35,10 +35,6 @@ import 'package:motel/utility/ut_styles.dart';
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const SignUpScreen());
-  }
-
   @override
   State<SignUpScreen> createState() => _SignUpPageState();
 }

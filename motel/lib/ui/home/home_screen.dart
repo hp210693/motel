@@ -27,16 +27,17 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:motel/bloc/home/home_bloc.dart';
 import 'package:motel/bloc/home/home_event.dart';
 import 'package:motel/bloc/home/home_state.dart';
+import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
+import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/data/room.dart';
+import 'package:motel/ui/app-router/app_router.dart';
+import 'package:motel/ui/detail/detail_screen.dart';
 import 'package:motel/utility/ut_color.dart';
 import 'package:motel/utility/ut_money.dart';
 import 'package:motel/utility/ut_styles.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const HomeScreen());
-  }
 
   @override
   State<HomeScreen> createState() => _HomePageState();
@@ -75,6 +76,7 @@ class _HomePageState extends State<HomeScreen> {
                   nameFlow = index1 == 9 ? "KIOT" : temp.roomName.toString()[0];
                   numberRooms = rooms!.values.toList()[index1].length;
                 }
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -142,18 +144,25 @@ class _HomePageState extends State<HomeScreen> {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: UTColors.backGround[3]),
-        color: UTColors.backGround[2],
+        color: const Color.fromARGB(255, 40, 41, 41),
         borderRadius: BorderRadius.circular(5),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          nameRoomView(room.roomName),
-          areaView(room.area),
-          moneyView(room.roomRates),
-          statusRoomView(room.statusRoom),
-        ],
+      child: InkWell(
+        onTap: () {
+          log("----user click detail $room");
+          //context.read<NavRouterBloc>().add(NavRouterEvent.detail);
+          AppRouter.push(const DetailScreen());
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            nameRoomView(room.roomName),
+            areaView(room.area),
+            moneyView(room.roomRates),
+            statusRoomView(room.statusRoom),
+          ],
+        ),
       ),
     );
   }

@@ -35,10 +35,6 @@ import 'package:motel/utility/ut_styles.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const LoginScreen());
-  }
-
   @override
   State<LoginScreen> createState() => _LoginPageState();
 }
@@ -54,6 +50,17 @@ class _LoginPageState extends State<LoginScreen> {
       builder: EasyLoading.init(),
     );
   }
+  /* @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: UTColors.backGround[1],
+      
+      body: BlocProvider(
+        create: (_) => LoginBloc(),
+        child: viewChild(),
+      ),
+    );
+  } */
 
   void navigateBlocState(state) {
     log("BlocBuilder state = $state");
@@ -69,7 +76,8 @@ class _LoginPageState extends State<LoginScreen> {
           "Thành công",
           maskType: EasyLoadingMaskType.clear,
         );
-        BlocProvider.of<NavRouterBloc>(context).add(NavRouterEvent.bottomBar);
+        BlocProvider.of<NavRouterBloc>(context).add(NavRouterEvent.home);
+        // context.read<NavRouterBloc>().add(NavRouterEvent.bottomBar);
         break;
       case LoginErrorState:
         EasyLoading.showError("Đã có lỗi xảy ra!",
@@ -147,8 +155,7 @@ class _LoginPageState extends State<LoginScreen> {
         padding: const EdgeInsets.only(top: 10, bottom: 20, right: 20),
         child: InkWell(
           onTap: () {
-            BlocProvider.of<NavRouterBloc>(context)
-                .add(NavRouterEvent.forgotPass);
+            context.read<NavRouterBloc>().add(NavRouterEvent.forgotPass);
           },
           child: Text(
             "Quên mật khẩu?",
@@ -221,42 +228,38 @@ class _LoginPageState extends State<LoginScreen> {
 
   Widget viewChild() {
     EasyLoading.init();
-    return Scaffold(
-      backgroundColor: UTColors.backGround[1],
-      body: BlocBuilder<LoginBloc, LoginState>(
-        builder: (context, state) {
-          navigateBlocState(state);
-          return SafeArea(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 15, right: 15, bottom: 20),
-                      child: Text(
-                        "Đăng nhập",
-                        style: UTStyles.title[3],
-                      ),
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        navigateBlocState(state);
+        return SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, right: 15, bottom: 20),
+                    child: Text(
+                      "Đăng nhập",
+                      style: UTStyles.title[3],
                     ),
-                    userNameView(),
-                    const SizedBox(height: 30),
-                    passWordView(),
-                    const SizedBox(height: 5.0),
-                    forgetView(),
-                    loginView(context),
-                    const SizedBox(height: 30),
-                    bottomView(),
-                  ],
-                ),
+                  ),
+                  userNameView(),
+                  const SizedBox(height: 30),
+                  passWordView(),
+                  const SizedBox(height: 5.0),
+                  forgetView(),
+                  loginView(context),
+                  const SizedBox(height: 30),
+                  bottomView(),
+                ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

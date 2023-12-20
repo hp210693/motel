@@ -35,10 +35,6 @@ import 'package:motel/utility/ut_styles.dart';
 class ForgotPassScreen extends StatefulWidget {
   const ForgotPassScreen({super.key});
 
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const ForgotPassScreen());
-  }
-
   @override
   State<ForgotPassScreen> createState() => _ForgotPassPageState();
 }

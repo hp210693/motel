@@ -24,7 +24,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/bloc/nav-router/nav_router_state.dart';
+import 'package:motel/ui/app-router/app_router.dart';
 import 'package:motel/ui/bottom/bottom_screen.dart';
+import 'package:motel/ui/detail/detail_screen.dart';
 import 'package:motel/ui/forgot-pass/forgot_pass.dart';
 import 'package:motel/ui/home/home_screen.dart';
 import 'package:motel/ui/login/login_screen.dart';
@@ -39,59 +41,40 @@ class AppScreen extends StatefulWidget {
 }
 
 class _AppState extends State<AppScreen> {
-  final navigatorKey = GlobalKey<NavigatorState>();
-
-  NavigatorState get navigator => navigatorKey.currentState!;
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => NavRouterBloc()..add(NavRouterEvent.appInit),
       child: MaterialApp(
-        navigatorKey: navigatorKey,
+        navigatorKey: AppRouter.navigatorKey,
         builder: (context, child) {
           return BlocListener<NavRouterBloc, NavRouterState>(
             listener: (context, state) async {
               switch (state) {
                 case NavRouterState.splash:
-                  navigator.pushAndRemoveUntil<void>(
-                    SplashScreen.route(),
-                    (route) => false,
-                  );
+                  AppRouter.pushAndRemoveUntil(const SplashScreen());
                   await Future.delayed(const Duration(seconds: 2));
-
                   context.read<NavRouterBloc>().add(NavRouterEvent.login);
                   break;
                 case NavRouterState.login:
-                  navigator.pushAndRemoveUntil<void>(
-                    LoginScreen.route(),
-                    (route) => false,
-                  );
+                  AppRouter.pushAndRemoveUntil(const LoginScreen());
                   break;
                 case NavRouterState.signUp:
-                  navigator.pushAndRemoveUntil<void>(
-                    SignUpScreen.route(),
-                    (route) => false,
-                  );
+                  AppRouter.pushAndRemoveUntil(const SignUpScreen());
                   break;
                 case NavRouterState.forgotPass:
-                  navigator.pushAndRemoveUntil<void>(
-                    ForgotPassScreen.route(),
-                    (route) => false,
-                  );
+                  AppRouter.pushAndRemoveUntil(const ForgotPassScreen());
                   break;
                 case NavRouterState.home:
-                  navigator.pushAndRemoveUntil<void>(
-                    HomeScreen.route(),
-                    (route) => false,
-                  );
+                  AppRouter.pushAndRemoveUntil(const HomeScreen());
                   break;
                 case NavRouterState.bottomBar:
-                  navigator.pushAndRemoveUntil<void>(
-                    BottomScreen.route(),
-                    (route) => false,
-                  );
+                  AppRouter.pushAndRemoveUntil(const BottomScreen());
                   break;
+                /*   case NavRouterState.detail:
+                  print("hung - DetailScreen");
+                  AppRouter.push(const DetailScreen());
+                  break; */
                 default:
                   break;
               }
@@ -100,7 +83,7 @@ class _AppState extends State<AppScreen> {
           );
         },
         home: const SizedBox(height: 0),
-        //onGenerateRoute: (_) => SplashScreen.route(),
+        // onGenerateRoute: (_) => SplashScreen.route(),
       ),
     );
   }
