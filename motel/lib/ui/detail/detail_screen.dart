@@ -25,6 +25,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:motel/bloc/login/login_bloc.dart';
 import 'package:motel/bloc/login/login_state.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
@@ -211,7 +212,10 @@ class _DetailPageState extends State<DetailScreen> {
         Padding(
           padding: const EdgeInsets.only(left: 15, right: 15, bottom: 8),
           child: InkWell(
-            onTap: () => {},
+            onTap: () => {
+              MapsLauncher.launchCoordinates(
+                  11.47390955371074, 106.8868173673191, 'Nhà trọ Thảo Nguyên'),
+            },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
