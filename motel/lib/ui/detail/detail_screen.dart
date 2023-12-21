@@ -20,6 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,91 +56,382 @@ class _DetailPageState extends State<DetailScreen> {
     'https://img.freepik.com/free-photo/high-fashion-look-glamor-closeup-portrait-beautiful-sexy-stylish-blond-young-woman-model-with-bright-yellow-makeup-with-perfect-clean-skin-with-gold-jewelery-black-cloth_158538-2003.jpg?w=826&t=st=1673886857~exp=1673887457~hmac=3ba51578e6a1e9c58e95a6b72e492cbbc26abf8e2f116a0672113770d3f4edbe',
   ];
 
-/*   @override
-  void dispose() {
-    //  BlocProvider.of<NavRouterBloc>(context).add(NavRouterEvent.detail);
-
-    super.dispose();
-    AppRouter.pop();
-    print("xxxxxx");
-  } */
-
   List<int> list = [1, 2, 3, 4, 5];
-  /*  @override
-  Widget build(BuildContext context) {
-    print("co vao khong dayu");
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Chi tiết phòng",
-            textAlign: TextAlign.center,
+
+  Widget picturesRoom() {
+    return CarouselSlider(
+      options: CarouselOptions(),
+      items: sampleImages
+          .map((item) => Container(
+                child: Center(child: Image.network(item)),
+                //color: Colors.green,
+              ))
+          .toList(),
+    );
+  }
+
+  Widget noteView() {
+    double width = MediaQuery.of(context).size.width - 34;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 8),
+          child: Text(
+            "Lưu ý",
+            style: UTStyles.title[4],
           ),
         ),
-        body: viewChild(),
-      ),
-      builder: EasyLoading.init(),
-    );
-  
-  } */
-
-/*   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Chi tiết phòng",
-            textAlign: TextAlign.center,
+        Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+          child: Text(
+            "SỨC CHỨA",
+            style: UTStyles.title[5],
           ),
         ),
-        body: BlocProvider(
-          create: (_) => LoginBloc(),
-          child: viewChild(),
-        ),
-      ),
-      builder: EasyLoading.init(),
-    );
-  } */
-
-  @override
-  Widget build(BuildContext context) {
-    EasyLoading.init();
-    return Scaffold(
-      appBar: AppBar(title: const Text("Chi tiết phòng")),
-      backgroundColor: UTColors.backGround[1],
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 15, right: 15, bottom: 20),
-                  child: Text(
-                    "Đăng nhập",
-                    style: UTStyles.title[3],
+        Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "4 người +",
+                    style: UTStyles.title[5],
                   ),
+                  const SizedBox(height: 4.0),
+                  Container(
+                    height: 12.0,
+                    width: width / 3,
+                    decoration: BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  const SizedBox(height: 4.0),
+                  Text(
+                    "Chật",
+                    style: UTStyles.title[5],
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 2, right: 2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "3 người",
+                      style: UTStyles.title[5],
+                    ),
+                    const SizedBox(height: 4.0),
+                    Container(
+                      height: 12.0,
+                      width: width / 3,
+                      decoration: BoxDecoration(
+                        color: Colors.blue[400],
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      "Ổn",
+                      style: UTStyles.title[5],
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 30),
-                /* FanCarouselImageSlider(
-                  imagesLink: sampleImages,
-                  isAssets: false,
-                  autoPlay: true,
-                ), */
-                CarouselSlider(
-                  options: CarouselOptions(),
-                  items: sampleImages
-                      .map((item) => Container(
-                            child: Center(child: Image.network(item)),
-                            //color: Colors.green,
-                          ))
-                      .toList(),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    "2 người",
+                    style: UTStyles.title[5],
+                  ),
+                  const SizedBox(height: 4.0),
+                  Container(
+                    height: 12.0,
+                    width: width / 3,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  const SizedBox(height: 4.0),
+                  Text(
+                    "Rộng",
+                    style: UTStyles.title[5],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget describeView() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+          child: Text(
+            "Mô tả chi tiết",
+            style: UTStyles.title[4],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+          child: Text(
+            '''Địa chỉ: Tổ 99 khu phố Bàu Ké thị trấn Tân Phú Huyện Đồng Phú, BP\n'''
+            '''Gần khu công nghiệp Bắc Đồng Phú 5 phút đi bộ\n'''
+            '''Giá thuê chưa bao gồm tiền điện, nước, rác\n'''
+            '''Xem phòng liên hệ: 0123456789 Mr. Hùng''',
+            style: UTStyles.title[5],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget addressView() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 8),
+          child: Text(
+            "Địa chỉ",
+            style: UTStyles.title[4],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 8),
+          child: InkWell(
+            onTap: () => {},
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.location_pin,
+                  color: Colors.blueGrey,
+                  size: 20.0,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text:
+                        ' Tổ 99 khu phố Bàu Ké thị trấn Tân Phú huyện Đồng Phú,\n Bình Phước',
+                    style: UTStyles.title[5],
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '  Chỉ đường',
+                        style: UTStyles.title[6],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 8),
+          child: InkWell(
+            onTap: () => {},
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.phone,
+                  color: Colors.blueGrey,
+                  size: 20.0,
+                ),
+                Text(
+                  " Số điện thoại: 0123456789",
+                  style: UTStyles.title[5],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget lineView() {
+    double width = MediaQuery.of(context).size.width;
+    return Container(
+      height: 8.0,
+      width: width,
+      decoration: BoxDecoration(color: Colors.grey[300]),
+    );
+  }
+
+  Widget ultiView() {
+    double width = MediaQuery.of(context).size.width;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              text: "Giá Phòng: ",
+              style: UTStyles.title[1],
+              children: [
+                TextSpan(text: '900,000 VND/phòng', style: UTStyles.title[7]),
+              ],
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Còn phòng",
+                  style: UTStyles.title[5],
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  "Còn",
+                  style: UTStyles.title[7],
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Diện tích",
+                  style: UTStyles.title[5],
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  "28m",
+                  style: UTStyles.title[7],
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Đặt cọc",
+                  style: UTStyles.title[5],
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  "200k",
+                  style: UTStyles.title[7],
+                ),
+              ],
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 8),
+          child: Container(
+            height: 1.0,
+            width: width,
+            decoration: BoxDecoration(color: Colors.grey[400]),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  //Icons.lightbulb,
+                  Icons.wb_incandescent_outlined,
+                  color: Colors.blueGrey,
+                  size: 20.0,
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  "3.9k",
+                  style: UTStyles.title[7],
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.water_drop_outlined,
+                  color: Colors.blueGrey,
+                  size: 20.0,
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  "3k",
+                  style: UTStyles.title[7],
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.delete,
+                  color: Colors.blueGrey,
+                  size: 20.0,
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  "100k",
+                  style: UTStyles.title[7],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // EasyLoading.init();
+    return Scaffold(
+      appBar: AppBar(title: const Text("Chi tiết phòng"), centerTitle: true),
+      backgroundColor: UTColors.backGround[1],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              picturesRoom(),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+                child: Text(
+                  "Tên Phòng A1",
+                  style: UTStyles.title[1],
+                ),
+              ),
+              lineView(),
+              ultiView(),
+              lineView(),
+              noteView(),
+              lineView(),
+              addressView(),
+              lineView(),
+              describeView()
+
+              /* FanCarouselImageSlider(
+                imagesLink: sampleImages,
+                isAssets: false,
+                autoPlay: true,
+              ), */
+            ],
           ),
         ),
       ),

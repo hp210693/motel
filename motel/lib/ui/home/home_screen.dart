@@ -49,8 +49,8 @@ class _HomePageState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.blue),
-      color: Colors.yellow,
+      // theme: ThemeData(primaryColor: Colors.blue),
+      //  color: Colors.yellow,
       home: BlocProvider(
           create: (_) => HomeBloc()..add(HomeFetchDataEvent("", "")),
           child: viewChild()),
@@ -150,18 +150,20 @@ class _HomePageState extends State<HomeScreen> {
       child: InkWell(
         onTap: () {
           log("----user click detail $room");
-          //context.read<NavRouterBloc>().add(NavRouterEvent.detail);
           AppRouter.push(const DetailScreen());
         },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            nameRoomView(room.roomName),
-            areaView(room.area),
-            moneyView(room.roomRates),
-            statusRoomView(room.statusRoom),
-          ],
+        child: Container(
+          color: UTColors.backGround[5],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              nameRoomView(room.roomName),
+              areaView(room.area),
+              moneyView(room.roomRates),
+              statusRoomView(room.statusRoom),
+            ],
+          ),
         ),
       ),
     );
