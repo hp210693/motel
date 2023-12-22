@@ -24,6 +24,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:motel/bloc/detail/detail_bloc.dart';
+import 'package:motel/bloc/detail/detail_event.dart';
 import 'package:motel/bloc/home/home_bloc.dart';
 import 'package:motel/bloc/home/home_event.dart';
 import 'package:motel/bloc/home/home_state.dart';
@@ -57,6 +59,13 @@ class _HomePageState extends State<HomeScreen> {
       builder: EasyLoading.init(),
     );
   }
+
+  /*  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+        create: (_) => HomeBloc()..add(HomeFetchDataEvent("", "")),
+        child: viewChild());
+  } */
 
   Widget viewChild() {
     return Scaffold(
@@ -150,7 +159,12 @@ class _HomePageState extends State<HomeScreen> {
       child: InkWell(
         onTap: () {
           log("----user click detail $room");
-          AppRouter.push(const DetailScreen());
+
+          // context.read<LoginBloc>().add(LoginInEvent(userName, password));
+          BlocProvider.of<NavRouterBloc>(context).add(NavDetailEvent(room));
+          //AppRouter.push(const DetailScreen());
+          //context.read<DetailBloc>().add(DetailInitialEvent(room));
+          //BlocProvider.of<DetailBloc>(context).add(DetailInitialEvent(room));
         },
         child: Container(
           color: UTColors.backGround[5],

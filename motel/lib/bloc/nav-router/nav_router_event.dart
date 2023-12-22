@@ -19,17 +19,35 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-/* abstract class NavRouterEvent {}
+import 'package:motel/data/room.dart';
 
-class NavRouterInitEvent extends NavRouterEvent {}
+abstract class NavRouterEvent {}
 
-class MoveToSplashEvent extends NavRouterEvent {}
+class NavAppInitEvent extends NavRouterEvent {}
 
-class MoveToLoginEvent extends NavRouterEvent {}
+class NavSplashEvent extends NavRouterEvent {}
 
-class MoveToHomeEvent extends NavRouterEvent {} */
+class NavLoginEvent extends NavRouterEvent {}
 
-enum NavRouterEvent {
+class NavSignUpEvent extends NavRouterEvent {}
+
+class NavBottomBarEvent extends NavRouterEvent {}
+
+class NavForgotPassEvent extends NavRouterEvent {}
+
+class NavHomeEvent extends NavRouterEvent {}
+
+class NavDetailEvent extends NavRouterEvent {
+  final Room _room;
+  NavDetailEvent(this._room);
+
+  Room get room => _room;
+}
+
+class NavNothingEvent extends NavRouterEvent {}
+
+
+/* enum NavRouterEvent {
   appInit,
   splash,
   login,
@@ -37,4 +55,6 @@ enum NavRouterEvent {
   forgotPass,
   home,
   bottomBar,
-}
+  detail,
+  nothing,
+} */

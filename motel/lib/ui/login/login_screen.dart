@@ -43,18 +43,29 @@ class _LoginPageState extends State<LoginScreen> {
   var userName = "";
   var password = "";
 
-  @override
+  /*  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: BlocProvider(create: (_) => LoginBloc(), child: viewChild()),
       builder: EasyLoading.init(),
     );
+  } */
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => LoginBloc(),
+      child: Scaffold(
+        backgroundColor: UTColors.backGround[1],
+        body: viewChild(),
+      ),
+    );
   }
-  /* @override
+
+/*   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: UTColors.backGround[1],
-      
       body: BlocProvider(
         create: (_) => LoginBloc(),
         child: viewChild(),
@@ -76,7 +87,7 @@ class _LoginPageState extends State<LoginScreen> {
           "Thành công",
           maskType: EasyLoadingMaskType.clear,
         );
-        BlocProvider.of<NavRouterBloc>(context).add(NavRouterEvent.home);
+        BlocProvider.of<NavRouterBloc>(context).add(NavHomeEvent());
         // context.read<NavRouterBloc>().add(NavRouterEvent.bottomBar);
         break;
       case LoginErrorState:
@@ -155,7 +166,7 @@ class _LoginPageState extends State<LoginScreen> {
         padding: const EdgeInsets.only(top: 10, bottom: 20, right: 20),
         child: InkWell(
           onTap: () {
-            context.read<NavRouterBloc>().add(NavRouterEvent.forgotPass);
+            context.read<NavRouterBloc>().add(NavForgotPassEvent());
           },
           child: Text(
             "Quên mật khẩu?",
@@ -203,8 +214,7 @@ class _LoginPageState extends State<LoginScreen> {
           ),
           InkWell(
             onTap: () {
-              BlocProvider.of<NavRouterBloc>(context)
-                  .add(NavRouterEvent.signUp);
+              BlocProvider.of<NavRouterBloc>(context).add(NavSignUpEvent());
             },
             child: Text(
               " Đăng ký,",
@@ -213,8 +223,7 @@ class _LoginPageState extends State<LoginScreen> {
           ),
           InkWell(
             onTap: () {
-              BlocProvider.of<NavRouterBloc>(context)
-                  .add(NavRouterEvent.bottomBar);
+              BlocProvider.of<NavRouterBloc>(context).add(NavBottomBarEvent());
             },
             child: Text(
               " Tiếp tục",

@@ -45,3 +45,4 @@ pubspec.lock
 /android/app/profile
 /android/app/release
 gradle.properties
+devtools_options.yaml

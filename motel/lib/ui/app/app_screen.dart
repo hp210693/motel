@@ -24,6 +24,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/bloc/nav-router/nav_router_state.dart';
+import 'package:motel/data/room.dart';
 import 'package:motel/ui/app-router/app_router.dart';
 import 'package:motel/ui/bottom/bottom_screen.dart';
 import 'package:motel/ui/detail/detail_screen.dart';
@@ -44,37 +45,64 @@ class _AppState extends State<AppScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NavRouterBloc()..add(NavRouterEvent.appInit),
+      create: (_) => NavRouterBloc()..add(NavAppInitEvent()),
       child: MaterialApp(
         navigatorKey: AppRouter.navigatorKey,
         builder: (context, child) {
           return BlocListener<NavRouterBloc, NavRouterState>(
             listener: (context, state) async {
-              switch (state) {
-                case NavRouterState.splash:
+              /*  if (state is NavSplashState) {
+                print("???hung - DetailScreen -- state $state");
+                print(state.room);
+                AppRouter.push(DetailScreen(state.room));
+                return;
+              }
+              if (state is NavDetailState) {
+                print("???hung - DetailScreen -- state $state");
+                print(state.room);
+                AppRouter.push(DetailScreen(state.room));
+                return;
+              }
+              if (state is NavDetailState) {
+                print("???hung - DetailScreen -- state $state");
+                print(state.room);
+                AppRouter.push(DetailScreen(state.room));
+                return;
+              }
+              if (state is NavDetailState) {
+                print("???hung - DetailScreen -- state $state");
+                print(state.room);
+                AppRouter.push(DetailScreen(state.room));
+                return;
+              } */
+              switch (state.runtimeType) {
+                case NavSplashState:
                   AppRouter.pushAndRemoveUntil(const SplashScreen());
                   await Future.delayed(const Duration(seconds: 2));
-                  context.read<NavRouterBloc>().add(NavRouterEvent.login);
+                  context.read<NavRouterBloc>().add(NavLoginEvent());
                   break;
-                case NavRouterState.login:
+                case NavLoginState:
                   AppRouter.pushAndRemoveUntil(const LoginScreen());
                   break;
-                case NavRouterState.signUp:
+                case NavSignUpState:
                   AppRouter.pushAndRemoveUntil(const SignUpScreen());
                   break;
-                case NavRouterState.forgotPass:
+                case NavForgotPassState:
                   AppRouter.pushAndRemoveUntil(const ForgotPassScreen());
                   break;
-                case NavRouterState.home:
+                case NavHomeState:
                   AppRouter.pushAndRemoveUntil(const HomeScreen());
                   break;
-                case NavRouterState.bottomBar:
+                case NavBottomBarState:
                   AppRouter.pushAndRemoveUntil(const BottomScreen());
                   break;
-                /*   case NavRouterState.detail:
-                  print("hung - DetailScreen");
-                  AppRouter.push(const DetailScreen());
-                  break; */
+                case NavDetailState:
+                  if (state is NavDetailState) {
+                    print("???hung - DetailScreen -- state $state");
+                    print(state.room);
+                    AppRouter.push(DetailScreen(state.room));
+                  }
+                  break;
                 default:
                   break;
               }

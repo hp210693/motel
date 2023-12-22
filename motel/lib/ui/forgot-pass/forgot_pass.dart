@@ -65,7 +65,7 @@ class _ForgotPassPageState extends State<ForgotPassScreen> {
           "Thành công",
           maskType: EasyLoadingMaskType.clear,
         );
-        BlocProvider.of<NavRouterBloc>(context).add(NavRouterEvent.bottomBar);
+        BlocProvider.of<NavRouterBloc>(context).add(NavBottomBarEvent());
         break;
       case LoginErrorState:
         EasyLoading.showError("Đã có lỗi xảy ra!",
@@ -135,7 +135,7 @@ class _ForgotPassPageState extends State<ForgotPassScreen> {
     return Center(
       child: InkWell(
         onTap: () {
-          BlocProvider.of<NavRouterBloc>(context).add(NavRouterEvent.login);
+          BlocProvider.of<NavRouterBloc>(context).add(NavLoginEvent());
         },
         child: Text(
           "Quay lại trang đăng nhập?",

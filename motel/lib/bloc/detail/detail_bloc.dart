@@ -21,32 +21,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:motel/bloc/login/login_event.dart';
-import 'package:motel/bloc/login/login_state.dart';
-import 'package:motel/repository/login_repo.dart';
+import 'package:motel/bloc/detail/detail_event.dart';
+import 'package:motel/bloc/detail/detail_state.dart';
+import 'package:motel/data/room.dart';
 
-class DetailBloc extends Bloc<LoginEvent, LoginState> {
-  final _loginRepo = LoginRepo();
-  DetailBloc() : super(LoginInitialState()) {
+class DetailBloc extends Bloc<DetailEvent, DetailState> {
+  // final _loginRepo = LoginRepo();
+
+  DetailBloc() : super(DetailInitialState()) {
     log("DetailBloc constructor");
-    on<LoginInEvent>(_login);
+    on<DetailInitialEvent>(_detail);
   }
 
-  Future<void> _login(LoginEvent event, Emitter<LoginState> emit) async {
-    if (event is LoginInEvent) {
-      log("LoginBloc LoginInEvent");
-      emit(LoginLoadingState());
+  Future<void> _detail(DetailEvent event, Emitter<DetailState> emit) async {
+    if (event is DetailInitialEvent) {
+      log("DetailBloc DetailInitialEvent");
+      emit(DetailLoadingState());
       try {
-        final respon =
+        /* final respon =
             await _loginRepo.getLoginInData(event.userName, event.passWord);
-        log("LoginBloc respon data\n = $respon");
+        log("DetailBloc respon data\n = $respon");
         await Future.delayed(const Duration(seconds: 2));
         emit(LoginSuccessedState(respon));
         await Future.delayed(const Duration(seconds: 1));
-        emit(LoginInitialState());
+        emit(LoginInitialState()); */
+        emit(DetailSuccessedState(event.room));
       } catch (error) {
-        log("LoginBloc call error");
-        emit(LoginErrorState(error.toString()));
+        log("DetailBloc call error");
+        emit(DetailErrorState(error.toString()));
       }
     }
   }

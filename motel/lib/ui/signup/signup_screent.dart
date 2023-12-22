@@ -267,7 +267,7 @@ class _SignUpPageState extends State<SignUpScreen> {
     return Center(
       child: InkWell(
         onTap: () {
-          BlocProvider.of<NavRouterBloc>(context).add(NavRouterEvent.login);
+          BlocProvider.of<NavRouterBloc>(context).add(NavLoginEvent());
         },
         child: Text(
           "Quay lại trang đăng nhập?",

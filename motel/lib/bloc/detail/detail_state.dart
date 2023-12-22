@@ -19,24 +19,23 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
+import 'package:motel/data/room.dart';
+
 abstract class DetailState {}
 
-class LoginInitialState extends DetailState {}
+class DetailInitialState extends DetailState {}
 
 class DetailLoadingState extends DetailState {}
 
 class DetailSuccessedState extends DetailState {
-  final String _message;
-  DetailSuccessedState(this._message);
-
-  /// return a message when user login in successed
-  String get message => _message;
+  final Room _room;
+  DetailSuccessedState(this._room);
+  Room get room => _room;
 }
 
 class DetailErrorState extends DetailState {
   final String _errMessage;
   DetailErrorState(this._errMessage);
 
-  /// return a string when user login in or login out error
   String get errMessage => _errMessage;
 }

@@ -19,17 +19,44 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
+import 'dart:core';
+
+import 'package:motel/data/room.dart';
+
 abstract class DetailEvent {}
 
-class DetailInEvent extends DetailEvent {
-  final String _userName;
-  final String _passWord;
+class DetailInitialEvent extends DetailEvent {
+  final Room _room;
+  DetailInitialEvent(this._room);
+  Room get room => _room;
+}
 
-  DetailInEvent(this._userName, this._passWord);
+class DetailGoMapEvent extends DetailEvent {}
 
-  /// return String user name
-  String get userName => _userName;
+class DetailCallHostEvent extends DetailEvent {}
 
-  /// return String password
-  String get passWord => _passWord;
+class DetailLoveRoomEvent extends DetailEvent {}
+
+class DetailBookRoomEvent extends DetailEvent {
+  final bool _keepPlace;
+  DetailBookRoomEvent(this._keepPlace);
+  bool get keepPlace => _keepPlace;
+}
+
+class DetailChatEvent extends DetailEvent {
+  final String _message;
+  DetailChatEvent(this._message);
+  String get message => _message;
+}
+
+class DetailDownloadPictureEvent extends DetailEvent {
+  final List<String> _urls;
+  DetailDownloadPictureEvent(this._urls);
+  List<String> get urls => _urls;
+}
+
+class DetailInfoHostEvent extends DetailEvent {
+  final List<String> _phone;
+  DetailInfoHostEvent(this._phone);
+  List<String> get phones => _phone;
 }

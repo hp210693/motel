@@ -26,6 +26,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:motel/bloc/detail/detail_bloc.dart';
+import 'package:motel/bloc/detail/detail_event.dart';
+import 'package:motel/bloc/detail/detail_state.dart';
 import 'package:motel/bloc/login/login_bloc.dart';
 import 'package:motel/bloc/login/login_state.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
@@ -38,7 +41,8 @@ import 'package:fan_carousel_image_slider/fan_carousel_image_slider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key});
+  final Room roomShared;
+  const DetailScreen(this.roomShared, {super.key});
 
   @override
   State<DetailScreen> createState() => _DetailPageState();
@@ -55,6 +59,12 @@ class _DetailPageState extends State<DetailScreen> {
   ];
 
   List<int> list = [1, 2, 3, 4, 5];
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    BlocProvider.of<NavRouterBloc>(context).add(NavNothingEvent());
+  }
 
   Widget picturesRoom() {
     return CarouselSlider(
@@ -553,9 +563,7 @@ class _DetailPageState extends State<DetailScreen> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // EasyLoading.init();
+/*   Widget viewChild() {
     return Scaffold(
       appBar: AppBar(
           title: Text("Chi tiết phòng", style: UTStyles.title[1]),
@@ -579,14 +587,64 @@ class _DetailPageState extends State<DetailScreen> {
               describeView()
 
               /* FanCarouselImageSlider(
-                imagesLink: sampleImages,
-                isAssets: false,
-                autoPlay: true,
-              ), */
+                  imagesLink: sampleImages,
+                  isAssets: false,
+                  autoPlay: true,
+                ), */
             ],
           ),
         ),
       ),
+    );
+  } */
+
+  Widget viewChild() {
+    return Scaffold(
+      appBar: AppBar(
+          title: Text("Chi tiết phòng", style: UTStyles.title[1]),
+          centerTitle: true),
+      bottomNavigationBar: detailBottom(),
+      backgroundColor: UTColors.backGround[1],
+      body: BlocListener<DetailBloc, DetailState>(
+        listener: (context, state) {
+          log("hung???????- $state");
+          /*  switch (state) {
+                case NavRouterState.splash:
+                  
+                  break;
+             default:
+                  break;
+              } */
+        },
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                picturesRoom(),
+                nameRoomView(),
+                //  lineView(),
+                ultiView(),
+                lineView(),
+                noteView(),
+                lineView(),
+                addressView(),
+                lineView(),
+                describeView()
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // EasyLoading.init();
+    return BlocProvider(
+      create: (_) => DetailBloc(), //..add(DetailInitialEvent()),
+      child: viewChild(),
     );
   }
 }

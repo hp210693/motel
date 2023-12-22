@@ -26,36 +26,46 @@ import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/bloc/nav-router/nav_router_state.dart';
 
 class NavRouterBloc extends Bloc<NavRouterEvent, NavRouterState> {
-  NavRouterBloc() : super(NavRouterState.appInit) {
+  NavRouterBloc() : super(NavAppInitState()) {
     log("\n\nLoging -- class $runtimeType -- Contructor ${StackFrame.fromStackTrace(StackTrace.current)[0].isConstructor}\n\n");
     on<NavRouterEvent>(_navEvent);
   }
   Future<void> _navEvent(
       NavRouterEvent event, Emitter<NavRouterState> emit) async {
-    switch (event) {
-      case NavRouterEvent.appInit:
+    switch (event.runtimeType) {
+      case NavAppInitEvent:
         log("NavRouterBloc appInit ");
-        emit(NavRouterState.splash);
+        emit(NavSplashState());
         break;
-      case NavRouterEvent.login:
+      case NavLoginEvent:
         log("NavRouterBloc login ");
-        emit(NavRouterState.login);
+        emit(NavLoginState());
         break;
-      case NavRouterEvent.signUp:
+      case NavSignUpEvent:
         log("NavRouterBloc signUp ");
-        emit(NavRouterState.signUp);
+        emit(NavSignUpState());
         break;
-      case NavRouterEvent.forgotPass:
+      case NavForgotPassEvent:
         log("NavRouterBloc forgotPass ");
-        emit(NavRouterState.forgotPass);
+        emit(NavForgotPassState());
         break;
-      case NavRouterEvent.bottomBar:
+      case NavBottomBarEvent:
         log("NavRouterBloc bottomBar ");
-        emit(NavRouterState.bottomBar);
+        emit(NavBottomBarState());
         break;
-      case NavRouterEvent.home:
+      case NavHomeEvent:
         log("NavRouterBloc home");
-        emit(NavRouterState.home);
+        emit(NavHomeState());
+        break;
+      case NavDetailEvent:
+        if (event is NavDetailEvent) {
+          log("NavRouterBloc detail $event");
+          emit(NavDetailState(event.room));
+        }
+        break;
+      case NavNothingEvent:
+        log("NavRouterBloc nothing");
+        emit(NavNothingState());
         break;
       default:
         break;

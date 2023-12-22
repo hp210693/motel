@@ -19,22 +19,34 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-/* abstract class NavRouterState {}
+import 'package:motel/data/room.dart';
 
-class NavRouterInitState extends NavRouterState {}
+abstract class NavRouterState {}
 
-class NavRouterLoadingState extends NavRouterState {}
+class NavAppInitState extends NavRouterState {}
 
-class NavRouterSplashState extends NavRouterState {}
+class NavSplashState extends NavRouterState {}
 
-class NavRouterSucessState extends NavRouterState {}
+class NavLoginState extends NavRouterState {}
 
-class SplashErrorState extends NavRouterState {}
+class NavSignUpState extends NavRouterState {}
 
-class NavRouterHomeState extends NavRouterState {}
+class NavBottomBarState extends NavRouterState {}
 
-class NavRouterLoginState extends NavRouterState {} */
-enum NavRouterState {
+class NavForgotPassState extends NavRouterState {}
+
+class NavHomeState extends NavRouterState {}
+
+class NavDetailState extends NavRouterState {
+  final Room _room;
+  NavDetailState(this._room);
+  Room get room => _room;
+}
+
+class NavNothingState extends NavRouterState {}
+
+
+/* enum NavRouterState {
   appInit,
   loading,
   splash,
@@ -43,4 +55,6 @@ enum NavRouterState {
   forgotPass,
   home,
   bottomBar,
-}
+  detail,
+  nothing,
+} */
