@@ -30,6 +30,7 @@ import 'package:motel/bloc/login/login_bloc.dart';
 import 'package:motel/bloc/login/login_state.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
+import 'package:motel/data/room.dart';
 import 'package:motel/ui/app-router/app_router.dart';
 import 'package:motel/utility/ut_color.dart';
 import 'package:motel/utility/ut_styles.dart';
@@ -38,10 +39,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
-
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const DetailScreen());
-  }
 
   @override
   State<DetailScreen> createState() => _DetailPageState();
@@ -187,7 +184,7 @@ class _DetailPageState extends State<DetailScreen> {
         Padding(
           padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
           child: Text(
-            '''Địa chỉ: Tổ 99 khu phố Bàu Ké thị trấn Tân Phú Huyện Đồng Phú, BP\n'''
+            '''Địa chỉ: Tổ 99 khu phố Bàu Ké thị trấn Tân Phú Huyện Đồng Phú, Bình Phước\n'''
             '''Gần khu công nghiệp Bắc Đồng Phú 5 phút đi bộ\n'''
             '''Giá thuê chưa bao gồm tiền điện, nước, rác\n'''
             '''Xem phòng liên hệ: 0123456789 Mr. Hùng''',
@@ -347,14 +344,17 @@ class _DetailPageState extends State<DetailScreen> {
             decoration: BoxDecoration(color: Colors.grey[400]),
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        GridView.count(
+          primary: false,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          childAspectRatio: (1 / .4),
+          crossAxisCount: 3,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
-                  //Icons.lightbulb,
                   Icons.wb_incandescent_outlined,
                   color: Colors.blueGrey,
                   size: 20.0,
@@ -362,7 +362,7 @@ class _DetailPageState extends State<DetailScreen> {
                 const SizedBox(height: 4.0),
                 Text(
                   "3.9k",
-                  style: UTStyles.title[7],
+                  style: UTStyles.title[8],
                 ),
               ],
             ),
@@ -377,7 +377,7 @@ class _DetailPageState extends State<DetailScreen> {
                 const SizedBox(height: 4.0),
                 Text(
                   "3k",
-                  style: UTStyles.title[7],
+                  style: UTStyles.title[8],
                 ),
               ],
             ),
@@ -392,7 +392,52 @@ class _DetailPageState extends State<DetailScreen> {
                 const SizedBox(height: 4.0),
                 Text(
                   "100k",
-                  style: UTStyles.title[7],
+                  style: UTStyles.title[8],
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.wc,
+                  color: Colors.blueGrey,
+                  size: 20.0,
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  "WC riêng",
+                  style: UTStyles.title[8],
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.wifi,
+                  color: Colors.blueGrey,
+                  size: 20.0,
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  "Wifi",
+                  style: UTStyles.title[8],
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.timer_outlined,
+                  color: Colors.blueGrey,
+                  size: 20.0,
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  "Tự do",
+                  style: UTStyles.title[8],
                 ),
               ],
             ),
@@ -402,11 +447,120 @@ class _DetailPageState extends State<DetailScreen> {
     );
   }
 
+  Widget detailBottom() {
+    double width = MediaQuery.of(context).size.width - 30;
+    return Container(
+      color: UTColors.backGround[1],
+      child: SizedBox(
+        height: 60,
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () {
+                  log("user click button login");
+                  // context.read<LoginBloc>().add(LoginInEvent(userName, password));
+                },
+                child: Container(
+                  //height: 50,
+                  // width: width / 3 - 15,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: UTColors.text[3]),
+                    color: UTColors.backGround[6],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.chat, size: 20),
+                        Text(
+                          " Chat",
+                          style: UTStyles.title[4],
+                        ),
+                      ]),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: InkWell(
+                  onTap: () {
+                    log("user click button login");
+                    // context.read<LoginBloc>().add(LoginInEvent(userName, password));
+                  },
+                  child: Container(
+                    //height: 50,
+                    width: width / 2 - 20,
+
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: UTColors.text[3]),
+                      color: UTColors.backGround[1],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      " Gữi chỗ",
+                      style: UTStyles.title[4],
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  log("user click button login");
+                  // context.read<LoginBloc>().add(LoginInEvent(userName, password));
+                },
+                child: Container(
+                  //height: 50,
+                  //width: width / 3,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: UTColors.text[3]),
+                    color: UTColors.backGround[1],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.call, size: 20),
+                        Text(
+                          " Gọi",
+                          style: UTStyles.title[4],
+                        ),
+                      ]),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget nameRoomView() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+      child: Text(
+        "Dãy A Phòng A1",
+        style: UTStyles.title[1],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // EasyLoading.init();
     return Scaffold(
-      appBar: AppBar(title: const Text("Chi tiết phòng"), centerTitle: true),
+      appBar: AppBar(
+          title: Text("Chi tiết phòng", style: UTStyles.title[1]),
+          centerTitle: true),
+      bottomNavigationBar: detailBottom(),
       backgroundColor: UTColors.backGround[1],
       body: SafeArea(
         child: SingleChildScrollView(
@@ -414,14 +568,8 @@ class _DetailPageState extends State<DetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               picturesRoom(),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
-                child: Text(
-                  "Tên Phòng A1",
-                  style: UTStyles.title[1],
-                ),
-              ),
-              lineView(),
+              nameRoomView(),
+              //  lineView(),
               ultiView(),
               lineView(),
               noteView(),

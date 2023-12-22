@@ -8,6 +8,7 @@ abstract class UTColors {
       3: Color(0xfffee600),
       4: Color(0xff000000),
       5: Color(0xffffffff),
+      6: Color.fromARGB(255, 14, 146, 235),
     },
   );
 
