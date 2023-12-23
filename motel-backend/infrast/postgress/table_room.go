@@ -59,6 +59,7 @@ func (tb *tableRoom) GetAllRoom() ([]model.Room, error) {
 	// Get all records
 	// SELECT * FROM room;
 	if result := tb.db.Find(&rooms); result.Error != nil {
+		log.Printf("??call room database - result = ", result)
 		return []model.Room{}, result.Error
 	}
 

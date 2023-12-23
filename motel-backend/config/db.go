@@ -64,8 +64,12 @@ func DatabaseInit() {
 		log.Fatalln("Cannot connect to Possgress:", e)
 	}
 	log.Println("Running migrations")
-	database.AutoMigrate(&model.Room{}, &model.Account{}, &model.Bill{}, &model.Flow{}, &model.Role{})
 
+	if migrateErr := database.AutoMigrate(&model.Account{}, &model.Room{}, &model.Bill{}, &model.Flow{}, &model.Role{}); migrateErr != nil {
+		log.Println("Sorry couldn't migrate'...")
+	}
+
+	log.Println("Database connection was successful...")
 	log.Println("Connected:", database)
 }
 

@@ -26,29 +26,32 @@ package model
 import (
 	"encoding/json"
 	"time"
+
+	"github.com/lib/pq"
 )
 
 type Room struct {
-	RoomId         int        `json:"room_id" gorm:"primaryKey"`
-	FlowId         int        `json:"flow_id"`
-	Area           string     `json:"area"`
-	StatusRoom     int        `json:"status_room"`
-	RoomName       string     `json:"room_name"`
-	BookingDate    *time.Time `json:"booking_date"`
-	DateMoveIn     *time.Time `json:"date_move_in"`
-	DateMoveOut    *time.Time `json:"date_move_out"`
-	TotalDays      float64    `json:"total_days"`
-	ElectricNumber float64    `json:"electric_number"`
-	ElectricPrice  float64    `json:"electric_price"`
-	Deposits       float64    `json:"deposits"`
-	ImgElectric    string     `json:"img_electric"`
-	ImgRoomRates   string     `json:"img_room_rates"`
-	ImgWater       string     `json:"img_water"`
-	JunkMoney      float64    `json:"junk_money"`
-	NumOfMember    int        `json:"num_of_member"`
-	RoomRates      float64    `json:"room_rates"`
-	WaterNumber    float64    `json:"water_number"`
-	WaterPrice     float64    `json:"water_price"`
+	RoomId         int            `json:"room_id" gorm:"primaryKey"`
+	FlowId         int            `json:"flow_id"`
+	Area           string         `json:"area"`
+	StatusRoom     int            `json:"status_room"`
+	RoomName       string         `json:"room_name"`
+	BookingDate    *time.Time     `json:"booking_date"`
+	DateMoveIn     *time.Time     `json:"date_move_in"`
+	DateMoveOut    *time.Time     `json:"date_move_out"`
+	TotalDays      float64        `json:"total_days"`
+	ElectricNumber float64        `json:"electric_number"`
+	ElectricPrice  float64        `json:"electric_price"`
+	Deposits       float64        `json:"deposits"`
+	ImgElectric    pq.StringArray `json:"img_electric" gorm:"type:text[]"`
+	ImgRoomRates   pq.StringArray `json:"img_room_rates" gorm:"type:text[]"`
+	ImgWater       pq.StringArray `json:"img_water" gorm:"type:text[]"`
+	ImgRoom        pq.StringArray `json:"img_room" gorm:"type:text[]"`
+	JunkMoney      float64        `json:"junk_money"`
+	NumOfMember    int            `json:"num_of_member"`
+	RoomRates      float64        `json:"room_rates"`
+	WaterNumber    float64        `json:"water_number"`
+	WaterPrice     float64        `json:"water_price"`
 }
 
 // TableName overrides the table name used by Account to `account`
