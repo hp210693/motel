@@ -21,6 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:developer';
 import 'dart:ui';
+import 'package:ionicons/ionicons.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,16 +37,18 @@ import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/data/room.dart';
 import 'package:motel/ui/app-router/app_router.dart';
 import 'package:motel/utility/ut_color.dart';
+import 'package:motel/utility/ut_money.dart';
 import 'package:motel/utility/ut_styles.dart';
 import 'package:fan_carousel_image_slider/fan_carousel_image_slider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailScreen extends StatefulWidget {
-  final Room roomShared;
-  const DetailScreen(this.roomShared, {super.key});
+  final Room _roomShared;
+  const DetailScreen(this._roomShared, {super.key});
 
   @override
-  State<DetailScreen> createState() => _DetailPageState();
+  State<DetailScreen> createState() => _DetailPageState(_roomShared);
 }
 
 class _DetailPageState extends State<DetailScreen> {
@@ -57,8 +60,11 @@ class _DetailPageState extends State<DetailScreen> {
     'https://img.freepik.com/free-photo/elegant-woman-brown-coat-spring-city_1157-33434.jpg?w=1800&t=st=1673886830~exp=1673887430~hmac=cc8c28a9332e008db251bdf9c7b838b7aa5077ec7663773087a8cc56d11138ff',
     'https://img.freepik.com/free-photo/high-fashion-look-glamor-closeup-portrait-beautiful-sexy-stylish-blond-young-woman-model-with-bright-yellow-makeup-with-perfect-clean-skin-with-gold-jewelery-black-cloth_158538-2003.jpg?w=826&t=st=1673886857~exp=1673887457~hmac=3ba51578e6a1e9c58e95a6b72e492cbbc26abf8e2f116a0672113770d3f4edbe',
   ];
+  final Room roomShared;
+  _DetailPageState(this.roomShared);
 
   List<int> list = [1, 2, 3, 4, 5];
+  final Uri url = Uri.parse('tel:+84-123456789');
 
   @override
   void deactivate() {
@@ -227,7 +233,7 @@ class _DetailPageState extends State<DetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.location_pin,
+                  Ionicons.location_outline,
                   color: Colors.blueGrey,
                   size: 20.0,
                 ),
@@ -251,12 +257,12 @@ class _DetailPageState extends State<DetailScreen> {
         Padding(
           padding: const EdgeInsets.only(left: 15, right: 15, bottom: 8),
           child: InkWell(
-            onTap: () => {},
+            onTap: () => {openLink(url)},
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.phone,
+                  Ionicons.call_outline,
                   color: Colors.blueGrey,
                   size: 20.0,
                 ),
@@ -294,7 +300,9 @@ class _DetailPageState extends State<DetailScreen> {
               text: "Giá Phòng: ",
               style: UTStyles.title[1],
               children: [
-                TextSpan(text: '900,000 VND/phòng', style: UTStyles.title[7]),
+                TextSpan(
+                    text: '${vnd(roomShared.roomRates)} VND/phòng',
+                    style: UTStyles.title[7]),
               ],
             ),
           ),
@@ -311,7 +319,7 @@ class _DetailPageState extends State<DetailScreen> {
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  "Còn",
+                  "${roomShared.statusRoom}",
                   style: UTStyles.title[7],
                 ),
               ],
@@ -325,7 +333,7 @@ class _DetailPageState extends State<DetailScreen> {
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  "28m",
+                  '${roomShared.area} m\u00b2',
                   style: UTStyles.title[7],
                 ),
               ],
@@ -339,7 +347,7 @@ class _DetailPageState extends State<DetailScreen> {
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  "200k",
+                  '${vnd(roomShared.deposits)}k',
                   style: UTStyles.title[7],
                 ),
               ],
@@ -365,13 +373,13 @@ class _DetailPageState extends State<DetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.wb_incandescent_outlined,
+                  Ionicons.bulb_outline,
                   color: Colors.blueGrey,
                   size: 20.0,
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  "3.9k",
+                  "${vndk(roomShared.electricPrice)}k",
                   style: UTStyles.title[8],
                 ),
               ],
@@ -380,13 +388,13 @@ class _DetailPageState extends State<DetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.water_drop_outlined,
+                  Ionicons.water_outline,
                   color: Colors.blueGrey,
                   size: 20.0,
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  "3k",
+                  "${vndk(roomShared.waterPrice)}k",
                   style: UTStyles.title[8],
                 ),
               ],
@@ -395,13 +403,13 @@ class _DetailPageState extends State<DetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.delete,
+                  Ionicons.trash_outline,
                   color: Colors.blueGrey,
                   size: 20.0,
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  "100k",
+                  "${vndk(roomShared.junkMoney)}k",
                   style: UTStyles.title[8],
                 ),
               ],
@@ -410,7 +418,7 @@ class _DetailPageState extends State<DetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.wc,
+                  Ionicons.man_outline,
                   color: Colors.blueGrey,
                   size: 20.0,
                 ),
@@ -425,13 +433,13 @@ class _DetailPageState extends State<DetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.wifi,
+                  Ionicons.wifi_outline,
                   color: Colors.blueGrey,
                   size: 20.0,
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  "Wifi",
+                  "Free",
                   style: UTStyles.title[8],
                 ),
               ],
@@ -440,7 +448,7 @@ class _DetailPageState extends State<DetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.timer_outlined,
+                  Ionicons.time_outline,
                   color: Colors.blueGrey,
                   size: 20.0,
                 ),
@@ -455,6 +463,12 @@ class _DetailPageState extends State<DetailScreen> {
         ),
       ],
     );
+  }
+
+  Future<void> openLink(Uri url) async {
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   Widget detailBottom() {
@@ -475,8 +489,6 @@ class _DetailPageState extends State<DetailScreen> {
                   // context.read<LoginBloc>().add(LoginInEvent(userName, password));
                 },
                 child: Container(
-                  //height: 50,
-                  // width: width / 3 - 15,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   decoration: BoxDecoration(
@@ -487,7 +499,7 @@ class _DetailPageState extends State<DetailScreen> {
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(Icons.chat, size: 20),
+                        const Icon(Ionicons.chatbox_ellipses_outline, size: 20),
                         Text(
                           " Chat",
                           style: UTStyles.title[4],
@@ -503,9 +515,7 @@ class _DetailPageState extends State<DetailScreen> {
                     // context.read<LoginBloc>().add(LoginInEvent(userName, password));
                   },
                   child: Container(
-                    //height: 50,
                     width: width / 2 - 20,
-
                     alignment: Alignment.center,
                     padding: const EdgeInsets.only(left: 15, right: 15),
                     decoration: BoxDecoration(
@@ -523,11 +533,11 @@ class _DetailPageState extends State<DetailScreen> {
               InkWell(
                 onTap: () {
                   log("user click button login");
+                  openLink(url);
+
                   // context.read<LoginBloc>().add(LoginInEvent(userName, password));
                 },
                 child: Container(
-                  //height: 50,
-                  //width: width / 3,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   decoration: BoxDecoration(
@@ -538,7 +548,7 @@ class _DetailPageState extends State<DetailScreen> {
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(Icons.call, size: 20),
+                        const Icon(Ionicons.call_outline, size: 20),
                         Text(
                           " Gọi",
                           style: UTStyles.title[4],
@@ -554,10 +564,14 @@ class _DetailPageState extends State<DetailScreen> {
   }
 
   Widget nameRoomView() {
+    String temp = roomShared.roomName.contains("KIOT") == true
+        ? "KIOT"
+        : roomShared.roomName.toString()[0];
+
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
       child: Text(
-        "Dãy A Phòng A1",
+        'Dãy $temp phòng ${roomShared.roomName}',
         style: UTStyles.title[1],
       ),
     );
@@ -605,18 +619,8 @@ class _DetailPageState extends State<DetailScreen> {
           centerTitle: true),
       bottomNavigationBar: detailBottom(),
       backgroundColor: UTColors.backGround[1],
-      body: BlocListener<DetailBloc, DetailState>(
-        listener: (context, state) {
-          log("hung???????- $state");
-          /*  switch (state) {
-                case NavRouterState.splash:
-                  
-                  break;
-             default:
-                  break;
-              } */
-        },
-        child: SafeArea(
+      body: BlocBuilder<DetailBloc, DetailState>(builder: (context, state) {
+        return SafeArea(
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -634,13 +638,15 @@ class _DetailPageState extends State<DetailScreen> {
               ],
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    print("11111 - $roomShared");
+    print(roomShared.roomName);
     // EasyLoading.init();
     return BlocProvider(
       create: (_) => DetailBloc(), //..add(DetailInitialEvent()),
