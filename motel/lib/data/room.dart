@@ -50,11 +50,13 @@ class Room {
   @JsonKey(name: 'deposits')
   final double deposits;
   @JsonKey(name: 'img_electric')
-  final String imgElectric;
+  final List<String> imgElectric;
   @JsonKey(name: 'img_room_rates')
-  final String imgRoomRates;
+  final List<String> imgRoomRates;
   @JsonKey(name: 'img_water')
-  final String imgWater;
+  final List<String> imgWater;
+  @JsonKey(name: 'img_room')
+  final List<String> imgRoom;
   @JsonKey(name: 'junk_money')
   final double junkMoney;
   @JsonKey(name: 'num_of_member')
@@ -84,6 +86,7 @@ class Room {
     required this.imgElectric,
     required this.imgRoomRates,
     required this.imgWater,
+    required this.imgRoom,
     required this.junkMoney,
     required this.numOfMember,
     required this.roomRates,

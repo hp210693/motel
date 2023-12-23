@@ -45,7 +45,7 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailScreen> {
-  static const List<String> sampleImages = [
+  static List<String> sampleImages = [
     'https://img.freepik.com/free-photo/lovely-woman-vintage-outfit-expressing-interest-outdoor-shot-glamorous-happy-girl-sunglasses_197531-11312.jpg?w=1800&t=st=1673886721~exp=1673887321~hmac=57318aa37912a81d9c6e8f98d4e94fb97a766bf6161af66488f4d890f88a3109',
     'https://img.freepik.com/free-photo/attractive-curly-woman-purple-cashmere-sweater-fuchsia-sunglasses-poses-isolated-wall_197531-24158.jpg?w=1800&t=st=1673886680~exp=1673887280~hmac=258c92922874ad41d856e7fdba03ce349556cf619de4074143cec958b5b4cf05',
     'https://img.freepik.com/free-photo/stylish-blonde-woman-beret-beautiful-french-girl-jacket-standing-red-wall_197531-14428.jpg?w=1800&t=st=1673886821~exp=1673887421~hmac=5e77d3fab088b29a3b19a9023289fa95c1dc2af15565f290886bab4642fa2621',
@@ -66,6 +66,7 @@ class _DetailPageState extends State<DetailScreen> {
   }
 
   Widget picturesRoom() {
+    sampleImages.add('${roomShared.imgWater}');
     return CarouselSlider(
       options: CarouselOptions(),
       items: sampleImages
