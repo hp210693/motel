@@ -24,7 +24,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/bloc/nav-router/nav_router_state.dart';
-import 'package:motel/data/room.dart';
 import 'package:motel/ui/app-router/app_router.dart';
 import 'package:motel/ui/bottom/bottom_screen.dart';
 import 'package:motel/ui/detail/detail_screen.dart';

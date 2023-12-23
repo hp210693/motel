@@ -22,6 +22,7 @@ SOFTWARE.*/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:motel/bloc/bottom/bottom_bloc.dart';
 import 'package:motel/bloc/bottom/bottom_event.dart';
 import 'package:motel/bloc/bottom/bottom_state.dart';
@@ -94,19 +95,19 @@ class _BottomPageState extends State<BottomScreen> {
             type: BottomNavigationBarType.fixed,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+                icon: Icon(Ionicons.home_outline),
                 label: 'Phòng',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.report),
+                icon: Icon(Icons.report_outlined),
                 label: 'Báo cáo',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.message_rounded),
+                icon: Icon(Ionicons.chatbox_ellipses_outline),
                 label: 'Tin nhắn',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
+                icon: Icon(Ionicons.settings_outline),
                 label: 'Hồ sơ',
               ),
             ],

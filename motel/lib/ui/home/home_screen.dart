@@ -20,20 +20,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:motel/bloc/detail/detail_bloc.dart';
-import 'package:motel/bloc/detail/detail_event.dart';
 import 'package:motel/bloc/home/home_bloc.dart';
 import 'package:motel/bloc/home/home_event.dart';
 import 'package:motel/bloc/home/home_state.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/data/room.dart';
-import 'package:motel/ui/app-router/app_router.dart';
-import 'package:motel/ui/detail/detail_screen.dart';
 import 'package:motel/utility/ut_color.dart';
 import 'package:motel/utility/ut_money.dart';
 import 'package:motel/utility/ut_styles.dart';
@@ -203,7 +198,7 @@ class _HomePageState extends State<HomeScreen> {
           ),
         ),
         Text(
-          '${''}${vnd(money)}',
+          '${vnd(money)} VND',
           style: UTStyles.text[6],
         ),
       ],

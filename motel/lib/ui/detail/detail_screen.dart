@@ -20,26 +20,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:developer';
-import 'dart:ui';
 import 'package:ionicons/ionicons.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:motel/bloc/detail/detail_bloc.dart';
-import 'package:motel/bloc/detail/detail_event.dart';
 import 'package:motel/bloc/detail/detail_state.dart';
-import 'package:motel/bloc/login/login_bloc.dart';
-import 'package:motel/bloc/login/login_state.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/data/room.dart';
-import 'package:motel/ui/app-router/app_router.dart';
 import 'package:motel/utility/ut_color.dart';
 import 'package:motel/utility/ut_money.dart';
 import 'package:motel/utility/ut_styles.dart';
-import 'package:fan_carousel_image_slider/fan_carousel_image_slider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
