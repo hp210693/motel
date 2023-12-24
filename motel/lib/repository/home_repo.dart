@@ -34,6 +34,7 @@ class HomeRepo {
   Future<Map<String, List<Room>>> getHomeFetchData(String jwt) async {
     try {
       final data = await _apiService.getHomeResponse(jwt);
+      //log(data);
       final listJson = jsonDecode(data);
       log("HomeRepoImp - convert data ok\n ");
       // Remember remove dynamic error

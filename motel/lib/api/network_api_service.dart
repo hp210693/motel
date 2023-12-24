@@ -57,7 +57,10 @@ class NetworkApiService extends BaseApiService {
           .get(Uri.parse(url))
           .timeout(const Duration(seconds: _timeOut));
 
-      if (resp.statusCode == 200) return resp.body;
+      if (resp.statusCode == 200) {
+        log(resp.body);
+        return resp.body;
+      }
     } catch (e) {
       rethrow;
     }
@@ -72,7 +75,9 @@ class NetworkApiService extends BaseApiService {
           .get(Uri.parse(url))
           .timeout(const Duration(seconds: _timeOut));
 
-      if (resp.statusCode == 200) return resp.body;
+      if (resp.statusCode == 200) {
+        return resp.body;
+      }
     } catch (e) {
       rethrow;
     }
