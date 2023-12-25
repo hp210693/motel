@@ -46,6 +46,12 @@ class NavDetailEvent extends NavRouterEvent {
 
 class NavNothingEvent extends NavRouterEvent {}
 
+class NavShowRoomEvent extends NavRouterEvent {
+  final List<String> _images;
+  NavShowRoomEvent(this._images);
+  List<String> get images => _images;
+}
+
 
 /* enum NavRouterEvent {
   appInit,

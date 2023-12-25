@@ -45,7 +45,9 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailScreen> {
-  static List<String> sampleImages = [
+  int _current = 0;
+  final CarouselController _controller = CarouselController();
+  List<String> sampleImages = [
     'https://img.freepik.com/free-photo/lovely-woman-vintage-outfit-expressing-interest-outdoor-shot-glamorous-happy-girl-sunglasses_197531-11312.jpg?w=1800&t=st=1673886721~exp=1673887321~hmac=57318aa37912a81d9c6e8f98d4e94fb97a766bf6161af66488f4d890f88a3109',
     'https://img.freepik.com/free-photo/attractive-curly-woman-purple-cashmere-sweater-fuchsia-sunglasses-poses-isolated-wall_197531-24158.jpg?w=1800&t=st=1673886680~exp=1673887280~hmac=258c92922874ad41d856e7fdba03ce349556cf619de4074143cec958b5b4cf05',
     'https://img.freepik.com/free-photo/stylish-blonde-woman-beret-beautiful-french-girl-jacket-standing-red-wall_197531-14428.jpg?w=1800&t=st=1673886821~exp=1673887421~hmac=5e77d3fab088b29a3b19a9023289fa95c1dc2af15565f290886bab4642fa2621',
@@ -56,7 +58,6 @@ class _DetailPageState extends State<DetailScreen> {
   final Room roomShared;
   _DetailPageState(this.roomShared);
 
-  List<int> list = [1, 2, 3, 4, 5];
   final Uri url = Uri.parse('tel:+84-123456789');
 
   @override
@@ -66,15 +67,55 @@ class _DetailPageState extends State<DetailScreen> {
   }
 
   Widget picturesRoom() {
-    sampleImages.add('${roomShared.imgWater}');
-    return CarouselSlider(
-      options: CarouselOptions(),
-      items: sampleImages
-          .map((item) => Container(
-                child: Center(child: Image.network(item)),
-                //color: Colors.green,
-              ))
-          .toList(),
+    // sampleImages.add(roomShared.imgRoom[0]);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        CarouselSlider(
+          items: sampleImages
+              .map((item) => InkWell(
+                  onTap: () => {
+                        context
+                            .read<NavRouterBloc>()
+                            .add(NavShowRoomEvent(sampleImages))
+                      },
+                  child: Center(child: Image.network(item))))
+              .toList(),
+          carouselController: _controller,
+          options: CarouselOptions(
+              autoPlay: true,
+              enlargeCenterPage: true,
+              aspectRatio: 2.0,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _current = index;
+                });
+              }),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: sampleImages.asMap().entries.map((entry) {
+            return GestureDetector(
+              onTap: () => {
+                _controller.animateToPage(entry.key),
+                log("???hhhh2"),
+              },
+              child: Container(
+                width: 10.0,
+                height: 10.0,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (Theme.of(context).brightness == Brightness.dark
+                            ? UTColors.backGround[6]
+                            : UTColors.backGround[4])
+                        .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 
@@ -571,41 +612,6 @@ class _DetailPageState extends State<DetailScreen> {
     );
   }
 
-/*   Widget viewChild() {
-    return Scaffold(
-      appBar: AppBar(
-          title: Text("Chi tiết phòng", style: UTStyles.title[1]),
-          centerTitle: true),
-      bottomNavigationBar: detailBottom(),
-      backgroundColor: UTColors.backGround[1],
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              picturesRoom(),
-              nameRoomView(),
-              //  lineView(),
-              ultiView(),
-              lineView(),
-              noteView(),
-              lineView(),
-              addressView(),
-              lineView(),
-              describeView()
-
-              /* FanCarouselImageSlider(
-                  imagesLink: sampleImages,
-                  isAssets: false,
-                  autoPlay: true,
-                ), */
-            ],
-          ),
-        ),
-      ),
-    );
-  } */
-
   Widget viewChild() {
     return Scaffold(
       appBar: AppBar(
@@ -639,8 +645,6 @@ class _DetailPageState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("11111 - $roomShared");
-    print(roomShared.roomName);
     // EasyLoading.init();
     return BlocProvider(
       create: (_) => DetailBloc(), //..add(DetailInitialEvent()),

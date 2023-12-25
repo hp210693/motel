@@ -58,7 +58,6 @@ class NetworkApiService extends BaseApiService {
           .timeout(const Duration(seconds: _timeOut));
 
       if (resp.statusCode == 200) {
-        log(resp.body);
         return resp.body;
       }
     } catch (e) {

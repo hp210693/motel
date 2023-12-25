@@ -85,6 +85,11 @@ abstract class UTStyles {
         fontWeight: FontWeight.bold,
         color: UTColors.text[3],
       ),
+      8: GoogleFonts.robotoSlab(
+          fontSize: 22,
+          fontWeight: FontWeight.normal,
+          color: UTColors.backGround[5],
+          decoration: TextDecoration.none),
     },
   );
 }

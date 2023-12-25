@@ -27,6 +27,7 @@ import 'package:motel/bloc/nav-router/nav_router_state.dart';
 import 'package:motel/ui/app-router/app_router.dart';
 import 'package:motel/ui/bottom/bottom_screen.dart';
 import 'package:motel/ui/detail/detail_screen.dart';
+import 'package:motel/ui/detail/show_room_screen.dart';
 import 'package:motel/ui/forgot-pass/forgot_pass.dart';
 import 'package:motel/ui/home/home_screen.dart';
 import 'package:motel/ui/login/login_screen.dart';
@@ -50,30 +51,6 @@ class _AppState extends State<AppScreen> {
         builder: (context, child) {
           return BlocListener<NavRouterBloc, NavRouterState>(
             listener: (context, state) async {
-              /*  if (state is NavSplashState) {
-                print("???hung - DetailScreen -- state $state");
-                print(state.room);
-                AppRouter.push(DetailScreen(state.room));
-                return;
-              }
-              if (state is NavDetailState) {
-                print("???hung - DetailScreen -- state $state");
-                print(state.room);
-                AppRouter.push(DetailScreen(state.room));
-                return;
-              }
-              if (state is NavDetailState) {
-                print("???hung - DetailScreen -- state $state");
-                print(state.room);
-                AppRouter.push(DetailScreen(state.room));
-                return;
-              }
-              if (state is NavDetailState) {
-                print("???hung - DetailScreen -- state $state");
-                print(state.room);
-                AppRouter.push(DetailScreen(state.room));
-                return;
-              } */
               switch (state.runtimeType) {
                 case NavSplashState:
                   AppRouter.pushAndRemoveUntil(const SplashScreen());
@@ -97,9 +74,12 @@ class _AppState extends State<AppScreen> {
                   break;
                 case NavDetailState:
                   if (state is NavDetailState) {
-                    print("???hung - DetailScreen -- state $state");
-                    print(state.room);
                     AppRouter.push(DetailScreen(state.room));
+                  }
+                  break;
+                case NavShowRoomState:
+                  if (state is NavShowRoomState) {
+                    AppRouter.push(ShowRoomScreen(state.images));
                   }
                   break;
                 default:

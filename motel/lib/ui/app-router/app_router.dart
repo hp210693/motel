@@ -8,6 +8,9 @@ class AppRouter {
   static push(Widget page) => navigator.push(
         MaterialPageRoute(builder: (_) => page),
       );
+  static pushDiagloFullScreen(Widget page) => navigator.push(
+        MaterialPageRoute(fullscreenDialog: true, builder: (_) => page),
+      );
 
   static pushAndRemoveUntil(Widget page) => navigator.pushAndRemoveUntil<void>(
         MaterialPageRoute(builder: (_) => page),

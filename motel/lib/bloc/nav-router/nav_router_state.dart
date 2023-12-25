@@ -45,6 +45,13 @@ class NavDetailState extends NavRouterState {
 
 class NavNothingState extends NavRouterState {}
 
+class NavShowRoomState extends NavRouterState {
+  final List<String> _images;
+  NavShowRoomState(this._images);
+  List<String> get images => _images;
+}
+
+
 
 /* enum NavRouterState {
   appInit,

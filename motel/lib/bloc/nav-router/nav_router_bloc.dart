@@ -67,6 +67,13 @@ class NavRouterBloc extends Bloc<NavRouterEvent, NavRouterState> {
         log("NavRouterBloc nothing");
         emit(NavNothingState());
         break;
+      case NavShowRoomEvent:
+        log("NavRouterBloc show room detail");
+        if (event is NavShowRoomEvent) {
+          emit(NavShowRoomState(event.images));
+        }
+
+        break;
       default:
         break;
     }
