@@ -51,69 +51,66 @@ class _ShowRoomPageState extends State<ShowRoomScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    return Container(
-      color: UTColors.backGround[4].withOpacity(0.4),
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15, top: 20, bottom: 10),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: GestureDetector(
-                onTap: () {
-                  log("click button close");
-                  Navigator.pop(context);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Close ",
-                      textAlign: TextAlign.center,
-                      style: UTStyles.text[8],
-                    ),
-                    Icon(Ionicons.close_circle_outline,
-                        size: 20.0, color: UTColors.backGround[1]),
-                  ],
-                ),
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 15, top: 50, bottom: 10),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: GestureDetector(
+              onTap: () {
+                log("click button close");
+                Navigator.pop(context);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Close ",
+                    textAlign: TextAlign.center,
+                    style: UTStyles.text[8],
+                  ),
+                  Icon(Ionicons.close_circle_outline,
+                      size: 20.0, color: UTColors.backGround[1]),
+                ],
               ),
             ),
           ),
-          Center(
-            child: CarouselSlider(
-              items: sampleImages
-                  .map(
-                    (item) => Image.network(
-                      item,
-                    ),
-                  )
-                  .toList(),
-              carouselController: controller,
-              options: CarouselOptions(
-                  height: height / 1.5,
-                  viewportFraction: 1.0,
-                  enlargeCenterPage: false,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      current = index;
-                    });
-                  }),
+        ),
+        Center(
+          child: CarouselSlider(
+            items: sampleImages
+                .map(
+                  (item) => Image.network(
+                    item,
+                  ),
+                )
+                .toList(),
+            carouselController: controller,
+            options: CarouselOptions(
+                height: height / 1.5,
+                viewportFraction: 1.0,
+                enlargeCenterPage: false,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    current = index;
+                  });
+                }),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15, top: 10, bottom: 20),
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: Text(
+              "${current + 1}/${sampleImages.length}",
+              textAlign: TextAlign.center,
+              style: UTStyles.text[8],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 10, bottom: 20),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                "${current + 1}/${sampleImages.length}",
-                textAlign: TextAlign.center,
-                style: UTStyles.text[8],
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

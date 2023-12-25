@@ -50,12 +50,15 @@ class _AppState extends State<AppScreen> {
         navigatorKey: AppRouter.navigatorKey,
         builder: (context, child) {
           return BlocListener<NavRouterBloc, NavRouterState>(
-            listener: (context, state) async {
+            listener: (context, state) {
               switch (state.runtimeType) {
                 case NavSplashState:
                   AppRouter.pushAndRemoveUntil(const SplashScreen());
-                  await Future.delayed(const Duration(seconds: 2));
-                  context.read<NavRouterBloc>().add(NavLoginEvent());
+                  Future.delayed(
+                    const Duration(seconds: 2),
+                    () => context.read<NavRouterBloc>().add(NavLoginEvent()),
+                  );
+
                   break;
                 case NavLoginState:
                   AppRouter.pushAndRemoveUntil(const LoginScreen());
@@ -79,7 +82,8 @@ class _AppState extends State<AppScreen> {
                   break;
                 case NavShowRoomState:
                   if (state is NavShowRoomState) {
-                    AppRouter.push(ShowRoomScreen(state.images));
+                    AppRouter.pushDiagloFullScreen(
+                        ShowRoomScreen(state.images));
                   }
                   break;
                 default:

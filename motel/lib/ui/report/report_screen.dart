@@ -58,15 +58,15 @@ class _ReportPageState extends State<ReportScreen> {
   }
 
   final textType = const TextStyle(
-    fontWeight: FontWeight.w600,
-    fontSize: 24,
+    fontWeight: FontWeight.w500,
+    fontSize: 22,
     //  backgroundColor: Colors.red,
     color: Colors.black,
     decoration: TextDecoration.none,
   );
 
   Widget titleView(String text) {
-    double width = (MediaQuery.of(context).size.width / 1.7);
+    double width = (MediaQuery.of(context).size.width / 1.6);
     const unSelected = Colors.white;
     const selected = Colors.amber;
 
@@ -78,7 +78,7 @@ class _ReportPageState extends State<ReportScreen> {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
             onTap: () {

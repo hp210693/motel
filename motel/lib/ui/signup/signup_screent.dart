@@ -64,7 +64,12 @@ class _SignUpPageState extends State<SignUpScreen> {
           "Thành công",
           maskType: EasyLoadingMaskType.clear,
         );
-        // BlocProvider.of<NavRouterBloc>(context).add(NavRouterEvent.bottomBar);
+        Future.delayed(
+          const Duration(seconds: 2),
+          () {
+            BlocProvider.of<NavRouterBloc>(context).add(NavLoginEvent());
+          },
+        );
         break;
       case SignUpErrorState:
         EasyLoading.showError("Đã có lỗi xảy ra!",

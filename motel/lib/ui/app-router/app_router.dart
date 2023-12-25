@@ -6,11 +6,60 @@ class AppRouter {
   static NavigatorState get navigator => navigatorKey.currentState!;
 
   static push(Widget page) => navigator.push(
-        MaterialPageRoute(builder: (_) => page),
+        /*   MaterialPageRoute(builder: (_) => page),
+      );*/
+        PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => page,
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const begin = Offset(0.0, 1.0);
+              const end = Offset.zero;
+              const curve = Curves.ease;
+
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            }),
       );
   static pushDiagloFullScreen(Widget page) => navigator.push(
-        MaterialPageRoute(fullscreenDialog: true, builder: (_) => page),
-      );
+          /*   MaterialPageRoute(fullscreenDialog: true, builder: (_) => page),
+      ); */
+          PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => page,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          final tween = Tween(begin: begin, end: end);
+          final offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
+      ));
+  /*  PageRouteBuilder(
+            fullscreenDialog: true,
+            pageBuilder: (context, animation, secondaryAnimation) => page,
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const begin = Offset(0.0, 1.0);
+              const end = Offset.zero;
+              const curve = Curves.ease;
+
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            }),
+      ); */
 
   static pushAndRemoveUntil(Widget page) => navigator.pushAndRemoveUntil<void>(
         MaterialPageRoute(builder: (_) => page),

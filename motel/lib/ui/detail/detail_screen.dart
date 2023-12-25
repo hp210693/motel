@@ -66,8 +66,16 @@ class _DetailPageState extends State<DetailScreen> {
     BlocProvider.of<NavRouterBloc>(context).add(NavNothingEvent());
   }
 
+  @override
+  void initState() {
+    super.initState();
+    for (var e in roomShared.imgRoom) {
+      sampleImages.add(e);
+    }
+  }
+
   Widget picturesRoom() {
-    // sampleImages.add(roomShared.imgRoom[0]);
+    log("---se = ${sampleImages.length}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

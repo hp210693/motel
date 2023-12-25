@@ -53,12 +53,15 @@ class _LoginPageState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => LoginBloc(),
-      child: Scaffold(
-        backgroundColor: UTColors.backGround[1],
-        body: viewChild(),
+    return MaterialApp(
+      home: BlocProvider(
+        create: (_) => LoginBloc(),
+        child: Scaffold(
+          backgroundColor: UTColors.backGround[1],
+          body: viewChild(),
+        ),
       ),
+      builder: EasyLoading.init(),
     );
   }
 
@@ -236,7 +239,7 @@ class _LoginPageState extends State<LoginScreen> {
   }
 
   Widget viewChild() {
-    EasyLoading.init();
+    //EasyLoading.init();
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
         navigateBlocState(state);
