@@ -32,56 +32,57 @@ import (
 	"gorm.io/gorm"
 )
 
-type tableBill struct {
+var LAYER = "INFRAST"
+
+type tableUser struct {
 	db *gorm.DB
 }
 
-func NewTableBill(db *gorm.DB) repository.BillInfrastRepo {
-	return &tableBill{db: db}
+func NewTableUser(db *gorm.DB) repository.UserInfrastRepo {
+	return &tableUser{db: db}
 }
 
-func (tb *tableBill) DeleteBill(bill model.Bill) error {
+func (tb *tableUser) DeleteUser(user model.User) error {
 
-	// Delete a Bill to database;
-	if result := tb.db.Delete(&bill); result.Error != nil {
+	if result := tb.db.Delete(&user); result.Error != nil {
 		return result.Error
 	}
 
-	log.Printf("save database Bill ok \n%v", bill)
+	log.Printf("Delete database user ok \n%v", user)
 	return nil
 }
 
-func (tb *tableBill) GetAllBill() ([]model.Bill, error) {
+func (tb *tableUser) GetAllUser() ([]model.User, error) {
 
-	var bills []model.Bill
+	var users []model.User
 
-	// SELECT * FROM bill;
-	if err := tb.db.Find(&bills); err.Error != nil {
-		return []model.Bill{}, fmt.Errorf("[%s] %s -- %s", LAYER, "Backend can not get all bill from the database error", err.Error)
+	// SELECT * FROM User;
+	if err := tb.db.Find(&users); err.Error != nil {
+		return []model.User{}, fmt.Errorf("[%s] %s -- %s", LAYER, "Backend can not get all user from the database error", err.Error)
 	}
 
-	log.Printf("[%s] Backend got all bill from the database is ok -- we have %v user in system\n", LAYER, len(bills))
-	return bills, nil
+	log.Printf("[%s] Backend got all user from the database is ok -- we have %v user in system\n", LAYER, len(users))
+	return users, nil
 }
 
-func (tb *tableBill) InsertBill(bill model.Bill) error {
+func (tb *tableUser) InsertUser(user model.User) error {
 
-	// Insert a Bill to database;
-	if result := tb.db.Create(&bill); result.Error != nil {
-		return result.Error
+	// Insert a User to database;
+	if err := tb.db.Create(&user); err.Error != nil {
+		return err.Error
 	}
 
-	log.Printf("Insert database Bill ok \n%v", bill)
+	log.Printf("Insert database User ok \n%v", user)
 	return nil
 }
 
-func (tb *tableBill) UpdateBill(bill model.Bill) error {
+func (tb *tableUser) UpdateUser(user model.User) error {
 
-	// Update a Bill to database;
-	if result := tb.db.Save(&bill); result.Error != nil {
-		return result.Error
+	// Update a User to database;
+	if err := tb.db.Save(&user); err.Error != nil {
+		return err.Error
 	}
 
-	log.Printf("save database Bill ok \n%v", bill)
+	log.Printf("Update database User ok \n%v", user)
 	return nil
 }

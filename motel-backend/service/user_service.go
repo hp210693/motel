@@ -24,49 +24,51 @@ SOFTWARE.
 package service
 
 import (
-	"errors"
 	"fmt"
+	"log"
 	"motel-backend/model"
 	repository "motel-backend/repository"
 	"time"
 )
 
-type accountService struct {
-	accountRepo repository.AccountInfrastRepo
+var LAYER = "SERVICE"
+
+type userService struct {
+	userRepo repository.UserInfrastRepo
 }
 
-func NewAccountService(repo repository.AccountInfrastRepo) repository.AccountServiceRepo {
-	return &accountService{accountRepo: repo}
+func NewUserService(repo repository.UserInfrastRepo) repository.UserServiceRepo {
+	return &userService{userRepo: repo}
 }
 
-// Login implements repository.AccountServiceRepo.
-func (acc *accountService) FetchLogin(userName string, password string) error {
-	var accounts, errorDB = acc.accountRepo.GetAllAccount()
-	if errorDB != nil {
-		return errorDB
+func (acc *userService) SignInUser(userName string, password string) (model.User, error) {
+	var accounts, err = acc.userRepo.GetAllUser()
+	if err != nil {
+		return model.User{}, fmt.Errorf("[%s] -- %s", LAYER, err)
 	}
-	fmt.Printf("\n----\n%v", accounts)
+
 	for _, account := range accounts {
 		if account.UserName == userName && account.Password == password {
-			fmt.Printf("\nokokokokokokok\n")
-			return nil
+			return account, nil
 		}
 	}
-	return errors.New("error")
+
+	return model.User{}, fmt.Errorf("[%s] -- The user does not exist", LAYER)
 }
 
-// SignUpAccount implements repository.AccountServiceRepo.
-func (acc *accountService) SignUpAccount(accountId int, roomId int, roleId int, userName string,
+func (acc *userService) SignUpUser(userId int, roomId int, roleId int, userName string,
 	cid string, driverLicense string, phone string, password string, email string,
 	createdOn *time.Time, lastLogin *time.Time) error {
 
-	account := model.Account{AccountId: accountId, RoomId: roleId, RoleId: roleId,
+	account := model.User{UserId: userId, RoomId: roleId, RoleId: roleId,
 		UserName: userName, CID: cid, DriverLicense: driverLicense, Phone: phone,
 		Password: password, Email: email, CreatedOn: createdOn, LastLogin: lastLogin}
 
-	if error := acc.accountRepo.InsertAccount(account); error != nil {
+	if error := acc.userRepo.InsertUser(account); error != nil {
+		log.Printf("\nInsertUser() error\n")
 		return error
 	}
 
+	log.Printf("\nSignUpUser() error\n")
 	return nil
 }

@@ -22,13 +22,13 @@ SOFTWARE.*/
 enum Environment { developing, testting, production }
 
 class ApiEndPoints {
-  final Environment _evm = Environment.production;
+  final Environment _evm = Environment.developing;
   late String _urlBase = '';
   ApiEndPoints() {
     switch (_evm) {
       case Environment.developing:
-        //_urlBase = 'http://10.0.2.2:8080/';
-        _urlBase = 'http://192.168.4.12:8080/';
+        _urlBase = 'http://10.0.2.2:8080/';
+       // _urlBase = 'http://192.168.4.12:8080/';
         break;
       case Environment.production:
         _urlBase = 'http://54.179.16.64:8080/';
@@ -42,7 +42,7 @@ class ApiEndPoints {
 
 extension V1 on ApiEndPoints {
   String loginUrl(String userName, String passWord) {
-    return '${_urlBase}login?user=' '$userName' '&pass=' '$passWord';
+    return '${_urlBase}login?user-name=' '$userName' '&password=' '$passWord';
   }
 
   String accountsUrl() {

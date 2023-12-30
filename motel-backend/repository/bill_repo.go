@@ -27,29 +27,16 @@ import model "motel-backend/model"
 
 // This interface is the connection between [service] layer and [infrast(database)] layer
 type BillInfrastRepo interface {
-
-	// Get all bill from datable
-	// return  []Bill and error = nil when success
-	// return emptly []Bill and error = "error" when failure
 	GetAllBill() ([]model.Bill, error)
 
-	// Insert a bill into datable
-	// return error = nil when success
-	// return error = "error" when failure
 	InsertBill(bill model.Bill) error
 
-	// Update a bill into datable
-	// return error = nil when success
-	// return error = "error" when failure
 	UpdateBill(bill model.Bill) error
 
-	// Deactivate a bill in datable
-	// return error = nil when success
-	// return error = "error" when failure
 	DeleteBill(bill model.Bill) error
 }
 
 // This interface is the connection between [delivery] layer and [service] layer
 type BillServiceRepo interface {
-	FetchBill() ([]model.Bill, error)
+	GetBill() ([]model.Bill, error)
 }

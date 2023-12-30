@@ -21,30 +21,43 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package service
+package token
 
 import (
 	"fmt"
-	"log"
-	model "motel-backend/model"
-	repository "motel-backend/repository"
+	"time"
+
+	"github.com/google/uuid"
 )
 
-type billService struct {
-	billRepo repository.BillInfrastRepo
+type Payload struct {
+	ID       uuid.UUID `json:"id"`
+	UserID   string    `json:"user_name"`
+	Role     string    `json:"role"`
+	IssuedAt time.Time `json:"issued_at"`
+	Expired  time.Time `json:"expired"`
 }
 
-// FetchBill implements repository.BillServiceRepo.
-func (bill *billService) GetBill() ([]model.Bill, error) {
-	var bills, err = bill.billRepo.GetAllBill()
+func NewPayload(userID string, role string, duration time.Duration) (*Payload, error) {
+	tokenID, err := uuid.NewRandom()
 	if err != nil {
-		return []model.Bill{}, fmt.Errorf("[%s] -- %s", LAYER, err)
+		return nil, err
 	}
 
-	log.Printf("[%s] Backend got all bill from the database is ok -- we have %v user in system\n", LAYER, len(bills))
-	return bills, nil
+	payload := &Payload{
+		ID:       tokenID,
+		UserID:   userID,
+		Role:     role,
+		IssuedAt: time.Now(),
+		Expired:  time.Now().Add(duration),
+	}
+	return payload, nil
 }
 
-func NewBillService(repo repository.BillInfrastRepo) repository.BillServiceRepo {
-	return &billService{billRepo: repo}
+// Valid checks if the token payload is valid or not
+func (payload *Payload) Valid() error {
+	if time.Now().After(payload.Expired) {
+		return fmt.Errorf("%s", "Token has expired")
+	}
+	return nil
 }

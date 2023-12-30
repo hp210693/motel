@@ -11,6 +11,7 @@
     1. Install flutter https://docs.flutter.dev/get-started/install 
     2. Install docker https://www.docker.com/
     3. Database online https://dbdiagram.io/d/64e20f2702bd1c4a5e13120c
+    4. Install CLI migrate database for golang https://github.com/golang-migrate/migrate/releases/
 
 # IV. Run server
     cd /your_path/motel-project/motel-backend

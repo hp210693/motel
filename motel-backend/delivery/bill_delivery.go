@@ -25,7 +25,9 @@ package delivery
 
 import (
 	"log"
+	"motel-backend/middleware"
 	repository "motel-backend/repository"
+	"motel-backend/token"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -35,16 +37,17 @@ type billDelivery struct {
 	serviceRepo repository.BillServiceRepo
 }
 
-func NewBillDelivery(echo *echo.Echo, serviceRepo repository.BillServiceRepo) {
+func NewBillDelivery(tokenMaker token.Maker, echo *echo.Echo, serviceRepo repository.BillServiceRepo) {
 
 	bill := &billDelivery{serviceRepo: serviceRepo}
+	//echo.Group("/").Use(middleware.AuthMiddleware)
 
-	echo.GET("/bill", bill.apiBill)
+	echo.GET("/bill", middleware.AuthMiddleware(tokenMaker, bill.apiBill))
 }
 
 func (bill *billDelivery) apiBill(echo echo.Context) error {
 
-	var results, error = bill.serviceRepo.FetchBill()
+	var results, error = bill.serviceRepo.GetBill()
 	if error != nil {
 		return echo.JSON(http.StatusInternalServerError, "Can'n get Bill")
 	}

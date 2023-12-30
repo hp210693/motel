@@ -21,41 +21,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package model
+package repository
 
 import (
-	"encoding/json"
+	model "motel-backend/model"
 	"time"
 )
 
-type Account struct {
-	AccountId     int        `json:"account_id" gorm:"primaryKey"`
-	RoomId        int        `json:"room_id"`
-	RoleId        int        `json:"role_id"`
-	UserName      string     `json:"user_name"`
-	CID           string     `json:"cid"`
-	DriverLicense string     `json:"driver_license"`
-	Phone         string     `json:"phone"`
-	Password      string     `json:"password"`
-	Email         string     `json:"email"`
-	CreatedOn     *time.Time `json:"created_on"`
-	LastLogin     *time.Time `json:"last_login"`
+// This interface is the connection between [service] layer and [infrast(database)] layer
+type UserInfrastRepo interface {
+	GetAllUser() ([]model.User, error)
+
+	InsertUser(user model.User) error
+
+	UpdateUser(user model.User) error
+
+	DeleteUser(user model.User) error
 }
 
-// TableName overrides the table name used by Account to `account`
-func (Account) TableName() string {
-	return "account"
-}
-
-func (a *Account) MarshalJSON() ([]byte, error) {
-	type Alias Account
-	return json.Marshal(&struct {
-		CreatedOn string `json:"created_on"`
-		LastLogin string `json:"last_login"`
-		*Alias
-	}{
-		CreatedOn: a.CreatedOn.Format("2006-01-02 15:04:05"),
-		LastLogin: a.LastLogin.Format("2006-01-02 15:04:05"),
-		Alias:     (*Alias)(a),
-	})
+// This interface is the connection between [delivery] layer and [service] layer
+type UserServiceRepo interface {
+	SignInUser(userID, password string) (model.User, error)
+	SignUpUser(userId, roomId, roleId int, userName, cid, driverLicense,
+		phone, password, email string, createdOn, lastLogin *time.Time) error
 }

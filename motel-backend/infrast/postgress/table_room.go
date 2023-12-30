@@ -24,6 +24,7 @@ SOFTWARE.
 package infrast
 
 import (
+	"fmt"
 	"log"
 	model "motel-backend/model"
 	repository "motel-backend/repository"
@@ -39,7 +40,6 @@ func NewTableRoom(db *gorm.DB) repository.RoomInfrastRepo {
 	return &tableRoom{db: db}
 }
 
-// DeleteRoom implements repository.RoomInfrastRepo.
 func (tb *tableRoom) DeleteRoom(room model.Room) error {
 
 	// Delete a Room to database;
@@ -51,24 +51,20 @@ func (tb *tableRoom) DeleteRoom(room model.Room) error {
 	return nil
 }
 
-// GetAllRoom implements repository.RoomInfrastRepo.
 func (tb *tableRoom) GetAllRoom() ([]model.Room, error) {
 
 	var rooms []model.Room
 
-	// Get all records
 	// SELECT * FROM room;
-	if result := tb.db.Find(&rooms); result.Error != nil {
-		//log.Printf("??call room database - result = ", result)
-		return []model.Room{}, result.Error
+	if err := tb.db.Find(&rooms); err.Error != nil {
+		return []model.Room{}, fmt.Errorf("[%s] %s -- %s", LAYER, "Backend can not get all room from the database error", err.Error)
 	}
 
-	log.Printf("Get all room from database ok\n%v", rooms)
+	log.Printf("[%s] Backend got all room from the database is ok -- we have %v user in system\n", LAYER, len(rooms))
 
 	return rooms, nil
 }
 
-// InsertRoom implements repository.RoomInfrastRepo.
 func (tb *tableRoom) InsertRoom(room model.Room) error {
 
 	// Insert a Room to database;
@@ -80,7 +76,6 @@ func (tb *tableRoom) InsertRoom(room model.Room) error {
 	return nil
 }
 
-// UpdateRoom implements repository.RoomInfrastRepo.
 func (tb *tableRoom) UpdateRoom(room model.Room) error {
 
 	// Update a Room to database;

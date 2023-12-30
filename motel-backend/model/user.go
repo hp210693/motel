@@ -21,30 +21,41 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package service
+package model
 
 import (
-	"fmt"
-	"log"
-	model "motel-backend/model"
-	repository "motel-backend/repository"
+	"encoding/json"
+	"time"
 )
 
-type billService struct {
-	billRepo repository.BillInfrastRepo
+type User struct {
+	UserId        int        `json:"user_id" gorm:"primaryKey"`
+	RoomId        int        `json:"room_id"`
+	RoleId        int        `json:"role_id"`
+	UserName      string     `json:"user_name"`
+	CID           string     `json:"cid"`
+	DriverLicense string     `json:"driver_license"`
+	Phone         string     `json:"phone"`
+	Password      string     `json:"password"`
+	Email         string     `json:"email"`
+	CreatedOn     *time.Time `json:"created_on"`
+	LastLogin     *time.Time `json:"last_login"`
 }
 
-// FetchBill implements repository.BillServiceRepo.
-func (bill *billService) GetBill() ([]model.Bill, error) {
-	var bills, err = bill.billRepo.GetAllBill()
-	if err != nil {
-		return []model.Bill{}, fmt.Errorf("[%s] -- %s", LAYER, err)
-	}
-
-	log.Printf("[%s] Backend got all bill from the database is ok -- we have %v user in system\n", LAYER, len(bills))
-	return bills, nil
+// TableName overrides the table name used by User to `user`
+func (User) TableName() string {
+	return "user"
 }
 
-func NewBillService(repo repository.BillInfrastRepo) repository.BillServiceRepo {
-	return &billService{billRepo: repo}
+func (a *User) MarshalJSON() ([]byte, error) {
+	type Alias User
+	return json.Marshal(&struct {
+		CreatedOn string `json:"created_on"`
+		LastLogin string `json:"last_login"`
+		*Alias
+	}{
+		CreatedOn: a.CreatedOn.Format("2006-01-02 15:04:05"),
+		LastLogin: a.LastLogin.Format("2006-01-02 15:04:05"),
+		Alias:     (*Alias)(a),
+	})
 }

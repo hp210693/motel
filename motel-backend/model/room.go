@@ -33,6 +33,7 @@ import (
 type Room struct {
 	RoomId         int            `json:"room_id" gorm:"primaryKey"`
 	FlowId         int            `json:"flow_id"`
+	UserId         int            `json:"user_id"`
 	Area           string         `json:"area"`
 	StatusRoom     int            `json:"status_room"`
 	RoomName       string         `json:"room_name"`

@@ -21,30 +21,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package service
+package token
 
 import (
-	"fmt"
-	"log"
-	model "motel-backend/model"
-	repository "motel-backend/repository"
+	"time"
 )
 
-type billService struct {
-	billRepo repository.BillInfrastRepo
-}
-
-// FetchBill implements repository.BillServiceRepo.
-func (bill *billService) GetBill() ([]model.Bill, error) {
-	var bills, err = bill.billRepo.GetAllBill()
-	if err != nil {
-		return []model.Bill{}, fmt.Errorf("[%s] -- %s", LAYER, err)
-	}
-
-	log.Printf("[%s] Backend got all bill from the database is ok -- we have %v user in system\n", LAYER, len(bills))
-	return bills, nil
-}
-
-func NewBillService(repo repository.BillInfrastRepo) repository.BillServiceRepo {
-	return &billService{billRepo: repo}
+// Maker is an interface for managing tokens
+type Maker interface {
+	CreateToken(userID string, role string, duration time.Duration) (string, *Payload, error)
+	VerifyToken(token string) (*Payload, error)
 }

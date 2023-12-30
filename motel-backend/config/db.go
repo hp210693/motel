@@ -65,7 +65,7 @@ func DatabaseInit() {
 	}
 	log.Println("Running migrations")
 
-	if migrateErr := database.AutoMigrate(&model.Account{}, &model.Room{}, &model.Bill{}, &model.Flow{}, &model.Role{}); migrateErr != nil {
+	if migrateErr := database.AutoMigrate(&model.User{}, &model.Room{}, &model.Bill{}, &model.Flow{}, &model.Role{}); migrateErr != nil {
 		log.Println("Sorry couldn't migrate'...")
 	}
 
