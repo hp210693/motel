@@ -21,9 +21,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:motel/api/api_endpoints.dart';
 import 'package:motel/api/base_api_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NetworkApiService extends BaseApiService {
   static const int _timeOut = 30;
@@ -31,15 +33,26 @@ class NetworkApiService extends BaseApiService {
   Future<dynamic> getLoginResponse(String userName, String passWord) async {
     try {
       final url = ApiEndPoints().loginUrl(userName, passWord);
-      log("NetworkApiService - getLoginResponse - url = $url");
-      final resp = await http
-          .get(Uri.parse(url))
-          .timeout(const Duration(seconds: _timeOut));
+      final query = {
+        'user_name': userName,
+        'password': passWord,
+      };
+
+      final resp = http.Request(
+        'GET',
+        Uri.parse(url),
+      )..headers.addAll(
+          {
+            HttpHeaders.contentTypeHeader: "application/json",
+          },
+        );
+
+      resp.body = json.encode(query);
+      final response = await resp.send();
 
       log("NetworkApiService - getLoginResponse - url = $resp");
-
-      if (resp.statusCode == 200) {
-        return resp.body;
+      if (response.statusCode == 200) {
+        return await response.stream.bytesToString();
       } else {
         return Exception("error");
       }
@@ -70,12 +83,24 @@ class NetworkApiService extends BaseApiService {
     try {
       final url = ApiEndPoints().reportsUrl();
       log("NetworkApiService - getReportResponse - url = $url");
-      final resp = await http
-          .get(Uri.parse(url))
-          .timeout(const Duration(seconds: _timeOut));
 
-      if (resp.statusCode == 200) {
-        return resp.body;
+      final prefs = await SharedPreferences.getInstance();
+      var accessToken = prefs.getString("access_token");
+
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $accessToken',
+        },
+      );
+/*       final resp = jsonDecode(response.body) as Map<String, dynamic>;
+
+      log("NetworkApiService - getReportResponse - url = $resp"); */
+      if (response.statusCode == 200) {
+        return response.body;
+      } else {
+        return Exception("error");
       }
     } catch (e) {
       rethrow;

@@ -90,8 +90,7 @@ class _LoginPageState extends State<LoginScreen> {
           "Thành công",
           maskType: EasyLoadingMaskType.clear,
         );
-        BlocProvider.of<NavRouterBloc>(context).add(NavHomeEvent());
-        // context.read<NavRouterBloc>().add(NavRouterEvent.bottomBar);
+        BlocProvider.of<NavRouterBloc>(context).add(NavBottomBarEvent());
         break;
       case LoginErrorState:
         EasyLoading.showError("Đã có lỗi xảy ra!",

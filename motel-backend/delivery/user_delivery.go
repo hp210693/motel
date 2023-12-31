@@ -46,6 +46,7 @@ type SignInResponse struct {
 	Message     string    `json:"message"`
 	AccessToken string    `json:"access_token"`
 	UserID      string    `json:"user_id"`
+	Role        string    `json:"role"`
 	UserName    string    `json:"user_name"`
 	IssuedAt    time.Time `json:"issued_at"`
 	Expired     time.Time `json:"expired"`
@@ -105,7 +106,7 @@ func (acc *userDelivery) apiLoginUser(ctx echo.Context) error {
 
 	response = SignInResponse{
 		UserID: payload.UserID, UserName: payload.UserID, IssuedAt: payload.IssuedAt,
-		Expired: payload.Expired, AccessToken: token, Message: "Succeed",
+		Expired: payload.Expired, AccessToken: token, Role: payload.Role, Message: "Succeed",
 	}
 	return ctx.JSON(http.StatusOK, response)
 }

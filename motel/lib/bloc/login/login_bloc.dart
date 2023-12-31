@@ -41,7 +41,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             await _loginRepo.getLoginInData(event.userName, event.passWord);
         log("LoginBloc respon data\n = $respon");
         await Future.delayed(const Duration(seconds: 2));
-        emit(LoginSuccessedState(respon));
+        //emit(LoginSuccessedState(respon));
+        emit(LoginSuccessedState("ok"));
         await Future.delayed(const Duration(seconds: 1));
         emit(LoginInitialState());
       } catch (error) {

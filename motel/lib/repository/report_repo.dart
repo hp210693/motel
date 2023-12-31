@@ -37,7 +37,7 @@ class ReportRepo {
       final jsonData = jsonDecode(data);
 
       final listReport = List<Report>.from(
-        jsonData.map(
+        jsonData["bills"].map(
           (object) => Report.fromJson(object),
         ),
       ).toList();

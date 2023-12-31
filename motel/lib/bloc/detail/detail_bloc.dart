@@ -23,7 +23,6 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motel/bloc/detail/detail_event.dart';
 import 'package:motel/bloc/detail/detail_state.dart';
-import 'package:motel/data/room.dart';
 
 class DetailBloc extends Bloc<DetailEvent, DetailState> {
   // final _loginRepo = LoginRepo();

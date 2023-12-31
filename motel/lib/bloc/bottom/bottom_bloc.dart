@@ -38,7 +38,6 @@ class BottomBloc extends Bloc<BottomEvent, BottomState> {
         break;
       case BotttonSelectedEvent:
         log("BottomBloc BotttonSelectedEvent ");
-
         emit(BottomSelectedState());
         break;
       default:

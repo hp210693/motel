@@ -45,7 +45,6 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         await _selectedPage(event, emit);
         break;
       default:
-        await _somethingError("Unknown error", emit);
         break;
     }
   }
@@ -60,7 +59,9 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
       await Future.delayed(const Duration(seconds: 1));
       emit(ReportInitialState());
     } catch (error) {
-      _somethingError(error, emit);
+      log("\n\nLoging -- class $runtimeType -- method ${StackFrame.fromStackTrace(StackTrace.current)[0].method}\n\n");
+      await Future.delayed(const Duration(seconds: 1));
+      emit(ReportErrorState(error.toString()));
     }
   }
 
@@ -82,11 +83,5 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         emit(ReportPageSelectedState(-100, false));
         break;
     }
-  }
-
-  Future<void> _somethingError(err, emit) async {
-    log("\n\nLoging -- class $runtimeType -- method ${StackFrame.fromStackTrace(StackTrace.current)[0].method}\n\n");
-    await Future.delayed(const Duration(seconds: 1));
-    emit(ReportErrorState(err.toString()));
   }
 }

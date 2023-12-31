@@ -23,18 +23,35 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:motel/api/base_api_service.dart';
 import 'package:motel/api/network_api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginRepo {
   final BaseApiService _apiService = NetworkApiService();
 
-  Future<String> getLoginInData(String userName, String passWord) async {
+  Future<dynamic> getLoginInData(String userName, String passWord) async {
     try {
       final data = await _apiService.getLoginResponse(userName, passWord);
       log("LoginRepoImp - getLoginInData\n $data");
       //final user = Login.fromJson(jsonDecode(data));
-      final user = jsonDecode(data);
-      log("LoginRepoImp - convert data ok\n $user");
-      return user;
+      final Map user = json.decode(data);
+ 
+      final prefs = await SharedPreferences.getInstance();
+      // Remove the counter key-value pair from persistent storage.
+      await prefs.remove("access_token");
+      await prefs.remove("user_id");
+      await prefs.remove("role");
+      await prefs.remove("user_name");
+      await prefs.remove("issued_at");
+      await prefs.remove("expired");
+
+      // Save the counter value to persistent storage under the 'counter' key.
+      await prefs.setString("access_token", user["access_token"]);
+      await prefs.setString("user_id", user["user_id"]);
+      await prefs.setString("role", user["role"]);
+      await prefs.setString("user_name", user["user_name"]);
+      await prefs.setString("issued_at", user["issued_at"]);
+      await prefs.setString("expired", user["expired"]);
+      return "OK";
     } catch (e) {
       rethrow;
     }
