@@ -26,6 +26,7 @@ package delivery
 import (
 	"log"
 	"motel-backend/middleware"
+	"motel-backend/model"
 	repository "motel-backend/repository"
 	"motel-backend/token"
 	"net/http"
@@ -33,25 +34,39 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+/* type BillRequest struct {
+	UserID   string `json:"user_name"`
+	Password string `json:"password"`
+} */
+
+type BillResponse struct {
+	Message string       `json:"message"`
+	Bills   []model.Bill `json:"bills"`
+}
+
 type billDelivery struct {
 	serviceRepo repository.BillServiceRepo
 }
 
 func NewBillDelivery(tokenMaker token.Maker, echo *echo.Echo, serviceRepo repository.BillServiceRepo) {
-
 	bill := &billDelivery{serviceRepo: serviceRepo}
-	//echo.Group("/").Use(middleware.AuthMiddleware)
 
 	echo.GET("/bill", middleware.AuthMiddleware(tokenMaker, bill.apiBill))
 }
 
 func (bill *billDelivery) apiBill(echo echo.Context) error {
+	var response = BillResponse{
+		Message: "Can not get Bill",
+		Bills:   []model.Bill{},
+	}
 
 	var results, error = bill.serviceRepo.GetBill()
 	if error != nil {
-		return echo.JSON(http.StatusInternalServerError, "Can'n get Bill")
+		return echo.JSON(http.StatusInternalServerError, response)
 	}
-	log.Print("\n\nhhhhhhhhhhhhhhhhhh\n\n", results)
 
-	return echo.JSON(http.StatusOK, results)
+	log.Printf("[%s] Backend call apiBill() sucessed -- we have %v user in system\n", LAYER, len(results))
+	response.Message = "Sucessed"
+	response.Bills = results
+	return echo.JSON(http.StatusOK, response)
 }

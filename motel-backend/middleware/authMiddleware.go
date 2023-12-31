@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"log"
 	"motel-backend/token"
 	"net/http"
 	"strings"
@@ -10,7 +9,6 @@ import (
 )
 
 func AuthMiddleware(tokenMaker token.Maker, next echo.HandlerFunc) echo.HandlerFunc {
-	log.Println("vao AuthMiddleware")
 	return func(ctx echo.Context) error {
 
 		var header = ctx.Request().Header.Get("Authorization")
@@ -30,14 +28,17 @@ func AuthMiddleware(tokenMaker token.Maker, next echo.HandlerFunc) echo.HandlerF
 		}
 
 		accessToken := fields[1]
-
 		payload, err := tokenMaker.VerifyToken(accessToken)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusUnauthorized, err)
 		}
 
-		ctx.Set("authorization_payload", payload)
+		switch payload.Role {
+		case "admin", "host", "manager":
+			return next(ctx)
+		}
+		//ctx.Set("authorization_payload", payload)
 
-		return next(ctx)
+		return echo.NewHTTPError(http.StatusUnauthorized, "Account is not permission access %s")
 	}
 }

@@ -28,6 +28,7 @@ import (
 	"motel-backend/model"
 	repository "motel-backend/repository"
 	"motel-backend/token"
+	utli "motel-backend/utli"
 	"net/http"
 	"time"
 
@@ -35,7 +36,6 @@ import (
 )
 
 var LAYER = "DELIVERY"
-var symmetricKey = []byte("YELLOW SUBMARINE, BLACK WIZARDRY") // Must be 32 bytes
 
 type SignInRequest struct {
 	UserID   string `json:"user_name"`
@@ -53,14 +53,15 @@ type SignInResponse struct {
 
 type userDelivery struct {
 	serviceRepo repository.UserServiceRepo
+	config      *utli.Config
 }
 
-func NewUserDelivery(echo *echo.Echo, serviceRepo repository.UserServiceRepo) {
-
-	user := &userDelivery{serviceRepo: serviceRepo}
+func NewUserDelivery(echo *echo.Echo, config *utli.Config, serviceRepo repository.UserServiceRepo) {
+	user := &userDelivery{config: config, serviceRepo: serviceRepo}
 
 	echo.GET("/signin", user.apiLoginUser)
 	echo.POST("/signup", user.apiSignUpUser)
+
 }
 
 func (acc *userDelivery) apiLoginUser(ctx echo.Context) error {
@@ -84,14 +85,18 @@ func (acc *userDelivery) apiLoginUser(ctx echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, response)
 	}
 
-	maker, err := token.NewPasetoMaker(string(symmetricKey))
+	maker, err := token.NewPasetoMaker(acc.config.SymmetricKey)
 	if err != nil {
 		log.Print("[" + LAYER + "]" + err.Error())
 		response.Message = "Creating access token is error"
 		return ctx.JSON(http.StatusNonAuthoritativeInfo, response)
 	}
 
-	token, payload, err := maker.CreateToken(user.UserName, checkRoles(user.RoleId), time.Duration(30*float64(time.Hour)))
+	timeDuration := acc.config.AccessTokenDuration
+	token, payload, err := maker.CreateToken(
+		user.UserName, checkRoles(user.RoleId),
+		time.Duration(timeDuration),
+	)
 	if err != nil {
 		log.Print("[" + LAYER + "]" + err.Error())
 		response.Message = "Creating access token is error"

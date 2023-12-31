@@ -21,58 +21,41 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package config
+package store
 
 import (
+	"fmt"
 	"log"
 	model "motel-backend/model"
+	util "motel-backend/utli"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-var database *gorm.DB
-var e error
-
-type Env struct {
-	Host     string
-	UserName string
-	Password string
-	DbName   string
-	Port     string
+type DB struct {
+	Store *gorm.DB
 }
 
-func NewEnv() *Env {
-	return &Env{
-		Host:     "host=motel.cxyhp96h5ofj.ap-southeast-1.rds.amazonaws.com",
-		UserName: " user=root",
-		Password: " password=9KxhcJUkpdCFZVl5RliK",
-		DbName:   " dbname=motel",
-		Port:     " port=5432",
+func NewDB(config *util.Config) *DB {
+	dsn := "host=" + config.DBSource + " user=" + config.DBUser + " password=" + config.DBPassword + " dbname=" + config.DBName + " port=" + config.DBPort
+	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+
+	if err != nil {
+		panic(fmt.Errorf("%s %w", "Cannot connect to Possgress", err))
 	}
-}
 
-func DatabaseInit() {
-
-	env := NewEnv()
-
-	dsn := env.Host + env.UserName + env.Password + env.DbName + env.Port
-
-	database, e = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-
-	if e != nil {
-		log.Fatalln("Cannot connect to Possgress:", e)
-	}
 	log.Println("Running migrations")
-
-	if migrateErr := database.AutoMigrate(&model.User{}, &model.Room{}, &model.Bill{}, &model.Flow{}, &model.Role{}); migrateErr != nil {
+	if err := database.AutoMigrate(
+		&model.User{}, &model.Room{}, &model.Bill{},
+		&model.Flow{}, &model.Role{}); err != nil {
 		log.Println("Sorry couldn't migrate'...")
+		panic(fmt.Errorf("%s %w", "Sorry couldn't migrate'...", err))
 	}
 
 	log.Println("Database connection was successful...")
 	log.Println("Connected:", database)
-}
-
-func DB() *gorm.DB {
-	return database
+	return &DB{
+		Store: database,
+	}
 }

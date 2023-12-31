@@ -25,106 +25,56 @@ package main
 
 import (
 	"fmt"
-	"motel-backend/config"
 	"motel-backend/delivery"
 	infrast "motel-backend/infrast/postgress"
 	"motel-backend/service"
+	"motel-backend/store"
 	"motel-backend/token"
-	util "motel-backend/utli"
+	utli "motel-backend/utli"
 
 	"github.com/labstack/echo/v4"
-	"gorm.io/gorm"
 )
-
-var symmetricKey = []byte("YELLOW SUBMARINE, BLACK WIZARDRY") // Must be 32 bytes
-
-// Server serves HTTP requests for our banking service.
-type Server struct {
-	config util.Config
-	//store      db.Store
-	store      *gorm.DB
-	tokenMaker token.Maker
-	router     *echo.Echo
-}
-
-// NewServer creates a new HTTP server and set up routing.
-func NewServer(echo *echo.Echo, store *gorm.DB) (*Server, error) {
-	tokenMaker, err := token.NewPasetoMaker(string(symmetricKey))
-	if err != nil {
-		return nil, fmt.Errorf("cannot create token maker: %w", err)
-	}
-
-	server := &Server{
-		//config:     config,
-		store:      store,
-		tokenMaker: tokenMaker,
-		router:     echo,
-	}
-
-	server.setupRouter()
-	return server, nil
-}
-
-func (server *Server) setupRouter() {
-
-	// Call api user login
-	userInfrast := infrast.NewTableUser(server.store)
-	userService := service.NewUserService(userInfrast)
-	delivery.NewUserDelivery(server.router, userService)
-
-	// Call api Room
-	roomInfrast := infrast.NewTableRoom(server.store)
-	roomService := service.NewRoomService(roomInfrast)
-	delivery.NewRoomDelivery(server.router, roomService)
-
-	// Call api Bill
-	billInfrast := infrast.NewTableBill(server.store)
-	billService := service.NewBillService(billInfrast)
-	delivery.NewBillDelivery(server.tokenMaker, server.router, billService)
-
-	server.router.Logger.Fatal(server.router.Start(":8080"))
-
-	//authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
-	//authRoutes.POST("/accounts", server.createAccount)
-
-}
 
 func main() {
 
-	// Connect To Database
-	config.DatabaseInit()
-	gorm := config.DB()
-
-	db, err := gorm.DB()
-
+	//Load configuation env file
+	config, err := utli.LoadConfig()
 	if err != nil {
-		panic(err)
+		return
 	}
 
+	//Load database
+	store := store.NewDB(&config)
+	db, err := store.Store.DB()
+	if err != nil {
+		return
+	}
 	db.Ping()
+
+	//Create server
 	echo := echo.New()
+	setupRouter(echo, store, &config)
+}
 
-	_, _ = NewServer(echo, gorm)
+func setupRouter(echo *echo.Echo, store *store.DB, config *utli.Config) {
+	tokenMaker, err := token.NewPasetoMaker(string(config.SymmetricKey))
+	if err != nil {
+		panic(fmt.Errorf("cannot create token maker: %w", err))
+	}
 
-	//tokenMaker, err := token.NewPasetoMaker(string(symmetricKey))
-	//authMiddleware := middleware.AuthMiddleware(tokenMaker)
-
-	//log.Println(server)
-
-	/* // Call api user login
-	userInfrast := infrast.NewTableUser(gorm)
+	// Call api user login
+	userInfrast := infrast.NewTableUser(store.Store)
 	userService := service.NewUserService(userInfrast)
-	delivery.NewUserDelivery(echo, userService)
+	delivery.NewUserDelivery(echo, config, userService)
 
 	// Call api Room
-	roomInfrast := infrast.NewTableRoom(gorm)
+	roomInfrast := infrast.NewTableRoom(store.Store)
 	roomService := service.NewRoomService(roomInfrast)
 	delivery.NewRoomDelivery(echo, roomService)
 
 	// Call api Bill
-	billInfrast := infrast.NewTableBill(gorm)
+	billInfrast := infrast.NewTableBill(store.Store)
 	billService := service.NewBillService(billInfrast)
-	delivery.NewBillDelivery(echo, billService)
-
-	echo.Logger.Fatal(echo.Start(":8080")) */
+	delivery.NewBillDelivery(tokenMaker, echo, billService)
+	echo.Logger.Fatal(echo.Start(":8080"))
 }
