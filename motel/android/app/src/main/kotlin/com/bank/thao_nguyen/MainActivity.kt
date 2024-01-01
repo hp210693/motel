@@ -1,4 +1,4 @@
-package com.example.motel
+package com.bank.thao_nguyen
 
 import io.flutter.embedding.android.FlutterActivity
 
