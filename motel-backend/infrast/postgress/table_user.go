@@ -76,13 +76,10 @@ func (tb *tableUser) InsertUser(user model.User) error {
 	return nil
 }
 
-func (tb *tableUser) UpdateUser(user model.User) error {
+func (tb *tableUser) UpdatePassword(user model.User, pass string) error {
 
-	// Update a User to database;
-	if err := tb.db.Save(&user); err.Error != nil {
-		return err.Error
-	}
+	tb.db.Model(&user).Where("user_name = ?", user.UserName).Update("password", pass)
 
-	log.Printf("Update database User ok \n%v", user)
+	log.Printf("Update pass User ok \n%v", user)
 	return nil
 }

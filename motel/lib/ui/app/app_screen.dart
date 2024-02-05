@@ -28,7 +28,7 @@ import 'package:motel/ui/app-router/app_router.dart';
 import 'package:motel/ui/bottom/bottom_screen.dart';
 import 'package:motel/ui/detail/detail_screen.dart';
 import 'package:motel/ui/detail/show_room_screen.dart';
-import 'package:motel/ui/forgot-pass/forgot_pass.dart';
+import 'package:motel/ui/forgot-pass/forgot_pass_screen.dart';
 import 'package:motel/ui/home/home_screen.dart';
 import 'package:motel/ui/login/login_screen.dart';
 import 'package:motel/ui/signup/signup_screent.dart';

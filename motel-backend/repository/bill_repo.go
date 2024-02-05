@@ -38,5 +38,5 @@ type BillInfrastRepo interface {
 
 // This interface is the connection between [delivery] layer and [service] layer
 type BillServiceRepo interface {
-	GetBill() ([]model.Bill, error)
+	FetchAllBill() ([]model.Bill, error)
 }

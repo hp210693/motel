@@ -60,7 +60,7 @@ func (bill *billDelivery) apiBill(echo echo.Context) error {
 		Bills:   []model.Bill{},
 	}
 
-	var results, error = bill.serviceRepo.GetBill()
+	var results, error = bill.serviceRepo.FetchAllBill()
 	if error != nil {
 		return echo.JSON(http.StatusInternalServerError, response)
 	}

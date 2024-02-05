@@ -43,14 +43,6 @@ class _LoginPageState extends State<LoginScreen> {
   var userName = "";
   var password = "";
 
-  /*  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: BlocProvider(create: (_) => LoginBloc(), child: viewChild()),
-      builder: EasyLoading.init(),
-    );
-  } */
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -64,17 +56,6 @@ class _LoginPageState extends State<LoginScreen> {
       builder: EasyLoading.init(),
     );
   }
-
-/*   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: UTColors.backGround[1],
-      body: BlocProvider(
-        create: (_) => LoginBloc(),
-        child: viewChild(),
-      ),
-    );
-  } */
 
   void navigateBlocState(state) {
     log("BlocBuilder state = $state");
@@ -115,7 +96,7 @@ class _LoginPageState extends State<LoginScreen> {
           TextField(
             onChanged: (value) => userName = value,
             decoration: InputDecoration(
-              hintText: "Nhập số điện thoại hoặc email",
+              hintText: "Nhập số điện thoại, tên hoặc email",
               border: InputBorder.none,
               hintStyle: UTStyles.text[2],
               enabledBorder: UnderlineInputBorder(

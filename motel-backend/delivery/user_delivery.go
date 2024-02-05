@@ -25,6 +25,7 @@ package delivery
 
 import (
 	"log"
+	"motel-backend/email"
 	"motel-backend/model"
 	repository "motel-backend/repository"
 	"motel-backend/token"
@@ -32,6 +33,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
 
@@ -52,6 +54,15 @@ type SignInResponse struct {
 	Expired     time.Time `json:"expired"`
 }
 
+type ForgotPassRequest struct {
+	UserName string `json:"user_name"`
+}
+
+type ForgotPassResponse struct {
+	Message string `json:"message"`
+	Email   string `json:"email"`
+}
+
 type userDelivery struct {
 	serviceRepo repository.UserServiceRepo
 	config      *utli.Config
@@ -62,6 +73,7 @@ func NewUserDelivery(echo *echo.Echo, config *utli.Config, serviceRepo repositor
 
 	echo.GET("/signin", user.apiLoginUser)
 	echo.POST("/signup", user.apiSignUpUser)
+	echo.POST("/forgotpass", user.apiForgotPass)
 
 }
 
@@ -141,4 +153,68 @@ func (acc *userDelivery) apiSignUpUser(echo echo.Context) error {
 	}
 
 	return echo.JSON(http.StatusOK, "Success")
+}
+
+func (acc *userDelivery) apiForgotPass(ctx echo.Context) error {
+
+	var request = ForgotPassRequest{
+		UserName: "xxx",
+	}
+
+	var response = ForgotPassResponse{
+		Message: "Failure",
+		Email:   "xxx",
+	}
+
+	if err := ctx.Bind(&request); err != nil {
+		var str = "Server can't binding the json formatting from user"
+		log.Print("[" + LAYER + "] " + str)
+		response.Message = str
+		return ctx.JSON(http.StatusBadRequest, response)
+	}
+
+	var accounts, error = acc.serviceRepo.FetchAllUser()
+
+	if error != nil {
+		response.Message = "Server error"
+		return ctx.JSON(http.StatusInternalServerError, response)
+	}
+
+	if request.UserName == "" {
+		return ctx.JSON(http.StatusBadRequest, response)
+	}
+
+	for _, account := range accounts {
+		if account.Email == request.UserName || account.Phone == request.UserName || 
+			account.UserName == request.UserName {
+			tokenID, error := uuid.NewRandom()
+			if error != nil {
+				return ctx.JSON(http.StatusBadRequest, response)
+			}
+
+			subject := "Vui lòng không trả lời lại email này"
+			newPass := string(tokenID.String()[0:6])
+			content := "<p>Bạn đang yêu cầu lấy lại mật khẩu</p>" + 
+					"<p>Mật khẩu của bạn là: </p><h1>" + 
+					newPass + "</h1>"
+
+			if error := acc.serviceRepo.ChangePassword(account, newPass); error != nil {
+				ctx.JSON(http.StatusBadRequest, response)
+			} 
+
+			to := []string{account.Email}
+			sender := email.NewGmailSender(acc.config.EmailSenderName, acc.config.EmailSenderAddress, 
+											acc.config.EmailSenderPassword)
+			error = sender.SendEmail(subject, content, to, nil, nil, nil)
+			if error != nil {
+				return ctx.JSON(http.StatusBadRequest, response)
+			}
+			response.Message = "Sucessed"
+			response.Email = account.Email
+			return ctx.JSON(http.StatusOK, response)
+		}
+	}
+
+	log.Printf("[%s] Backend call apiForgotPass() sucessed -- we have %v user in system\n", LAYER, len(accounts))
+	return ctx.JSON(http.StatusBadRequest, response)
 }

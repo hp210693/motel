@@ -1,4 +1,7 @@
 {
     "dart.flutterHotReloadOnSave": "all",
-    "dart.hotReloadOnSave": "all"
+    "dart.hotReloadOnSave": "all",
+    "[go]": {
+        "editor.formatOnSave": false
+    }
 }

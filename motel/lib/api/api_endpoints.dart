@@ -34,6 +34,8 @@ class ApiEndPoints {
         _urlBase = 'http://54.179.16.64:8080/';
         break;
       case Environment.testting:
+        _urlBase = 'http://10.0.2.2:8080/';
+        break;
       default:
         _urlBase = 'localhost:1234/';
     }
@@ -60,5 +62,8 @@ extension V1 on ApiEndPoints {
 
   String signUpUrl() {
     return '${_urlBase}login';
+  }
+  String forgotPassUrl() {
+    return '${_urlBase}forgotpass';
   }
 }

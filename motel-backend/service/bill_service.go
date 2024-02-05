@@ -34,8 +34,7 @@ type billService struct {
 	billRepo repository.BillInfrastRepo
 }
 
-// FetchBill implements repository.BillServiceRepo.
-func (bill *billService) GetBill() ([]model.Bill, error) {
+func (bill *billService) FetchAllBill() ([]model.Bill, error) {
 	var bills, err = bill.billRepo.GetAllBill()
 	if err != nil {
 		return []model.Bill{}, fmt.Errorf("[%s] -- %s", LAYER, err)

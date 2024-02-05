@@ -37,8 +37,25 @@ type userService struct {
 	userRepo repository.UserInfrastRepo
 }
 
+func (acc *userService) ChangePassword(user model.User, pass string) error {
+	if error := acc.userRepo.UpdatePassword(user, pass); error != nil {
+		log.Printf("\nChangePassword() error\n")
+		return error
+	}
+	return nil
+}
+
 func NewUserService(repo repository.UserInfrastRepo) repository.UserServiceRepo {
 	return &userService{userRepo: repo}
+}
+
+func (acc *userService) FetchAllUser() ([]model.User, error) {
+	var accounts, err = acc.userRepo.GetAllUser()
+	if err != nil {
+		return []model.User{}, err
+	}
+	log.Printf("\n\n\n--userService FetchAllUser--\n\n\n%v", accounts)
+	return accounts, nil
 }
 
 func (acc *userService) SignInUser(userName string, password string) (model.User, error) {

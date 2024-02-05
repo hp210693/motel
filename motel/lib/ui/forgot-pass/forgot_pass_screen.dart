@@ -20,13 +20,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:motel/bloc/login/login_bloc.dart';
-import 'package:motel/bloc/login/login_event.dart';
-import 'package:motel/bloc/login/login_state.dart';
+import 'package:motel/bloc/forgot-pass/forgot_pass_bloc.dart';
+import 'package:motel/bloc/forgot-pass/forgot_pass_event.dart';
+import 'package:motel/bloc/forgot-pass/forgot_pass_state.dart';
 import 'package:motel/bloc/nav-router/nav_router_bloc.dart';
 import 'package:motel/bloc/nav-router/nav_router_event.dart';
 import 'package:motel/utility/ut_color.dart';
@@ -41,12 +40,11 @@ class ForgotPassScreen extends StatefulWidget {
 
 class _ForgotPassPageState extends State<ForgotPassScreen> {
   var userName = "";
-  var passWord = "";
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BlocProvider(create: (_) => LoginBloc(), child: viewChild()),
+      home: BlocProvider(create: (_) => ForgotPassBloc(), child: viewChild()),
       builder: EasyLoading.init(),
     );
   }
@@ -54,20 +52,26 @@ class _ForgotPassPageState extends State<ForgotPassScreen> {
   void navigateBlocState(state) {
     log("BlocBuilder state = $state");
     switch (state.runtimeType) {
-      case LoginLoadingState:
+      case ForgotPassLoadingState:
         EasyLoading.show(
           status: 'Đợi chút nhé...',
           maskType: EasyLoadingMaskType.clear,
         );
         break;
-      case LoginSuccessedState:
-        EasyLoading.showSuccess(
-          "Thành công",
-          maskType: EasyLoadingMaskType.clear,
+      case ForgotPassSuccessState:
+        if (state is ForgotPassSuccessState) {
+          EasyLoading.showSuccess(
+            "Mật khẩu của bạn đã được gửi tới email: ${state.message}",
+            duration: const Duration(seconds: 2),
+            maskType: EasyLoadingMaskType.clear,
+          );
+        }
+        Future.delayed(
+          const Duration(seconds: 3),
+          () => BlocProvider.of<NavRouterBloc>(context).add(NavLoginEvent()),
         );
-        BlocProvider.of<NavRouterBloc>(context).add(NavBottomBarEvent());
         break;
-      case LoginErrorState:
+      case ForgotPassFailureState:
         EasyLoading.showError("Đã có lỗi xảy ra!",
             maskType: EasyLoadingMaskType.clear);
         break;
@@ -90,7 +94,7 @@ class _ForgotPassPageState extends State<ForgotPassScreen> {
           TextField(
             onChanged: (value) => userName = value,
             decoration: InputDecoration(
-              hintText: "Nhập số điện thoại hoặc email",
+              hintText: "Nhập số điện thoại, tên hoặc email",
               border: InputBorder.none,
               hintStyle: UTStyles.text[2],
               enabledBorder: UnderlineInputBorder(
@@ -106,13 +110,13 @@ class _ForgotPassPageState extends State<ForgotPassScreen> {
     );
   }
 
-  Widget loginView(BuildContext context) {
+  Widget sentRequestView(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: InkWell(
         onTap: () {
           log("user click button login");
-          context.read<LoginBloc>().add(LoginInEvent(userName, passWord));
+          context.read<ForgotPassBloc>().add(SentRequestEvent(userName));
         },
         child: Container(
           padding: const EdgeInsets.all(12.0),
@@ -146,10 +150,9 @@ class _ForgotPassPageState extends State<ForgotPassScreen> {
   }
 
   Widget viewChild() {
-    EasyLoading.init();
     return Scaffold(
       backgroundColor: UTColors.backGround[1],
-      body: BlocBuilder<LoginBloc, LoginState>(
+      body: BlocBuilder<ForgotPassBloc, ForgotPassState>(
         builder: (context, state) {
           navigateBlocState(state);
           return SafeArea(
@@ -169,7 +172,7 @@ class _ForgotPassPageState extends State<ForgotPassScreen> {
                     ),
                     userNameView(),
                     const SizedBox(height: 30),
-                    loginView(context),
+                    sentRequestView(context),
                     const SizedBox(height: 30),
                     bottomView(),
                   ],

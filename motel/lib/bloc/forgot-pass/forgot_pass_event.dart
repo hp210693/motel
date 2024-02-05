@@ -1,7 +1,6 @@
-/*
-MIT License
+/*MIT License
 
-Copyright (c) 2023 Hung Phan (@hp210693)
+Copyright (c) 2024 Hung Phan (@hp210693)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,31 +18,18 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
-package repository
+SOFTWARE.*/
+abstract class ForgotPassEvent {}
 
-import (
-	model "motel-backend/model"
-	"time"
-)
+class SentRequestEvent extends ForgotPassEvent {
+  final String _userName;
 
-// This interface is the connection between [service] layer and [infrast(database)] layer
-type UserInfrastRepo interface {
-	GetAllUser() ([]model.User, error)
+  SentRequestEvent(this._userName);
 
-	InsertUser(user model.User) error
+  String get userName => _userName;
 
-	UpdatePassword(user model.User, pass string) error
-
-	DeleteUser(user model.User) error
 }
 
-// This interface is the connection between [delivery] layer and [service] layer
-type UserServiceRepo interface {
-	SignInUser(userID, password string) (model.User, error)
-	SignUpUser(userId, roomId, roleId int, userName, cid, driverLicense,
-		phone, password, email string, createdOn, lastLogin *time.Time) error
-	FetchAllUser() ([]model.User, error)
-	ChangePassword(user model.User, pass string) error
+class BackToLoginEvent extends ForgotPassEvent {
+  BackToLoginEvent();
 }

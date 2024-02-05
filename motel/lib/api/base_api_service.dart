@@ -24,4 +24,5 @@ abstract class BaseApiService {
   Future<dynamic> getHomeResponse(String _);
   Future<dynamic> getReportResponse(String _);
   Future<dynamic> postSignUpNewAccount(dynamic account);
+ // Future<dynamic> forgotPassResponse(String _);
 }
